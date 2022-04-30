@@ -10,12 +10,13 @@
         "laravel/framework": "^9.10.1"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.6",
         "fakerphp/faker": "^1.19.0",
+        "laravel/tinker": "^2.7.2",
         "mockery/mockery": "^1.5.0",
         "nunomaduro/collision": "^6.2.0",
         "phpunit/phpunit": "^9.5.20",
-        "spatie/laravel-ignition": "^1.2.2",
-        "laravel/tinker": "^2.7.2"
+        "spatie/laravel-ignition": "^1.2.2"
     },
     "autoload": {
         "psr-4": {

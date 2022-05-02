@@ -5,7 +5,7 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^8.0.2",
+        "php": "^8.1",
         "guzzlehttp/guzzle": "^7.4.2",
         "laravel/framework": "^9.10.1"
     },
@@ -13,7 +13,6 @@
         "barryvdh/laravel-debugbar": "^3.6",
         "barryvdh/laravel-ide-helper": "^2.12",
         "fakerphp/faker": "^1.19.0",
-        "laravel/breeze": "^1.9",
         "laravel/tinker": "^2.7.2",
         "mockery/mockery": "^1.5.0",
         "nunomaduro/collision": "^6.2.0",

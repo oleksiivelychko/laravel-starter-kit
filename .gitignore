@@ -5,3 +5,4 @@
 /.idea
 .docker/certs/localhost.*
 .docker/log/*log
+.docker/mysql/db

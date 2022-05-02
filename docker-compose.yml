@@ -1,0 +1,103 @@
+version: '3.9'
+
+services:
+
+    laravel-app:
+        container_name: laravel_app
+        image: alexvelychko/php8dev
+        build:
+            context: .
+            dockerfile: ./.docker/php/dev.dockerfile
+        volumes:
+            - .:/var/www
+            - ./.docker/php/php.local.ini:/usr/local/etc/php/php.ini
+        restart: unless-stopped
+        tty: true
+        networks:
+            - laravel-network
+
+    laravel-web:
+        container_name: laravel_web
+        image: nginx
+        volumes:
+            - .:/var/www
+            - ./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./.docker/nginx/virtualhost.conf:/etc/nginx/conf.d/default.conf
+            - ./.docker/nginx/mailhog.conf:/etc/nginx/conf.d/mailhog.conf
+        ports:
+            - "80:80"
+            - "443:443"
+        restart: unless-stopped
+        depends_on:
+            - laravel-app
+        secrets:
+            - source: server.crt
+              target: /run/secrets/server.crt
+            - source: server.key
+              target: /run/secrets/server.key
+        networks:
+            - laravel-network
+
+    laravel-db:
+        container_name: laravel_db
+        image: mariadb:10.7
+        restart: unless-stopped
+        environment:
+            MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+            MYSQL_DATABASE: ${DB_DATABASE:-laravel-dashboard}
+            MYSQL_USER: ${DB_USERNAME:-admin}
+            MYSQL_PASSWORD: ${DB_PASSWORD:-admin}
+        volumes:
+            - ./.docker/mysql/db:/var/lib/mysql
+        ports:
+            - ${DB_PORT:-3306}:3306
+        depends_on:
+            - laravel-app
+        networks:
+            - laravel-network
+
+#    laravel-db:
+#        container_name: laravel_db
+#        image: postgres
+#        restart: unless-stopped
+#        environment:
+#            POSTGRES_USER: ${DB_USERNAME:-postgres}
+#            POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+#            POSTGRES_DB: ${DB_DATABASE:-laravel-dashboard}
+#        volumes:
+#            - postgres:/var/lib/postgresql/data
+#        ports:
+#            - ${DB_PORT:-5432}:5432
+#        networks:
+#            - laravel-network
+
+    laravel-redis:
+        container_name: laravel_redis
+        restart: unless-stopped
+        image: redis
+        ports:
+            - ${REDIS_PORT:-6379}:6379
+        networks:
+            - laravel-network
+
+    laravel-mailhog:
+        container_name: laravel_mailhog
+        image: mailhog/mailhog
+        ports:
+            - "1025:1025"
+            - "8025:8025"
+        networks:
+            - laravel-network
+
+secrets:
+    server.crt:
+        file: ${SSL_CRT_PATH}
+    server.key:
+        file: ${SSL_KEY_PATH}
+
+networks:
+    laravel-network:
+        driver: bridge
+
+volumes:
+    postgres:

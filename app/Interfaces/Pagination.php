@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Contracts;
+namespace App\Interfaces;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;

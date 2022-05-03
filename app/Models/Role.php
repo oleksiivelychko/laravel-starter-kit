@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 
+/**
+ * @method static whereIn(string $string, array $roles)
+ */
 class Role extends Model implements Pagination
 {
     protected $table = 'roles';

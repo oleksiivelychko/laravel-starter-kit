@@ -1,36 +1,47 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+@extends('layouts.guest')
 
-        <div class="mb-4 text-sm text-gray-600">
-            {{ __('This is a secure area of the application. Please confirm your password before continuing.') }}
-        </div>
+@section('title', __('auth.confirm-password'))
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+@section('content')
+    @php
+        $appLocale = app()->getLocale();
+    @endphp
 
-        <form method="POST" action="{{ route('password.confirm') }}">
+    <main class="auth-form">
+        <form method="post" action="{{ route('password.confirm', $appLocale) }}">
             @csrf
 
-            <!-- Password -->
-            <div>
-                <x-label for="password" :value="__('Password')" />
-
-                <x-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
+            <div class="mb-4">
+                <a href="{{ route('home', $appLocale) }}">
+                    @component('components.application-logo')
+                        @slot('attributes', 'style="margin: 0 auto;text-align: left;" width="72"')
+                    @endcomponent
+                </a>
             </div>
 
-            <div class="flex justify-end mt-4">
-                <x-button>
-                    {{ __('Confirm') }}
-                </x-button>
+            <h6 class="mb-3 fw-normal">{{ __('auth.confirm-password-text') }}</h6>
+
+            <div class="form-floating">
+                <input
+                    type="password"
+                    id="password"
+                    class="form-control @error('password') is-invalid @enderror"
+                    placeholder="********"
+                    name="password"
+                    required
+                    autocomplete="current-password"
+                >
+                <label for="password">{{ __('auth.password-confirm') }}</label>
+                @error('password')
+                <span class="text-danger" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
+
+            <button class="mt-2 w-100 btn btn-primary" type="submit">{{ __('auth.confirm-password') }}</button>
+
+            <p class="mt-4 mb-3 text-muted">&copy; {{ date('Y') }}</p>
         </form>
-    </x-auth-card>
-</x-guest-layout>
+    </main>
+@endsection

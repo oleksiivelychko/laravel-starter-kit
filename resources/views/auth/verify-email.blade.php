@@ -1,39 +1,42 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+@extends('layouts.guest')
+
+@section('title', __('auth.verify-email'))
+
+@section('content')
+    @php
+        $appLocale = app()->getLocale();
+    @endphp
+
+    <main class="auth-form">
+
+        <div class="mb-4">
+            <a href="{{ route('home', $appLocale) }}">
+                @component('components.application-logo')
+                    @slot('attributes', 'style="margin: 0 auto;text-align: left;" width="72"')
+                @endcomponent
             </a>
-        </x-slot>
-
-        <div class="mb-4 text-sm text-gray-600">
-            {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
         </div>
 
-        @if (session('status') == 'verification-link-sent')
-            <div class="mb-4 font-medium text-sm text-green-600">
-                {{ __('A new verification link has been sent to the email address you provided during registration.') }}
-            </div>
-        @endif
+        <h6 class="mb-3 fw-normal">
+            @if (session('status') === 'verification-link-sent')
+                {{ __('auth.verify-email-sent') }}
+            @else
+                {{ __('auth.verify-email-text') }}
+            @endif
+        </h6>
 
-        <div class="mt-4 flex items-center justify-between">
-            <form method="POST" action="{{ route('verification.send') }}">
-                @csrf
+        <form method="post" action="{{ route('verification.send', $appLocale) }}">
+            @csrf
+            <button class="mt-2 w-100 btn btn-primary" type="submit">{{ __('auth.verify-email-resend') }}</button>
+        </form>
 
-                <div>
-                    <x-button>
-                        {{ __('Resend Verification Email') }}
-                    </x-button>
-                </div>
-            </form>
+        <form method="post" action="{{ route('logout', $appLocale) }}">
+            @csrf
+            <button type="submit" class="btn btn-link">
+                {{ __('auth.logout') }}
+            </button>
+        </form>
 
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-
-                <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900">
-                    {{ __('Log Out') }}
-                </button>
-            </form>
-        </div>
-    </x-auth-card>
-</x-guest-layout>
+        <p class="mt-4 mb-3 text-muted">&copy; {{ date('Y') }}</p>
+    </main>
+@endsection

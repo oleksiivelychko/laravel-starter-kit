@@ -11,14 +11,14 @@
         <ul class="nav flex-column">
 
             <li class="nav-item">
-                <a class="nav-link {{ Request::is('*admin') ? 'active' : '' }}" aria-current="page" href="{{ route('admin.dashboard', $locale) }}">
+                <a class="nav-link {{ Request::is('*dashboard') ? 'active' : '' }}" aria-current="page" href="{{ route('dashboard', $locale) }}">
                     <i class="bi bi-shop-window"></i>
-                    &nbsp;{{ __('admin.dashboard') }}
+                    &nbsp;{{ __('dashboard') }}
                 </a>
             </li>
 
             @php
-                $show = Request::is('*admin/goods*');
+                $show = Request::is('*dashboard/goods*');
             @endphp
             <li class="nav-item">
                 <button class="btn btn-toggle align-items-center rounded {{ $show ? '' : 'collapsed' }}"
@@ -28,32 +28,32 @@
                         aria-controls="goods-collapse"
                 >
                     <i class="bi bi-cart4"></i>
-                    &nbsp;{{ __('admin.goods') }}
+                    &nbsp;{{ __('dashboard.goods') }}
                 </button>
                 <div class="collapse {{ $show ? 'show' : '' }}" id="goods-collapse">
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                         <li>
                             @php
-                                $show = Request::is('*admin/goods/order*');
+                                $show = Request::is('*dashboard/goods/order*');
                             @endphp
-                            <a href="{{ route('admin.orders', $locale) }}" class="nav-link {{ $show ? 'active' : '' }}">
-                                {{ __('admin.orders') }}
+                            <a href="{{ route('dashboard.orders', $locale) }}" class="nav-link {{ $show ? 'active' : '' }}">
+                                {{ __('dashboard.orders') }}
                             </a>
                         </li>
                         <li>
                             @php
-                                $show = Request::is('*admin/goods/categor*');
+                                $show = Request::is('*dashboard/goods/categor*');
                             @endphp
-                            <a href="{{ route('admin.categories', $locale) }}" class="nav-link {{ $show ? 'active' : '' }}">
-                                {{ __('admin.categories') }}
+                            <a href="{{ route('dashboard.categories', $locale) }}" class="nav-link {{ $show ? 'active' : '' }}">
+                                {{ __('dashboard.categories') }}
                             </a>
                         </li>
                         <li>
                             @php
-                                $show = Request::is('*admin/goods/product*');
+                                $show = Request::is('*dashboard/goods/product*');
                             @endphp
-                            <a href="{{ route('admin.products', $locale) }}" class="nav-link {{ $show ? 'active' : '' }}">
-                                {{ __('admin.products') }}
+                            <a href="{{ route('dashboard.products', $locale) }}" class="nav-link {{ $show ? 'active' : '' }}">
+                                {{ __('dashboard.products') }}
                             </a>
                         </li>
                     </ul>
@@ -61,7 +61,7 @@
             </li>
 
             @php
-                $show = Request::is('*admin/acl*');
+                $show = Request::is('*dashboard/acl*');
             @endphp
             <li class="nav-item">
                 <button class="btn btn-toggle align-items-center rounded {{ $show ? '' : 'collapsed' }}"
@@ -76,26 +76,26 @@
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                         <li>
                             @php
-                                $show = Request::is('*admin/acl/user*');
+                                $show = Request::is('*dashboard/acl/user*');
                             @endphp
-                            <a href="{{ route('admin.users', $locale) }}" class="nav-link {{ $show ? 'active' : '' }}">
-                                {{ __('admin.users') }}
+                            <a href="{{ route('dashboard.users', $locale) }}" class="nav-link {{ $show ? 'active' : '' }}">
+                                {{ __('dashboard.users') }}
                             </a>
                         </li>
                         <li>
                             @php
-                                $show = Request::is('*admin/acl/role*');
+                                $show = Request::is('*dashboard/acl/role*');
                             @endphp
-                            <a href="{{ route('admin.roles', $locale) }}" class="nav-link {{ $show ? 'active' : '' }}">
-                                {{ __('admin.roles') }}
+                            <a href="{{ route('dashboard.roles', $locale) }}" class="nav-link {{ $show ? 'active' : '' }}">
+                                {{ __('dashboard.roles') }}
                             </a>
                         </li>
                         <li>
                             @php
-                                $show = Request::is('*admin/acl/permission*');
+                                $show = Request::is('*dashboard/acl/permission*');
                             @endphp
-                            <a href="{{ route('admin.permissions', $locale) }}" class="nav-link {{ $show ? 'active' : '' }}">
-                                {{ __('admin.permissions') }}
+                            <a href="{{ route('dashboard.permissions', $locale) }}" class="nav-link {{ $show ? 'active' : '' }}">
+                                {{ __('dashboard.permissions') }}
                             </a>
                         </li>
                     </ul>
@@ -104,11 +104,11 @@
 
             <li class="nav-item">
                 @php
-                    $show = Request::is('*admin/import');
+                    $show = Request::is('*dashboard/import');
                 @endphp
-                <a class="nav-link {{ $show ? 'active' : '' }}" aria-current="page" href="{{ route('admin.import', $locale) }}">
+                <a class="nav-link {{ $show ? 'active' : '' }}" aria-current="page" href="{{ route('dashboard.import', $locale) }}">
                     <i class="bi bi-upload"></i>
-                    &nbsp;{{ __('admin.import') }}
+                    &nbsp;{{ __('dashboard.import') }}
                 </a>
             </li>
 

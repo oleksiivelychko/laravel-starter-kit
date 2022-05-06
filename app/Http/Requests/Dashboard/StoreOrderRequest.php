@@ -35,7 +35,7 @@ class StoreOrderRequest extends FormRequest
             $rules['shipping_address']  = 'required|min:8|max:'.config('settings.schema.string_length');
         }
 
-        if (Request::is('*admin*')) {
+        if (Request::is('*dashboard*')) {
             $rules['status'] = Rule::in(Order::STATUSES);
             $rules['user_id']  = 'required|exists:users,id';
         }

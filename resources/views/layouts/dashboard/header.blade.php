@@ -3,7 +3,7 @@
 @endphp
 
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="{{ route('admin.dashboard', $locale) }}">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="{{ route('dashboard', $locale) }}">
         @component('components.laravel-logo')
             @slot('width', '40px')
         @endcomponent
@@ -19,8 +19,8 @@
             <input class="form-control form-control-dark w-100"
                    type="search"
                    id="search"
-                   placeholder="{{ __('admin.search') }}"
-                   aria-label="{{ __('admin.search') }}">
+                   placeholder="{{ __('dashboard.search') }}"
+                   aria-label="{{ __('dashboard.search') }}">
         </form>
         <div id="searchResults" class="d-none"></div>
     </div>

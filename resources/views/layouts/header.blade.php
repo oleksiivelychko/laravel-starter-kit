@@ -34,7 +34,7 @@
                     <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser">
                         <li>
                             @role('administrator')
-                            <a class="dropdown-item" href="{{ route('admin.dashboard', $appLocale) }}">{{ __('admin.dashboard') }}</a>
+                            <a class="dropdown-item" href="{{ route('dashboard', $appLocale) }}">{{ __('dashboard') }}</a>
                             @endrole
                         </li>
                         <li>

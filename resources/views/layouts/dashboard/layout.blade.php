@@ -6,14 +6,14 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }} - @yield('title')</title>
     <link rel="icon" href="{{ URL::asset('images/laravel-logo.png') }}" type="image/x-icon"/>
-    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 </head>
 <body>
-@include('layouts.admin.header')
+@include('layouts.dashboard.header')
 
 <div class="container-fluid mb-5">
     <div class="row">
-        @include('layouts.admin.sidebar')
+        @include('layouts.dashboard.sidebar')
 
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             @yield('content')
@@ -37,6 +37,6 @@
 @component('components.modal')@endcomponent
 
 <!-- Scripts -->
-<script src="{{ asset('js/app_admin.js') }}"></script>
+<script src="{{ asset('js/app_dashboard.js') }}"></script>
 </body>
 </html>

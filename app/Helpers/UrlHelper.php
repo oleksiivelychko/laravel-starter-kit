@@ -15,7 +15,7 @@ class UrlHelper
             $direction = 'desc';
         }
 
-        $title = trans()->has('admin.'.$column) ? trans('admin.'.$column) : ucwords($column);
+        $title = trans()->has('dashboard.'.$column) ? trans('dashboard.'.$column) : ucwords($column);
         $url = request()->url().'?sort='.$column.'&direction='.$direction;
 
         return '<a href="'.$url.'">'.$title.'</a>';

@@ -1,5 +1,7 @@
 <?php
 
 return [
-    'home'  => 'Home',
+    'home' => 'Home',
+    'previous' => '&laquo; Previous',
+    'next' => 'Next &raquo;',
 ];

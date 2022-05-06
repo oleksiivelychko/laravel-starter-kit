@@ -1,5 +1,7 @@
 <?php
 
 return [
-    'home'  => 'Головна',
+    'home' => 'Головна',
+    'previous' => '&laquo; Попередня',
+    'next' => 'Наступна &raquo;',
 ];

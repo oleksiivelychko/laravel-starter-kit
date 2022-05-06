@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Models\Order;
-use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -21,7 +20,7 @@ class OrderItemsController extends Controller
     public function create(): Factory|View|Application
     {
         $order = Order::findOrFail(FacadeRequest::get('order_id'));
-        return view('admin.order.item.create')
+        return view('dashboard.order.item.create')
             ->with('orderItem', new OrderItem)
             ->with('order', $order);
     }
@@ -36,7 +35,7 @@ class OrderItemsController extends Controller
 
         if ($validatedData) {
             if ($orderItem->calculateAndSave($validatedData)) {
-                $request->session()->put('status', trans('admin.messages.model-create-success'));
+                $request->session()->put('status', trans('dashboard.messages.model-create-success'));
                 return redirect(route('order.edit', ['order' => $orderId, 'locale' => app()->getLocale()]));
             }
         }
@@ -45,7 +44,7 @@ class OrderItemsController extends Controller
     public function edit(string $locale, OrderItem $orderItem): Factory|View|Application
     {
         $order = Order::findOrFail(FacadeRequest::get('order_id'));
-        return view('admin.order.item.edit')
+        return view('dashboard.order.item.edit')
             ->with('orderItem', $orderItem)
             ->with('order', $order);
     }
@@ -58,23 +57,17 @@ class OrderItemsController extends Controller
         $validatedData = $request->validate($orderItem->rules());
         if ($validatedData) {
             if ($orderItem->calculateAndSave($validatedData)) {
-                $request->session()->put('status', trans('admin.messages.model-update-success'));
+                $request->session()->put('status', trans('dashboard.messages.model-update-success'));
             }
         }
 
         return redirect(route('order.edit', ['order' => $orderId, 'locale' => $locale]));
     }
 
-    /**
-     * @param $locale
-     * @param OrderItem $orderItem
-     * @return Redirector|Application|RedirectResponse
-     * @throws Exception
-     */
     public function destroy($locale, OrderItem $orderItem): Redirector|Application|RedirectResponse
     {
         if ($orderItem->delete()) {
-            Session::put('status', trans('admin.messages.model-delete-success'));
+            Session::put('status', trans('dashboard.messages.model-delete-success'));
         }
 
         return redirect(route('order.edit', ['order' => $orderItem->order_id, 'locale' => $locale]));

@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\StoreUserRequest;
 use App\Models\User;
 use App\Repositories\UserRepository;
-use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -31,20 +30,16 @@ class UserController extends Controller
 
     public function index(Request $request, User $users): Factory|View|Application
     {
-        return view('admin.user.index', [
+        return view('dashboard.user.index', [
             'users' => $users->pagination($request)
         ]);
     }
 
     public function create(): Factory|View|Application
     {
-        return view('admin.user.create')->with('user', new User);
+        return view('dashboard.user.create')->with('user', new User);
     }
 
-    /**
-     * @param StoreUserRequest $request
-     * @return Redirector|Application|RedirectResponse
-     */
     public function store(StoreUserRequest $request): Redirector|Application|RedirectResponse
     {
         $validatedData = $request->validated();
@@ -58,7 +53,7 @@ class UserController extends Controller
             }
 
             if ($user->store($request->get('roles'), $request->get('permissions'), $uploadedAvatar)) {
-                $request->session()->put('status', trans('admin.messages.model-create-success'));
+                $request->session()->put('status', trans('dashboard.messages.model-create-success'));
                 return redirect(route('user.edit', ['user' => $user, 'locale' => app()->getLocale()]));
             }
         }
@@ -66,15 +61,9 @@ class UserController extends Controller
 
     public function edit(string $locale, User $user): Factory|View|Application
     {
-        return view('admin.user.edit')->with('user', $user);
+        return view('dashboard.user.edit')->with('user', $user);
     }
 
-    /**
-     * @param StoreUserRequest $request
-     * @param string $locale
-     * @param User $user
-     * @return Redirector|Application|RedirectResponse
-     */
     public function update(StoreUserRequest $request, string $locale, User $user): Redirector|Application|RedirectResponse
     {
         $validatedData = $request->validated();
@@ -87,19 +76,13 @@ class UserController extends Controller
             }
 
             if ($user->store($request->get('roles'), $request->get('permissions'), $uploadedAvatar)) {
-                $request->session()->put('status', trans('admin.messages.model-update-success'));
+                $request->session()->put('status', trans('dashboard.messages.model-update-success'));
             }
         }
 
         return redirect(route('user.edit', ['user'=>$user, 'locale'=>$locale]));
     }
 
-    /**
-     * @param string $locale
-     * @param User $user
-     * @return Redirector|Application|RedirectResponse
-     * @throws Exception
-     */
     public function destroy(string $locale, User $user): Redirector|Application|RedirectResponse
     {
         if ($user->delete()) {
@@ -107,9 +90,9 @@ class UserController extends Controller
             if (File::exists($imagesDir)) {
                 File::deleteDirectory($imagesDir);
             }
-            Session::put('status', trans('admin.messages.model-delete-success'));
+            Session::put('status', trans('dashboard.messages.model-delete-success'));
         }
 
-        return redirect(route('admin.users', $locale));
+        return redirect(route('dashboard.users', $locale));
     }
 }

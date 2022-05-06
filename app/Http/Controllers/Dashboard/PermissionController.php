@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
-use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -18,14 +17,14 @@ class PermissionController extends Controller
 {
     public function index(Request $request, Permission $permissions): Factory|View|Application
     {
-        return view('admin.permission.index', [
+        return view('dashboard.permission.index', [
             'permissions' => $permissions->pagination($request)
         ]);
     }
 
     public function create(): Factory|View|Application
     {
-        return view('admin.permission.create')->with('permission', new Permission);
+        return view('dashboard.permission.create')->with('permission', new Permission);
     }
 
     public function store(Request $request): Redirector|Application|RedirectResponse
@@ -39,7 +38,7 @@ class PermissionController extends Controller
             $permission = new Permission;
             $permission->fill($validatedData);
             if ($permission->save()) {
-                $request->session()->put('status', trans('admin.messages.model-create-success'));
+                $request->session()->put('status', trans('dashboard.messages.model-create-success'));
                 return redirect(route('permission.edit', ['permission' => $permission, 'locale' => app()->getLocale()]));
             }
         }
@@ -47,7 +46,7 @@ class PermissionController extends Controller
 
     public function edit(string $locale, Permission $permission): Factory|View|Application
     {
-        return view('admin.permission.edit')->with('permission', $permission);
+        return view('dashboard.permission.edit')->with('permission', $permission);
     }
 
     public function update(Request $request, string $locale, Permission $permission): Redirector|Application|RedirectResponse
@@ -60,25 +59,19 @@ class PermissionController extends Controller
         if ($validatedData) {
             $permission->fill($validatedData);
             if ($permission->save()) {
-                $request->session()->put('status', trans('admin.messages.model-update-success'));
+                $request->session()->put('status', trans('dashboard.messages.model-update-success'));
             }
         }
 
         return redirect(route('permission.edit', ['permission' => $permission, 'locale' => $locale]));
     }
 
-    /**
-     * @param string $locale
-     * @param Permission $permission
-     * @return Redirector|Application|RedirectResponse
-     * @throws Exception
-     */
     public function destroy(string $locale, Permission $permission): Redirector|Application|RedirectResponse
     {
         if ($permission->delete()) {
-            Session::put('status', trans('admin.messages.model-delete-success'));
+            Session::put('status', trans('dashboard.messages.model-delete-success'));
         }
 
-        return redirect(route('admin.permissions', $locale));
+        return redirect(route('dashboard.permissions', $locale));
     }
 }

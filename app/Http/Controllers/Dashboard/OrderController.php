@@ -17,14 +17,14 @@ class OrderController extends Controller
 {
     public function index(Request $request, Order $orders): View|Factory|Application
     {
-        return view('admin.order.index', [
+        return view('dashboard.order.index', [
             'orders' => $orders->pagination($request)
         ]);
     }
 
     public function create(): Factory|View|Application
     {
-        return view('admin.order.create')->with('order', new Order);
+        return view('dashboard.order.create')->with('order', new Order);
     }
 
     public function store(StoreOrderRequest $request): Redirector|Application|RedirectResponse
@@ -33,7 +33,7 @@ class OrderController extends Controller
         if ($validatedData) {
             $order = new Order;
             if ($order->calculateAndSave($validatedData)) {
-                $request->session()->put('status', trans('admin.messages.model-create-success'));
+                $request->session()->put('status', trans('dashboard.messages.model-create-success'));
                 return redirect(route('order.edit', ['order' => $order, 'locale' => app()->getLocale()]));
             }
         }
@@ -41,7 +41,7 @@ class OrderController extends Controller
 
     public function edit(string $locale, Order $order): View|Factory|Application
     {
-        return view('admin.order.edit')->with('order', $order);
+        return view('dashboard.order.edit')->with('order', $order);
     }
 
     public function update(StoreOrderRequest $request, string $locale, Order $order): Redirector|Application|RedirectResponse
@@ -49,7 +49,7 @@ class OrderController extends Controller
         $validatedData = $request->validated();
         if ($validatedData) {
             if ($order->calculateAndSave($validatedData)) {
-                $request->session()->put('status', trans('admin.messages.model-update-success'));
+                $request->session()->put('status', trans('dashboard.messages.model-update-success'));
             }
         }
 

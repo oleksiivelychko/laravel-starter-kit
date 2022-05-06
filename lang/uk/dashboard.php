@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'dashboard' => 'Головна',
+    'title' => 'Головна',
     'users' => 'Користувачи',
     'roles' => 'Ролі',
     'permissions' => 'Дозволи',

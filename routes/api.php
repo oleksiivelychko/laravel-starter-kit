@@ -1,6 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\API\v1\CategoryController;
+use App\Http\Controllers\API\v1\ProductController;
+use App\Http\Middleware\CheckAPIToken;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
+Route::group([
+    'middleware' => CheckApiToken::class,
+    'prefix' => 'v1',
+    'as' => 'api.'
+], function () {
+    Route::apiResource('categories', CategoryController::class);
+    Route::apiResource('products', ProductController::class);
 });

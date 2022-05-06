@@ -10,7 +10,8 @@
         "laravel/framework": "^9.10.1",
         "darkaonline/l5-swagger": "^8.3.2",
         "ext-gd": "*",
-        "ext-intl": "*"
+        "ext-intl": "*",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6.7",

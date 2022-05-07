@@ -40,6 +40,10 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware(['web','ajax'])
                 ->group(base_path('routes/ajax.php'));
+
+            Route::prefix('hooks')
+                ->middleware('api')
+                ->group(base_path('routes/hooks.php'));
         });
 
         Route::get('/change-locale/{locale}', [LocaleController::class, 'change'])->name('change-locale');

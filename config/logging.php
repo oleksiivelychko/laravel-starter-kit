@@ -114,6 +114,14 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        'hooks' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/hooks.log'),
+            'level' => env('LOG_LEVEL', 'info'),
+            'days' => 7,
+        ],
+
     ],
 
 ];

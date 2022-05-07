@@ -11,8 +11,13 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js').postCss('resources/css/app.css', 'public/css', [
-    require('postcss-import'),
-    require('tailwindcss'),
-    require('autoprefixer'),
-]);
+mix
+    .webpackConfig({
+
+    })
+    .js('resources/js/app.js', 'public/js')
+    .js('resources/js/app_admin.js', 'public/js')
+    .sass('resources/css/app.scss', 'public/css')
+    .sass('resources/css/admin.scss', 'public/css')
+    .sass('resources/css/auth.scss', 'public/css')
+    .copyDirectory('storage/app/public/images', 'public/images');

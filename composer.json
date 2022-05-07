@@ -12,6 +12,7 @@
         "darkaonline/l5-swagger": "^8.3.2",
         "guzzlehttp/guzzle": "^7.4.2",
         "laravel/framework": "^9.11.0",
+        "pusher/pusher-php-server": "^7.0",
         "vladimir-yuldashev/laravel-queue-rabbitmq": "^12.0.1"
     },
     "require-dev": {

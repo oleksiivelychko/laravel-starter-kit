@@ -12,7 +12,7 @@ openssl req -x509 -out .docker/certs/localhost.crt -keyout .docker/certs/localho
 echo 127.0.0.1 laravel-dashboard.local mail.laravel-dashboard.local >> /etc/hosts
 ```
 
-![trust certificate](public/screenshots/trust_certificate.png)
+![trust certificate](storage/screenshots/trust_certificate.png)
 
 The sample images took from <a href="unsplash.com">unsplash.com</a>
 

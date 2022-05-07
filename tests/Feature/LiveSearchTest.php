@@ -19,6 +19,9 @@ class LiveSearchTest extends TestCase
         $category = Category::factory()->create();
 
         $response = $this->json('POST', '/'.app()->getLocale().'/ajax/live-search-category', [
+            /**
+             * TODO: replace with non-static method
+             */
             'search' => Translation::translateObject($category->name)
         ], [
             'HTTP_X-Requested-With' => 'XMLHttpRequest'
@@ -40,6 +43,9 @@ class LiveSearchTest extends TestCase
         $product = Product::factory()->create();
 
         $response = $this->json('POST', '/'.app()->getLocale().'/ajax/live-search-product', [
+            /**
+             * TODO: replace with non-static method
+             */
             'search' => Translation::translateObject($product->name)
         ], [
             'HTTP_X-Requested-With' => 'XMLHttpRequest'
@@ -52,6 +58,9 @@ class LiveSearchTest extends TestCase
 
         $content = json_decode($response->content(), true)[0];
         $this->assertEquals($product->id, $content['value']);
+        /**
+         * TODO: replace with non-static method
+         */
         $this->assertEquals(Translation::translateObject($product->name), $content['text']);
     }
 }

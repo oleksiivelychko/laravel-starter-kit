@@ -13,5 +13,5 @@ npm-update:
 ide-helper:
 	docker-compose exec laravel-app php artisan ide-helper:generate && docker-compose exec laravel-app php artisan ide-helper:meta && docker-compose exec laravel-app php artisan ide-helper:models -N
 
-clear-cache:
-	docker-compose exec laravel-app php artisan cache:clear && docker-compose exec laravel-app php artisan config:clear && docker-compose exec laravel-app php artisan route:clear
+optimize-dev:
+	docker-compose exec laravel-app sh /var/www/.docker/shell/optimize-dev.sh

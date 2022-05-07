@@ -1,0 +1,25 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+
+// Bootstrap
+@import '../../node_modules/bootstrap/scss/bootstrap';
+
+@import "variables";
+
+@font-face {
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 400;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: Ubuntu, serif;
+}
+
+.form-control::placeholder {
+    color: $shadowColor;
+}

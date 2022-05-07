@@ -7,7 +7,7 @@ return [
     ],
 
     'assets' => [
-        'not-found' => 'images/not-found.jpg'
+        'not-found' => 'images/not-found.jpeg'
     ],
 
     'import' => [

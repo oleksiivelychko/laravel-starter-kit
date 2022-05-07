@@ -10,7 +10,7 @@
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">{{ __('dashboard.add-order-item') }}</h1>
         <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{ route('dashboard.dashboard', $locale) }}">{{ __('dashboard.dashboard') }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('dashboard', $locale) }}">{{ __('dashboard.title') }}</a></li>
             <li class="breadcrumb-item"><a href="{{ route('dashboard.orders', $locale) }}">{{ __('dashboard.orders') }}</a></li>
             <li class="breadcrumb-item"><a href="{{ route('order.edit', ['order' => $order, 'locale' => $locale]) }}">{{ __('dashboard.edit-order') }}</a></li>
             <li class="breadcrumb-item active">{{ __('dashboard.add-order-item') }}</li>

@@ -1,0 +1,23 @@
+.search-bar {
+    width: 100%;
+    form {
+        display: contents;
+    }
+    #searchResults {
+        position: absolute;
+        padding: 16px;
+        font-size: 16px;
+        background-color: #ffffff;
+        opacity: 0.9;
+        width: calc(100% - 25.7%);
+        z-index: 1;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .search-bar {
+        #searchResults {
+            width: 100%;
+        }
+    }
+}

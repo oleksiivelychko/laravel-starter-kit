@@ -1,0 +1,66 @@
+@import "common";
+@import "variables";
+@import "./modules/dashboard/sidebar";
+@import "./modules/dashboard/navbar";
+@import "./modules/dashboard/search";
+@import "./node_modules/slim-select/dist/slimselect.min";
+@import "./node_modules/bootstrap-icons/font/bootstrap-icons";
+
+body {
+    font-size: .875rem;
+}
+
+.nav {
+    .nav-link {
+        cursor: pointer;
+    }
+    .nav-link.error {
+        border-top-color: $errorColor;
+        border-right-color: $errorColor;
+        border-left-color: $errorColor;
+    }
+}
+
+span.required {
+    color: $errorColor;
+}
+
+table img {
+    width: 30px;
+}
+
+.ck-editor__editable_inline {
+    min-height: 200px;
+}
+
+.live-search {
+    .ss-single-selected span {
+        background: #fff;
+        opacity: 1;
+    }
+}
+
+#gallery {
+    .image-wrapper {
+        position: relative;
+        i {
+            display: none;
+            position: absolute;
+            top: 8px;
+            right: 16px;
+            z-index: 100;
+            cursor: pointer;
+        }
+    }
+    .image-wrapper:hover i {
+        display: block;
+    }
+}
+
+.container-fluid {
+    min-height: calc(100vh - 100px);
+}
+
+footer {
+    border-top: 1px solid $shadowColor;
+}

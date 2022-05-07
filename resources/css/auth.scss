@@ -1,0 +1,91 @@
+@import "common";
+
+body {
+    display: flex;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.auth-form {
+    border-radius: 10px;
+    -webkit-box-shadow: 0 0 24px 0 $shadowColor;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+    -moz-box-shadow: 0 0 24px 0 $shadowColor;  /* Firefox 3.5 - 3.6 */
+    box-shadow: 0 0 24px 0 $shadowColor;
+    width: 100%;
+    max-width: 400px;
+    padding: 15px;
+    margin: auto;
+    .form-floating:focus-within {
+        z-index: 2;
+    }
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+}
+
+.form-signin {
+    .checkbox {
+        font-weight: 400;
+    }
+    input[type="email"] {
+        margin-bottom: -1px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    input[type="password"] {
+        margin-bottom: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+}
+
+.form-signup {
+    .checkbox {
+        font-weight: 400;
+    }
+    #name {
+        margin-bottom: -1px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    #email, #password {
+        border-radius: 0;
+        margin-bottom: -1px;
+    }
+    #password_confirmation {
+        margin-bottom: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+}
+
+.form-reset {
+    .checkbox {
+        font-weight: 400;
+    }
+    #email {
+        margin-bottom: -1px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    #password {
+        border-radius: 0;
+        margin-bottom: -1px;
+    }
+    #password_confirmation {
+        margin-bottom: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+}

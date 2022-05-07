@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="ide-helper" type="ShConfigurationType">
-    <option name="SCRIPT_TEXT" value="docker-compose exec laravel-app php artisan ide-helper:generate &amp;&amp; docker-compose exec laravel-app php artisan ide-helper:meta &amp;&amp; docker-compose exec laravel-app php artisan ide-helper:models -N" />
+  <configuration default="false" name="composer install" type="ShConfigurationType">
+    <option name="SCRIPT_TEXT" value="composer install --no-scripts --ignore-platform-reqs" />
     <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
     <option name="SCRIPT_PATH" value="" />
     <option name="SCRIPT_OPTIONS" value="" />

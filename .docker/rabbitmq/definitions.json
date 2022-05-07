@@ -1,0 +1,34 @@
+{
+    "users": [
+        {
+            "name": "rabbit_user",
+            "password": "rabbit_password",
+            "tags": "administrator"
+        }
+    ],
+    "vhosts": [
+        {
+            "name": "/"
+        }
+    ],
+    "permissions": [
+        {
+            "user": "rabbit_user",
+            "vhost": "/",
+            "configure": ".*",
+            "write": ".*",
+            "read": ".*"
+        }
+    ],
+    "parameters": [],
+    "policies": [],
+    "queues": [
+        {
+            "name": "jobs",
+            "vhost": "/",
+            "durable": true,
+            "auto_delete": false,
+            "arguments": {}
+        }
+    ]
+}

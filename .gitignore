@@ -5,6 +5,8 @@
 /.docker/certs/localhost.*
 /.docker/log/*log
 /.docker/mysql/db
+/.docker/rabbitmq/data
+/.docker/rabbitmq/log
 .phpstorm.meta.php
 _ide_helper.php
 _ide_helper_models.php

@@ -89,6 +89,38 @@ services:
         networks:
             - laravel-network
 
+    laravel-worker:
+        container_name: laravel_worker
+        restart: unless-stopped
+        image: alexvelychko/php8dev
+        depends_on:
+            - laravel-rabbitmq
+            - laravel-redis
+        command: php artisan queue:work --sleep=1 --tries=3
+        volumes:
+            - .:/var/www
+        networks:
+            - laravel-network
+
+    laravel-rabbitmq:
+        container_name: laravel_rabbitmq
+        image: alexvelychko/rabbitmq
+        build:
+            context: ./docker/rabbitmq
+            args:
+                RABBITMQ_USER: ${RABBITMQ_USER:-guest}
+                RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-guest}
+                RABBITMQ_PORT: ${RABBITMQ_PORT:-5672}
+        hostname: rabbit_node
+        ports:
+            - ${RABBITMQ_PORT:-5672}:5672
+            - "15672:15672"
+        volumes:
+            - ./.docker/rabbitmq/data:/var/lib/rabbitmq
+            - ./.docker/rabbitmq/log:/var/log/rabbitmq
+        networks:
+            - laravel-network
+
 secrets:
     server.crt:
         file: ${SSL_CRT_PATH}

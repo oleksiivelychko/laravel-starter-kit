@@ -1,0 +1,12 @@
+[
+    {
+        "id": "1",
+        "name__en": "JSON category1",
+        "name__uk": "JSON категорія1"
+    },
+    {
+        "id": "2",
+        "name__en": "JSON category2",
+        "name__uk": "JSON категорія2"
+    }
+]

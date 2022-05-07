@@ -1,0 +1,16 @@
+[
+    {
+        "id": "1",
+        "name__en": "JSON product1",
+        "name__uk": "JSON продукт1",
+        "price": 10.0,
+        "categories": [1,2]
+    },
+    {
+        "id": "2",
+        "name__en": "JSON product2",
+        "name__uk": "JSON продукт2",
+        "price": 20.0,
+        "categories": [2,1]
+    }
+]

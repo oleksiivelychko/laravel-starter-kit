@@ -1,4 +1,9 @@
 {
     "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/js/dashboard.js": "/js/dashboard.js",
+    "/css/auth.css": "/css/auth.css",
+    "/css/dashboard.css": "/css/dashboard.css",
+    "/css/app.css": "/css/app.css",
+    "/images/laravel-logo.png": "/images/laravel-logo.png",
+    "/images/not-found.jpeg": "/images/not-found.jpeg"
 }

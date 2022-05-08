@@ -106,7 +106,7 @@ services:
         container_name: laravel_rabbitmq
         image: alexvelychko/rabbitmq
         build:
-            context: ./docker/rabbitmq
+            context: ./.docker/rabbitmq
             args:
                 RABBITMQ_USER: ${RABBITMQ_USER:-guest}
                 RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD:-guest}

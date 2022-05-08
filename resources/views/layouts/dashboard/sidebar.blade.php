@@ -13,7 +13,7 @@
             <li class="nav-item">
                 <a class="nav-link {{ Request::is('*dashboard') ? 'active' : '' }}" aria-current="page" href="{{ route('dashboard', $locale) }}">
                     <i class="bi bi-shop-window"></i>
-                    &nbsp;{{ __('dashboard') }}
+                    &nbsp;{{ __('dashboard.title') }}
                 </a>
             </li>
 

@@ -16,7 +16,7 @@ Route::group([
     'middleware' => 'locale',
     'where' => ['locale' => rtrim(implode('|', array_values(config('settings.languages'))), '|')]
 ], function () {
-    Route::group(['prefix' => 'admin', 'middleware' => [
+    Route::group(['prefix' => 'dashboard', 'middleware' => [
         'access:@administrator#manage-acl#manage-goods'
     ]], function () {
         Route::get('/', [OrderController::class, 'index'])->name('dashboard');

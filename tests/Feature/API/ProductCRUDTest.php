@@ -18,7 +18,7 @@ class ProductCRUDTest extends TestCase
     public function test_create_product()
     {
         Storage::fake('uploads');
-        $file = UploadedFile::fake()->image('product.jpg');
+        $file = UploadedFile::fake()->image('product.jpeg');
 
         /** @var Category $category */
         $category = Category::factory()->create();
@@ -54,8 +54,8 @@ class ProductCRUDTest extends TestCase
     public function test_update_product()
     {
         Storage::fake('uploads');
-        $file1 = UploadedFile::fake()->image('product1.jpg');
-        $file2 = UploadedFile::fake()->image('product2.jpg');
+        $file1 = UploadedFile::fake()->image('product1.jpeg');
+        $file2 = UploadedFile::fake()->image('product2.jpeg');
 
         /** @var Product $product */
         $product = Product::factory()->create();

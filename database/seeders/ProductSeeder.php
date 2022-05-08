@@ -63,7 +63,7 @@ class ProductSeeder extends SchemaSeeder
 
             $productImgDir = storage_path("app/public/seeders/{$product->getImagesFolder()}/");
             $isNew = true;
-            foreach (glob("$productImgDir$category->slug-$product->slug-*.jpg") as $filepath) {
+            foreach (glob("$productImgDir$category->slug-$product->slug-*.jpeg") as $filepath) {
                 $filepaths = explode('/', $filepath);
                 $filename = $filepaths[count($filepaths)-1];
                 $this->moveAndCropImg($product, $filename, $isNew);

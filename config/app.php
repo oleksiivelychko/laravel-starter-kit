@@ -211,6 +211,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'BladeHelper' => \App\Helpers\BladeHelper::class,
+        'ImageHelper' => \App\Helpers\ImageHelper::class,
         'UrlHelper' => \App\Helpers\UrlHelper::class,
     ])->toArray(),
 

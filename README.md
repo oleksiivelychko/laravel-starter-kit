@@ -2,19 +2,25 @@
 
 ### Dashboard application based on PHP8/Laravel8. No JetStream. No Liveware. No Tailwind. Inspired by Django admin.
 
-📌 Generate certificate:
+📌 Generate wildcard certificate:
 ```
 openssl req -x509 -out .docker/certs/localhost.crt -keyout .docker/certs/localhost.key \
       -newkey rsa:2048 -nodes -sha256 \
       -subj '/CN=laravel-dashboard.local' -extensions EXT -config <( \
-       printf "[dn]\nCN=laravel-dashboard.local\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:laravel-dashboard.local\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
+       printf "[dn]\nCN=laravel-dashboard.local\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:laravel-dashboard.local,DNS:mail.laravel-dashboard.local\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
 
 echo 127.0.0.1 laravel-dashboard.local mail.laravel-dashboard.local >> /etc/hosts
 ```
 
 ![trust certificate](storage/screenshots/trust_certificate.png)
 
-The sample images took from <a href="unsplash.com">unsplash.com</a>
+📌 Set up debug process in PhpStorm
+
+![PHP xDebug server name](storage/screenshots/php_xdebug_server_name.png)
+
+![PHP debug views](storage/screenshots/php_debug_laravel_views.png)
+
+The sample images were took from <a href="unsplash.com">unsplash.com</a>
 
 https://unsplash.com/photos/JpQGEArmG0I
 

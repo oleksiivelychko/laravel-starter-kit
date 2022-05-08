@@ -3,7 +3,7 @@
 namespace Tests\Feature\Auth;
 
 use App\Models\User;
-use Illuminate\Auth\Notifications\ResetPassword;
+use App\Notifications\ResetPassword;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
@@ -25,7 +25,7 @@ class PasswordResetTest extends TestCase
 
         $user = User::factory()->create();
 
-        $this->post('/'.app()->getLocale().'/forgot-password', ['email' => $user->email]);
+        $r = $this->post('/'.app()->getLocale().'/forgot-password', ['email' => $user->email]);
 
         Notification::assertSentTo($user, ResetPassword::class);
     }

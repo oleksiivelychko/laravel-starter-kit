@@ -28,7 +28,7 @@ class CategoryCRUDTest extends TestCase
             ->assertJsonStructure(['parent_id', 'slug', 'name', 'updated_at', 'created_at'])
             ->assertExactJson($content);
 
-        $this->assertEquals('testova-kategoriya', $content['slug']);
+        $this->assertEquals('test-category', $content['slug']);
         $this->assertEquals('Test category', LocaleHelper::translateObject($content['name'], 'en'));
         $this->assertEquals('Тестова категорiя', LocaleHelper::translateObject($content['name'], 'uk'));
     }

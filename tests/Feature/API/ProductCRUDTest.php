@@ -42,7 +42,7 @@ class ProductCRUDTest extends TestCase
             ->assertJsonStructure(['description', 'slug', 'name', 'updated_at', 'created_at', 'categories_ids', 'images'])
             ->assertExactJson($content);
 
-        $this->assertEquals('testovii-produkt', $content['slug']);
+        $this->assertEquals('test-product', $content['slug']);
         $this->assertEquals('Test product', LocaleHelper::translateObject($content['name'], 'en'));
         $this->assertEquals('Тестовий продукт', LocaleHelper::translateObject($content['name'], 'uk'));
         $this->assertEquals('Test product description', LocaleHelper::translateObject($content['description'], 'en'));
@@ -84,7 +84,7 @@ class ProductCRUDTest extends TestCase
             ->assertJsonStructure(['description', 'slug', 'name', 'updated_at', 'created_at', 'categories_ids', 'images'])
             ->assertExactJson($content);
 
-        $this->assertEquals('testovii-'.$product->slug, $content['slug']);
+        $this->assertEquals('test-'.$product->slug, $content['slug']);
         $this->assertEquals('Test '.LocaleHelper::translateObject($product->name, 'en'), LocaleHelper::translateObject($content['name'], 'en'));
         $this->assertEquals('Тестовий '.LocaleHelper::translateObject($product->name, 'uk'), LocaleHelper::translateObject($content['name'], 'uk'));
         $this->assertEquals('Test '.LocaleHelper::translateObject($product->description, 'en'), LocaleHelper::translateObject($content['description'], 'en'));

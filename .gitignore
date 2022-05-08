@@ -12,6 +12,7 @@
 /public/fonts
 /public/images
 /public/storage
+/public/uploads
 .phpstorm.meta.php
 _ide_helper.php
 _ide_helper_models.php

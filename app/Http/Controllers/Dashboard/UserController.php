@@ -23,8 +23,6 @@ class UserController extends Controller
 
     public function __construct(UserRepository $userService)
     {
-        parent::__construct();
-
         $this->userService = $userService;
     }
 

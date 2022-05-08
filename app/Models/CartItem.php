@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Traits\Translation;
+use App\Helpers\LocaleHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
@@ -35,10 +35,7 @@ class CartItem extends Model
             ->toArray();
 
         foreach ($items as $item) {
-            /**
-             * TODO: replace with non-static method
-             */
-            $item->name = Translation::translateObject($item->name);
+            $item->name = LocaleHelper::translateObject($item->name);
         }
 
         return $items;

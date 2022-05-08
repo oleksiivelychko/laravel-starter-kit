@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\API;
 
+use App\Helpers\LocaleHelper;
 use App\Models\Category;
-use App\Traits\Translation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -29,8 +29,8 @@ class CategoryCRUDTest extends TestCase
             ->assertExactJson($content);
 
         $this->assertEquals('testova-kategoriya', $content['slug']);
-        $this->assertEquals('Test category', Translation::translateObject($content['name'], 'en'));
-        $this->assertEquals('Тестова категорiя', Translation::translateObject($content['name'], 'uk'));
+        $this->assertEquals('Test category', LocaleHelper::translateObject($content['name'], 'en'));
+        $this->assertEquals('Тестова категорiя', LocaleHelper::translateObject($content['name'], 'uk'));
     }
 
     public function test_update_category()
@@ -52,8 +52,8 @@ class CategoryCRUDTest extends TestCase
             ->assertJsonStructure(['parent_id', 'slug', 'name', 'updated_at', 'created_at'])
             ->assertExactJson($content);
 
-        $this->assertEquals('Test '.$category->name, Translation::translateObject($content['name'], 'en'));
-        $this->assertEquals('Тестова '.$category->name, Translation::translateObject($content['name'], 'uk'));
+        $this->assertEquals('Test '.$category->name, LocaleHelper::translateObject($content['name'], 'en'));
+        $this->assertEquals('Тестова '.$category->name, LocaleHelper::translateObject($content['name'], 'uk'));
     }
 
     public function test_delete_category()

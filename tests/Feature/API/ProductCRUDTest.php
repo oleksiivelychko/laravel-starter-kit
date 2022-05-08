@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\API;
 
+use App\Helpers\LocaleHelper;
 use App\Models\Category;
 use App\Models\Product;
-use App\Traits\Translation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -43,10 +43,10 @@ class ProductCRUDTest extends TestCase
             ->assertExactJson($content);
 
         $this->assertEquals('testovii-produkt', $content['slug']);
-        $this->assertEquals('Test product', Translation::translateObject($content['name'], 'en'));
-        $this->assertEquals('Тестовий продукт', Translation::translateObject($content['name'], 'uk'));
-        $this->assertEquals('Test product description', Translation::translateObject($content['description'], 'en'));
-        $this->assertEquals('Тестовий продукт опис', Translation::translateObject($content['description'], 'uk'));
+        $this->assertEquals('Test product', LocaleHelper::translateObject($content['name'], 'en'));
+        $this->assertEquals('Тестовий продукт', LocaleHelper::translateObject($content['name'], 'uk'));
+        $this->assertEquals('Test product description', LocaleHelper::translateObject($content['description'], 'en'));
+        $this->assertEquals('Тестовий продукт опис', LocaleHelper::translateObject($content['description'], 'uk'));
         $this->assertContains($category->id, $content['categories_ids']);
         Storage::disk('uploads')->assertExists('products_images/'.$content['id'].'/'.json_decode($content['images'], true)[0]);
     }
@@ -66,11 +66,11 @@ class ProductCRUDTest extends TestCase
         $category2 = Category::factory()->create();
 
         $response = $this->json('PUT', '/api/v1/products/'.$product->id, [
-            'name__en'          => 'Test '.Translation::translateObject($product->name, 'en'),
-            'name__uk'          => 'Тестовий '.Translation::translateObject($product->name, 'uk'),
+            'name__en'          => 'Test '.LocaleHelper::translateObject($product->name, 'en'),
+            'name__uk'          => 'Тестовий '.LocaleHelper::translateObject($product->name, 'uk'),
             'price'             => 1.1,
-            'description__en'   => 'Test '.Translation::translateObject($product->description, 'en'),
-            'description__uk'   => 'Тестовий '.Translation::translateObject($product->description, 'en'),
+            'description__en'   => 'Test '.LocaleHelper::translateObject($product->description, 'en'),
+            'description__uk'   => 'Тестовий '.LocaleHelper::translateObject($product->description, 'en'),
             'categories'        => [$category1->id, $category2->id],
             'images'            => [$file1, $file2]
         ], [
@@ -85,10 +85,10 @@ class ProductCRUDTest extends TestCase
             ->assertExactJson($content);
 
         $this->assertEquals('testovii-'.$product->slug, $content['slug']);
-        $this->assertEquals('Test '.Translation::translateObject($product->name, 'en'), Translation::translateObject($content['name'], 'en'));
-        $this->assertEquals('Тестовий '.Translation::translateObject($product->name, 'uk'), Translation::translateObject($content['name'], 'uk'));
-        $this->assertEquals('Test '.Translation::translateObject($product->description, 'en'), Translation::translateObject($content['description'], 'en'));
-        $this->assertEquals('Тестовий '.Translation::translateObject($product->description, 'en'), Translation::translateObject($content['description'], 'uk'));
+        $this->assertEquals('Test '.LocaleHelper::translateObject($product->name, 'en'), LocaleHelper::translateObject($content['name'], 'en'));
+        $this->assertEquals('Тестовий '.LocaleHelper::translateObject($product->name, 'uk'), LocaleHelper::translateObject($content['name'], 'uk'));
+        $this->assertEquals('Test '.LocaleHelper::translateObject($product->description, 'en'), LocaleHelper::translateObject($content['description'], 'en'));
+        $this->assertEquals('Тестовий '.LocaleHelper::translateObject($product->description, 'en'), LocaleHelper::translateObject($content['description'], 'uk'));
         $this->assertContains($category1->id, $content['categories_ids']);
         $this->assertContains($category2->id, $content['categories_ids']);
 

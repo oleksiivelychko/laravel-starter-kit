@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Helpers\LocaleHelper;
 use App\Models\Category;
 use App\Models\Product;
-use App\Traits\Translation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -19,10 +19,7 @@ class LiveSearchTest extends TestCase
         $category = Category::factory()->create();
 
         $response = $this->json('POST', '/'.app()->getLocale().'/ajax/live-search-category', [
-            /**
-             * TODO: replace with non-static method
-             */
-            'search' => Translation::translateObject($category->name)
+            'search' => LocaleHelper::translateObject($category->name)
         ], [
             'HTTP_X-Requested-With' => 'XMLHttpRequest'
         ]);
@@ -34,7 +31,7 @@ class LiveSearchTest extends TestCase
 
         $content = json_decode($response->content(), true)[0];
         $this->assertEquals($category->id, $content['value']);
-        $this->assertEquals(Translation::translateObject($category->name), $content['text']);
+        $this->assertEquals(LocaleHelper::translateObject($category->name), $content['text']);
     }
 
     public function test_live_search_products()
@@ -43,10 +40,7 @@ class LiveSearchTest extends TestCase
         $product = Product::factory()->create();
 
         $response = $this->json('POST', '/'.app()->getLocale().'/ajax/live-search-product', [
-            /**
-             * TODO: replace with non-static method
-             */
-            'search' => Translation::translateObject($product->name)
+            'search' => LocaleHelper::translateObject($product->name)
         ], [
             'HTTP_X-Requested-With' => 'XMLHttpRequest'
         ]);
@@ -58,9 +52,6 @@ class LiveSearchTest extends TestCase
 
         $content = json_decode($response->content(), true)[0];
         $this->assertEquals($product->id, $content['value']);
-        /**
-         * TODO: replace with non-static method
-         */
-        $this->assertEquals(Translation::translateObject($product->name), $content['text']);
+        $this->assertEquals(LocaleHelper::translateObject($product->name), $content['text']);
     }
 }

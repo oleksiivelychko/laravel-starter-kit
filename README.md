@@ -37,3 +37,8 @@ https://unsplash.com/photos/BXNctQYqPOc
 https://unsplash.com/photos/1PoaXQ5Ztwo
 
 https://unsplash.com/photos/Vy2cHqm0mCs
+
+P.S. To create the symbolic link execute it:
+```
+php artisan storage:link
+```

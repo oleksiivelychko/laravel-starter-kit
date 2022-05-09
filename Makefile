@@ -1,3 +1,12 @@
+artisan-app-generate:
+	docker-compose exec laravel-app php artisan key:generate --ansi
+
+artisan-migrate-refresh:
+	docker-compose exec laravel-app php artisan migrate:refresh --force
+
+artisan-db-seed:
+	docker-compose exec laravel-app php artisan db:seed --force
+
 composer-install:
 	rm -rf vendor
 	rm -f composer.lock

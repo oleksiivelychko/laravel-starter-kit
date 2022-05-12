@@ -1,0 +1,795 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "OpenApi Documentation",
+        "description": "Use `X-API-KEY: YOUR_API_TOKEN` in header of request to API access\n    <br><br>\n    Use command `php artisan generate:token` to create a new token",
+        "contact": {
+            "email": "oleksiivelychko@icloud.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://laravel-dashboard.local",
+            "description": "HTTPS API Server"
+        }
+    ],
+    "paths": {
+        "/api/v1/categories": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get categories",
+                "description": "Fetch all categories using `offset` and `limit` parameters",
+                "operationId": "getCategoriesList",
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Create a new category",
+                "description": "Create a new category from POST data",
+                "operationId": "storeCategory",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name__en",
+                                    "name__uk"
+                                ],
+                                "properties": {
+                                    "name__en": {
+                                        "description": "Name in English",
+                                        "type": "string"
+                                    },
+                                    "name__uk": {
+                                        "description": "Name in Ukranian",
+                                        "type": "string"
+                                    },
+                                    "slug": {
+                                        "description": "Slug",
+                                        "type": "string"
+                                    },
+                                    "parent_id": {
+                                        "description": "Parent ID of Category",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Category"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/categories/{id}": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get category",
+                "description": "Get category by ID",
+                "operationId": "getCategory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Category"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Update the exists category",
+                "description": "Update the exists category from POST data",
+                "operationId": "updateCategory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "name__en",
+                                    "name__uk"
+                                ],
+                                "properties": {
+                                    "name__en": {
+                                        "description": "Name in English",
+                                        "type": "string"
+                                    },
+                                    "name__uk": {
+                                        "description": "Name in Ukranian",
+                                        "type": "string"
+                                    },
+                                    "slug": {
+                                        "description": "Slug",
+                                        "type": "string"
+                                    },
+                                    "parent_id": {
+                                        "description": "Parent ID of Category",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Category"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Delete the exists category",
+                "description": "Delete the exists category by ID",
+                "operationId": "deleteCategory",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/products": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get products",
+                "description": "Fetch all products using `offset` and `limit` parameters",
+                "operationId": "getProductsList",
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Create a new product",
+                "description": "Create a new product from POST data",
+                "operationId": "storeProduct",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name__en",
+                                    "name__uk",
+                                    "price",
+                                    "categories[]"
+                                ],
+                                "properties": {
+                                    "name__en": {
+                                        "description": "Name in English",
+                                        "type": "string"
+                                    },
+                                    "name__uk": {
+                                        "description": "Name in Ukranian",
+                                        "type": "string"
+                                    },
+                                    "description__en": {
+                                        "description": "Description in English",
+                                        "type": "string"
+                                    },
+                                    "description__uk": {
+                                        "description": "Description in Ukranian",
+                                        "type": "string"
+                                    },
+                                    "slug": {
+                                        "description": "Slug",
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "categories[]": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "collectionFormat": "multi"
+                                    },
+                                    "images[]": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "file",
+                                            "format": "binary"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "encoding": {
+                                "categories[]": {
+                                    "explode": "true"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/products/{id}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get product",
+                "description": "Get product by ID",
+                "operationId": "getProduct",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Update the exists product",
+                "description": "Update the exists product from POST data",
+                "operationId": "updateProduct",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "required": [
+                                    "name__en",
+                                    "name__uk",
+                                    "price",
+                                    "categories[]"
+                                ],
+                                "properties": {
+                                    "name__en": {
+                                        "description": "Name in English",
+                                        "type": "string"
+                                    },
+                                    "name__uk": {
+                                        "description": "Name in Ukranian",
+                                        "type": "string"
+                                    },
+                                    "description__en": {
+                                        "description": "Description in English",
+                                        "type": "string"
+                                    },
+                                    "description__uk": {
+                                        "description": "Description in Ukranian",
+                                        "type": "string"
+                                    },
+                                    "slug": {
+                                        "description": "Slug",
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "categories[]": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "encoding": {
+                                "categories[]": {
+                                    "explode": "true"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Delete the exists product",
+                "description": "Delete the exists product by ID",
+                "operationId": "deleteProduct",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Category": {
+                "title": "Category",
+                "description": "Category OpenAPI model inherits App\\Models\\Category",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "Primary Key",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Required, JSON",
+                        "type": "string",
+                        "example": "{'name__en':'Test','name__uk':'Тест'}"
+                    },
+                    "slug": {
+                        "title": "Slug",
+                        "type": "string",
+                        "example": "test-category"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2021-04-17 19:52:53"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2021-04-17 19:52:53"
+                    },
+                    "parent_id": {
+                        "description": "Reference to parent category ID",
+                        "type": "object",
+                        "format": "\\App\\Models\\OpenApi\\Category"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Category"
+                }
+            },
+            "Product": {
+                "title": "Product",
+                "description": "Product OpenAPI model inherits App\\Models\\Product",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "Primary Key",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Required, JSON",
+                        "type": "string",
+                        "example": "{'name__en':'Test','name__uk':'Тест'}"
+                    },
+                    "slug": {
+                        "title": "Slug",
+                        "type": "string",
+                        "example": "test-product"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "description": "JSON",
+                        "type": "string",
+                        "example": "{'description__en':'Test','description__uk':'Тест'}"
+                    },
+                    "price": {
+                        "title": "Price",
+                        "description": "Required",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "categories": {
+                        "description": "Categories",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Category"
+                        }
+                    },
+                    "image": {
+                        "title": "Image",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2021-04-17 19:52:53"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2021-04-17 19:52:53"
+                    },
+                    "deleted_at": {
+                        "title": "Deleted at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2021-04-17 19:52:53"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Product"
+                }
+            }
+        },
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "description": "Use X-API-KEY: 2a4b5d7458084260f065aa41cc4f0c8d in header of request to API access",
+                "name": "X-API-KEY",
+                "in": "header"
+            }
+        }
+    }
+}

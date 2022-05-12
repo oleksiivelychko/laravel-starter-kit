@@ -36,4 +36,8 @@ class OpenApiController extends BaseController
      * )
      *
      */
+    public function __construct()
+    {
+
+    }
 }

@@ -7,8 +7,10 @@ use Illuminate\Support\Facades\Request;
 use Throwable;
 
 /**
- * Debugging tool
- * To get chat_id: after message was sent https://api.telegram.org/bot<bot_token>/getUpdates -> chat -> id
+ * Simple debugging tool via Telegram messenger.
+ *
+ * To get chat_id: after message was sent to the bot visit:
+ * https://api.telegram.org/bot<bot_token>/getUpdates -> chat -> id
  */
 class TelegramDebug
 {

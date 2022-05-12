@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Helpers\TelegramDebug;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
@@ -42,13 +43,13 @@ class Handler extends ExceptionHandler
 
     /**
      * Register the exception handling callbacks for the application.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->reportable(function (Throwable $e) {
-            //
+            if ($this->shouldReport($e) && env('APP_ENV') === 'production') {
+                TelegramDebug::sendException($e);
+            }
         });
     }
 

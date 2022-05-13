@@ -2,6 +2,14 @@
 
 ### Dashboard application based on PHP8/Laravel8. No JetStream. No Liveware. No Tailwind. Inspired by Django admin.
 
+⚙️ Deployed on <a href="https://oleksiivelychkolaravelboard.herokuapp.com">Heroku</a>
+
+To login use credentials from <a href="https://github.com/oleksiivelychko/laravel-dashboard/blob/main/database/seeders/UserSeeder.php">seeder data</a>:
+```
+email: admin@test.test
+password: secret
+```
+
 📌 Generate wildcard certificate:
 ```
 openssl req -x509 -out .docker/certs/localhost.crt -keyout .docker/certs/localhost.key \
@@ -20,7 +28,7 @@ echo 127.0.0.1 laravel-dashboard.local mail.laravel-dashboard.local >> /etc/host
 
 ![PHP debug views](storage/screenshots/php_debug_laravel_views.png)
 
-The sample images were took from <a href="unsplash.com">unsplash.com</a>
+The sample images were token from <a href="unsplash.com">unsplash.com</a>
 
 https://unsplash.com/photos/JpQGEArmG0I
 

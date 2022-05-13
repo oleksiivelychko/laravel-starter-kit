@@ -7,13 +7,13 @@ artisan-migrate-refresh:
 artisan-db-seed:
 	docker-compose exec laravel-app php artisan db:seed --force
 
+artisan-test:
+	docker-compose exec laravel-app php artisan test
+
 composer-install:
 	rm -rf vendor
 	rm -f composer.lock
 	docker-compose exec laravel-app composer install
-
-composer-install-outside:
-	composer install --no-scripts --ignore-platform-reqs
 
 git-push:
 	git push heroku main
@@ -52,3 +52,6 @@ npm-watch:
 
 optimize-dev:
 	docker-compose exec laravel-app sh /var/www/.docker/shell/optimize-dev.sh
+
+php-test:
+	docker-compose exec laravel-app ./vendor/bin/phpunit

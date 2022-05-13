@@ -7,6 +7,9 @@ artisan-migrate-refresh:
 artisan-db-seed:
 	docker-compose exec laravel-app php artisan db:seed --force
 
+artisan-storage-link:
+	docker-compose exec laravel-app php artisan storage:link
+
 artisan-test:
 	docker-compose exec laravel-app php artisan test
 

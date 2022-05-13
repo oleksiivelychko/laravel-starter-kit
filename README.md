@@ -4,7 +4,7 @@
 
 ⚙️ Deployed on <a href="https://oleksiivelychkolaravelboard.herokuapp.com">Heroku</a>
 
-To login use credentials from <a href="https://github.com/oleksiivelychko/laravel-dashboard/blob/main/database/seeders/UserSeeder.php">seeder data</a>:
+📌 To login use credentials from <a href="https://github.com/oleksiivelychko/laravel-dashboard/blob/main/database/seeders/UserSeeder.php">seeder data</a>:
 ```
 email: admin@test.test
 password: secret
@@ -29,24 +29,3 @@ echo 127.0.0.1 laravel-dashboard.local mail.laravel-dashboard.local >> /etc/host
 ![PHP debug views](storage/screenshots/php_debug_laravel_views.png)
 
 The sample images were token from <a href="unsplash.com">unsplash.com</a>
-
-https://unsplash.com/photos/JpQGEArmG0I
-
-https://unsplash.com/photos/VCXk_bO97VQ
-
-https://unsplash.com/photos/_wkd7XBRfU4
-
-https://unsplash.com/photos/-s27nY8mZUE
-
-https://unsplash.com/photos/pu6b4yIlQF4
-
-https://unsplash.com/photos/BXNctQYqPOc
-
-https://unsplash.com/photos/1PoaXQ5Ztwo
-
-https://unsplash.com/photos/Vy2cHqm0mCs
-
-P.S. To create the symbolic link execute it:
-```
-php artisan storage:link
-```

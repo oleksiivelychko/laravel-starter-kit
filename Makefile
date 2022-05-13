@@ -14,8 +14,8 @@ artisan-test:
 	docker-compose exec laravel-app php artisan test
 
 composer-install:
-	rm -rf vendor
-	rm -f composer.lock
+	docker-compose exec laravel-app rm -rf vendor
+	docker-compose exec laravel-app rm -f composer.lock
 	docker-compose exec laravel-app composer install
 
 git-push:

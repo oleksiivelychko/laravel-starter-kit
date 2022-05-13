@@ -132,8 +132,5 @@ class User extends Authenticatable implements MustVerifyEmail, UploadImages, Pag
         return config('settings.schema.pagination_limit', 10);
     }
 
-    public function uploadImages(array $data): void
-    {
-        // TODO: Implement uploadImages() method.
-    }
+    public function uploadImages(array $data): void {}
 }

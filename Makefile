@@ -18,6 +18,9 @@ composer-install-outside:
 git-push:
 	git push heroku main
 
+heroku-bash:
+	heroku run bash -a oleksiivelychkolaravelboard
+
 heroku-git:
 	$(warning Must be logged before: `heroku login`)
 	heroku git:remote -a oleksiivelychkolaravelboard

@@ -18,6 +18,9 @@ composer-install:
 	docker-compose exec laravel-app rm -f composer.lock
 	docker-compose exec laravel-app composer install
 
+create-project:
+	composer create-project laravel/laravel laravel-dashboard
+
 git-push:
 	git push heroku main
 

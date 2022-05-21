@@ -1,9 +1,9 @@
 vendor
 node_modules
-docker
-!docker/php/php.ini
-!docker/php/entrypoint.sh
-!docker/nginx/virtualhost.prod.conf
+.docker
+!.docker/php/production/php.ini
+!.docker/php/production/entrypoint.sh
+!.docker/nginx/virtualhost.production.conf
 .editorconfig
 .gitattributes
 .phpstorm.meta.php
@@ -17,5 +17,8 @@ public/fonts
 public/uploads
 public/mix-manifest.json
 public/storage
-docker-compose.yml
+docker-compose.*.yml
 .env
+.env.heroku
+Procfile
+Makefile

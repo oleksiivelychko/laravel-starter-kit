@@ -71,8 +71,8 @@ RUN apt-get install -y nodejs
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN rm -rf ${WORK_DIR}/html
 
-COPY ./.docker/php/php.ini /usr/local/etc/php
-COPY ./.docker/nginx/virtualhost.prod.conf /etc/nginx/sites-enabled/default
+COPY ./.docker/php/production/php.ini /usr/local/etc/php
+COPY ./.docker/nginx/virtualhost.production.conf /etc/nginx/sites-enabled/default
 
 RUN usermod -u ${USER_ID} www-data && groupmod -g ${GROUP_ID} www-data
 
@@ -89,7 +89,7 @@ RUN php -r 'file_exists(".env") || copy(".env.example", ".env");'
 
 USER "root:root"
 
-COPY ./.docker/php/entrypoint.sh /etc/entrypoint.sh
+COPY ./.docker/php/production/entrypoint.sh /etc/entrypoint.sh
 RUN chmod +x /etc/entrypoint.sh
 
 EXPOSE 80 443

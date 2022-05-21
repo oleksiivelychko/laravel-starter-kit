@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+
+  laravel-dashboard:
+    container_name: laravel_dashboard
+    image: oleksiivelychko/laravel-dashboard
+    platform: amd64
+    build:
+      context: .
+      dockerfile: ./.docker/php/production
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOCKER_BUILDKIT: 1
+      ROOT_PASSWORD: ${ROOT_PASSWORD:-docker}
+      DB_USERNAME: ${DB_USERNAME:-root}
+      DB_PASSWORD: ${DB_PASSWORD:-root}
+    restart: unless-stopped
+    tty: true
+
+  laravel-db:
+      container_name: laravel_db
+      image: postgres
+      restart: unless-stopped
+      environment:
+          POSTGRES_USER: ${DB_USERNAME:-postgres}
+          POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+          POSTGRES_DB: ${DB_DATABASE:-laravel-dashboard}
+      volumes:
+          - postgres:/var/lib/postgresql/data
+      ports:
+          - ${DB_PORT:-5432}:5432
+
+volumes:
+  postgres:

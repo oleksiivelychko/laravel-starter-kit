@@ -34,7 +34,6 @@ RUN apt-get update && apt-get install -y \
     librabbitmq-dev \
     libssh-dev \
     libssl-dev \
-    libpq-dev \
     libcurl4-openssl-dev
 
 RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
@@ -48,7 +47,6 @@ RUN docker-php-ext-install \
     mysqli \
     pdo \
     pdo_mysql \
-    pdo_pgsql \
     xsl \
     zip \
     soap \

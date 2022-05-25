@@ -1,3 +1,4 @@
+### Change payment status
 POST {{host}}/hooks/payment
 Content-Type: application/json
 

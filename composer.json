@@ -2,8 +2,8 @@
     "name": "oleksiivelychko/laravel-dashboard",
     "homepage": "https://github.com/oleksiivelychko/laravel-dashboard",
     "type": "project",
-    "description": "Dashboard application based on PHP8/Laravel8. No JetStream. No Liveware. No Tailwind. Inspired by Django admin.",
-    "keywords": ["framework", "laravel", "docker", "dashboard"],
+    "description": "Dashboard management application based on PHP8/Laravel8. No JetStream. No Liveware. No Tailwind.",
+    "keywords": ["framework", "laravel", "docker", "dashboard", "php8", "docker-compose"],
     "license": "MIT",
     "authors": [
         {
@@ -16,20 +16,20 @@
         "ext-gd": "*",
         "ext-intl": "*",
         "ext-pdo": "*",
-        "darkaonline/l5-swagger": "^8.3.2",
+        "darkaonline/l5-swagger": "^8.3.3",
         "guzzlehttp/guzzle": "^7.4.5",
-        "laravel/framework": "^v9.22.1",
+        "laravel/framework": "^v9.26.1",
         "pusher/pusher-php-server": "^7.0.2",
-        "vladimir-yuldashev/laravel-queue-rabbitmq": "^12.0.1"
+        "vladimir-yuldashev/laravel-queue-rabbitmq": "^v12.0.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^v3.7.0",
-        "barryvdh/laravel-ide-helper": "^2.12.3",
-        "fakerphp/faker": "^1.20.0",
-        "laravel/tinker": "^2.7.2",
+        "barryvdh/laravel-ide-helper": "^v2.12.3",
+        "fakerphp/faker": "^v1.20.0",
+        "laravel/tinker": "^v2.7.2",
         "mockery/mockery": "^1.5.0",
-        "nunomaduro/collision": "^6.2.1",
-        "phpunit/phpunit": "^9.5.21",
+        "nunomaduro/collision": "^v6.2.1",
+        "phpunit/phpunit": "^9.5.23",
         "spatie/laravel-ignition": "^1.3.1"
     },
     "autoload": {

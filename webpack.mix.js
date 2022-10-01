@@ -12,12 +12,10 @@ const mix = require('laravel-mix');
  */
 
 mix
-    .webpackConfig({
-
-    })
-    .js('resources/js/app.js', 'public/js')
-    .js('resources/js/dashboard.js', 'public/js')
-    .sass('resources/css/app.scss', 'public/css')
-    .sass('resources/css/dashboard.scss', 'public/css')
-    .sass('resources/css/auth.scss', 'public/css')
+    .setPublicPath('public')
+    .js('resources/js/app.js', 'js')
+    .js('resources/js/dashboard.js', 'js')
+    .sass('resources/css/app.scss', 'css')
+    .sass('resources/css/dashboard.scss', 'css')
+    .sass('resources/css/auth.scss', 'css')
     .copyDirectory('storage/app/public/images', 'public/images');

@@ -4,7 +4,7 @@ services:
 
     laravel-app:
         container_name: laravel_app
-        image: local/laravel-app
+        image: local/laravel-dashboard
         pull_policy: never
         build:
             context: .
@@ -81,7 +81,7 @@ services:
     laravel-worker:
         container_name: laravel_worker
         restart: unless-stopped
-        image: local/laravel-app
+        image: local/laravel-dashboard
         pull_policy: never
         depends_on:
             - laravel-rabbitmq

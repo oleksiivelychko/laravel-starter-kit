@@ -1,14 +1,16 @@
 # laravel-dashboard
 
-### Dashboard application based on PHP8/Laravel8. No JetStream. No Liveware. No Tailwind. Inspired by Django admin.
+### Dashboard management application based on PHP8/Laravel8. No JetStream. No Liveware. No Tailwind.
 
 ⚙️ Deployed on <a href="https://oleksiivelychkolaravelboard.herokuapp.com">Heroku</a>
 
-📌 To login use credentials from <a href="https://github.com/oleksiivelychko/laravel-dashboard/blob/main/database/seeders/UserSeeder.php">seeder data</a>:
+📌 To get access to dashboard use test credentials:
 ```
 email: admin@test.test
 password: secret
 ```
+
+![Dashboard management UI](social_preview.png)
 
 📌 Generate wildcard certificate:
 ```

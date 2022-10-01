@@ -24,4 +24,4 @@ echo 127.0.0.1 laravel-dashboard.local mail.laravel-dashboard.local >> /etc/host
 ![PHP xDebug server name](storage/screenshots/php_xdebug_server_name.png)
 ![PHP debug views](storage/screenshots/php_debug_laravel_views.png)
 
-The sample images were token from <a href="unsplash.com">unsplash.com</a> and <a href="icons8.com">icons8.com</a>
+The sample images were taken from <a href="unsplash.com">unsplash.com</a> and <a href="icons8.com">icons8.com</a>

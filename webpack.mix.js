@@ -19,3 +19,4 @@ mix
     .sass('resources/css/dashboard.scss', 'css')
     .sass('resources/css/auth.scss', 'css')
     .copyDirectory('storage/app/public/images', 'public/images');
+

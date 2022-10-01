@@ -19,6 +19,4 @@ public/mix-manifest.json
 public/storage
 docker-compose.*.yml
 .env
-.env.heroku
-Procfile
 Makefile

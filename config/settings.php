@@ -10,10 +10,6 @@ return [
         'not-found' => 'images/not-found.jpeg'
     ],
 
-    'import' => [
-        'products_json' => '/app/storage/app/public/import/products.json'
-    ],
-
     'languages' => [
         'English'       => 'en',
         'Українська'    => 'uk',

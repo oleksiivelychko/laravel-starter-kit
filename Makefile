@@ -24,31 +24,6 @@ composer-install:
 create-project:
 	composer create-project laravel/laravel laravel-dashboard
 
-heroku-bash: heroku-warn
-	heroku run bash -a oleksiivelychkolaravelboard
-
-heroku-git:
-	$(warning Must be logged before: `heroku login`)
-	heroku git:remote -a oleksiivelychkolaravelboard
-
-heroku-logs:
-	heroku logs -n 200 --tail -a oleksiivelychkolaravelboard
-
-heroku-packs:
-	heroku buildpacks -a oleksiivelychkolaravelboard
-
-heroku-postgres-info:
-	heroku pg:info
-
-heroku-push:
-	git push heroku main
-
-heroku-set-app-secret:
-	heroku config:set APP_SECRET=$(php -r 'echo bin2hex(random_bytes(16));')
-
-heroku-warn:
-	$(info must be install before as `brew tap heroku/brew && brew install heroku`)
-
 ide-helper:
 	$(dockerexecapp) ide-helper:generate
 	$(dockerexecapp) ide-helper:meta

@@ -29,7 +29,7 @@ class ProcessImportJob implements ShouldQueue
 
     public function __construct(string $filepath, string $classname, Import $importModel, int $userId)
     {
-        $this->filepath = env('HEROKU') ? config('settings.import.products_json') : $filepath;
+        $this->filepath = $filepath;
         $this->classname = $classname;
         $this->importModel = $importModel;
         $this->userId = $userId;

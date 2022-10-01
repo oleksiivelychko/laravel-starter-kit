@@ -2,8 +2,6 @@
 
 ### Dashboard management application based on PHP8/Laravel8. No JetStream. No Liveware. No Tailwind.
 
-⚙️ Deployed on <a href="https://oleksiivelychkolaravelboard.herokuapp.com">Heroku</a>
-
 📌 To get access to dashboard use test credentials:
 ```
 email: admin@test.test

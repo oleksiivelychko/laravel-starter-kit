@@ -14,7 +14,6 @@ services:
             - ./.docker/php/php.local.ini:/usr/local/etc/php/php.ini
             - ./.docker/coverage:/opt/phpstorm-coverage
         restart: unless-stopped
-        tty: true
         networks:
             - laravel-network
 

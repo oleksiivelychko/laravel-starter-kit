@@ -24,7 +24,7 @@ composer-install:
 create-project:
 	composer create-project laravel/laravel laravel-dashboard
 
-heroku-bash:
+heroku-bash: heroku-warn
 	heroku run bash -a oleksiivelychkolaravelboard
 
 heroku-git:
@@ -45,6 +45,9 @@ heroku-push:
 
 heroku-set-app-secret:
 	heroku config:set APP_SECRET=$(php -r 'echo bin2hex(random_bytes(16));')
+
+heroku-warn:
+	$(info must be install before as `brew tap heroku/brew && brew install heroku`)
 
 ide-helper:
 	$(dockerexecapp) ide-helper:generate

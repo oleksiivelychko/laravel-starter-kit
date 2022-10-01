@@ -7,6 +7,7 @@
 /.docker/mysql/db
 /.docker/rabbitmq/data
 /.docker/rabbitmq/log
+/.docker/coverage
 /public/css
 /public/js
 /public/fonts
@@ -19,4 +20,4 @@ _ide_helper_models.php
 .env
 .phpunit.result.cache
 .php-cs-fixer.cache
-
+coverage_test_results.html

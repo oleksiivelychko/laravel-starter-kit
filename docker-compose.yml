@@ -4,7 +4,7 @@ services:
 
     laravel-app:
         container_name: laravel_app
-        image: oleksiivelychko/laravel-app
+        image: local/laravel-app
         pull_policy: never
         build:
             context: .
@@ -12,6 +12,7 @@ services:
         volumes:
             - .:/var/www
             - ./.docker/php/php.local.ini:/usr/local/etc/php/php.ini
+            - ./.docker/coverage:/opt/phpstorm-coverage
         restart: unless-stopped
         tty: true
         networks:
@@ -26,8 +27,8 @@ services:
             - ./.docker/nginx/virtualhost.conf:/etc/nginx/conf.d/default.conf
             - ./.docker/nginx/mailhog.conf:/etc/nginx/conf.d/mailhog.conf
         ports:
-            - "80:80"
-            - "443:443"
+            - ${HTTP_PORT:-80}:80
+            - ${HTTPS_PORT:-443}:443
         restart: unless-stopped
         depends_on:
             - laravel-app
@@ -41,7 +42,7 @@ services:
 
     laravel-db:
         container_name: laravel_db
-        image: mariadb:10.7
+        image: mariadb:10.9
         restart: unless-stopped
         environment:
             MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
@@ -70,15 +71,15 @@ services:
         container_name: laravel_mailhog
         image: mailhog/mailhog
         ports:
-            - "1025:1025"
-            - "8025:8025"
+            - ${MAIL_PORT:-1025}:1025
+            - ${MAIL_UI_PORT:-8025}:8025
         networks:
             - laravel-network
 
     laravel-worker:
         container_name: laravel_worker
         restart: unless-stopped
-        image: oleksiivelychko/laravel-app
+        image: local/laravel-app
         pull_policy: never
         depends_on:
             - laravel-rabbitmq
@@ -91,7 +92,7 @@ services:
 
     laravel-rabbitmq:
         container_name: laravel_rabbitmq
-        image: oleksiivelychko/rabbitmq
+        image: local/rabbitmq
         pull_policy: never
         build:
             context: ./.docker/rabbitmq
@@ -102,7 +103,7 @@ services:
         hostname: rabbit_node
         ports:
             - ${RABBITMQ_PORT:-5672}:5672
-            - "15672:15672"
+            - ${RABBITMQ_UI_PORT:-15672}:15672
         volumes:
             - ./.docker/rabbitmq/data:/var/lib/rabbitmq
             - ./.docker/rabbitmq/log:/var/log/rabbitmq

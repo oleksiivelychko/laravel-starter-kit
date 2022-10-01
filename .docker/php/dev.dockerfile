@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     htop \
     git \
+    procps \
     openssl \
     libfreetype6-dev \
     libicu-dev \

@@ -61,9 +61,11 @@ services:
     laravel-redis:
         container_name: laravel_redis
         restart: unless-stopped
-        image: redis
+        image: redis:7.0
         ports:
             - ${REDIS_PORT:-6379}:6379
+        command: >
+            --requirepass ${REDIS_PASSWORD:-secret}
         networks:
             - laravel-network
 

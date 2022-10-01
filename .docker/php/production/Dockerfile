@@ -1,25 +1,38 @@
-FROM php:8.1-fpm
+# Stage 1 - Download PHP dependencies.
+FROM composer:2.4 as vendor
 
-LABEL maintainer="Oleksii Velychko"
+COPY composer.json composer.json
+COPY composer.lock composer.lock
 
-ARG CACHE_DIR="/tmp/cache"
-ARG WORK_DIR="/var/www"
-ARG LOG_DIR="/var/www/log"
+RUN composer install \
+    --ignore-platform-reqs \
+    --no-dev \
+    --no-interaction \
+    --no-plugins \
+    --no-scripts \
+    --prefer-dist \
+    --optimize-autoloader \
+    --quiet
 
-ENV ROOT_PASSWORD $ROOT_PASSWORD
-ENV USER_ID 1000
-ENV GROUP_ID 1000
-ENV COMPOSER_HOME=${CACHE_DIR}/composer
-ENV npm_config_cache=${CACHE_DIR}/npm
-ENV NO_UPDATE_NOTIFIER=1
+# Stage 2 - download NPM dependencies and build assets.
+FROM node:16-alpine as public
 
-RUN echo 'root:${DOCKER_PASSWORD}' | chpasswd
+WORKDIR /app
+RUN mkdir -p /app/public
 
-WORKDIR ${WORK_DIR}
-RUN mkdir -p ${CACHE_DIR}
-RUN mkdir -p ${LOG_DIR}
+COPY package.json package-lock.json webpack.mix.js /app/
+COPY resources/js/ /app/resources/js/
+COPY resources/css/ /app/resources/css/
+COPY storage/app/public/images/ /app/storage/app/public/images/
+COPY public/* /app/public
 
-RUN apt-get update && apt-get install -y \
+RUN npm i --quiet
+RUN npm run prod > '/dev/null' 2>&1
+
+# Stage 3 - build PHP extensions/modules and run application.
+FROM php:8.1-fpm as build
+
+RUN apt-get -qq update && apt-get -qq install -y \
     curl \
     libfreetype6-dev \
     libicu-dev \
@@ -63,34 +76,34 @@ RUN docker-php-source extract && \
     docker-php-ext-install amqp && \
     docker-php-source delete
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
-RUN apt-get install -y nodejs
-
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-RUN rm -rf ${WORK_DIR}/html
 
 COPY ./.docker/php/production/php.ini /usr/local/etc/php
+COPY ./.docker/php/production/entrypoint.sh /etc/entrypoint.sh
 COPY ./.docker/nginx/virtualhost.production.conf /etc/nginx/sites-enabled/default
 
-RUN usermod -u ${USER_ID} www-data && groupmod -g ${GROUP_ID} www-data
+WORKDIR /var/www
+COPY . .
 
-COPY . ${WORK_DIR}
+COPY --from=vendor /app/vendor/ /var/www/vendor/
+COPY --from=public /app/public/ /var/www/public/
 
-RUN chown -R "${USER_ID}:${GROUP_ID}" ${CACHE_DIR}
-RUN chown -R "${USER_ID}:${GROUP_ID}" ${WORK_DIR}
+RUN chown -R "1000:1000" /var/www
 
-USER "${USER_ID}:${GROUP_ID}"
+RUN rm -rf /var/www/html && \
+    rm /var/www/bootstrap/cache/*.php && \
+    mkdir -p /var/www/log
 
-RUN composer install --no-dev --ignore-platform-reqs
-RUN npm i && npm run prod
 RUN php -r 'file_exists(".env") || copy(".env.example", ".env");'
+RUN chmod +x /etc/entrypoint.sh
+
+RUN php artisan config:cache && \
+    php artisan route:cache && \
+    php artisan view:cache
+
+RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 
 USER "root:root"
-
-COPY ./.docker/php/production/entrypoint.sh /etc/entrypoint.sh
-RUN chmod +x /etc/entrypoint.sh
 
 EXPOSE 80 443
 

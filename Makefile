@@ -37,8 +37,14 @@ heroku-logs:
 heroku-packs:
 	heroku buildpacks -a oleksiivelychkolaravelboard
 
+heroku-postgres-info:
+	heroku pg:info
+
 heroku-push:
 	git push heroku main
+
+heroku-set-app-secret:
+	heroku config:set APP_SECRET=$(php -r 'echo bin2hex(random_bytes(16));')
 
 ide-helper:
 	$(dockerexecapp) ide-helper:generate

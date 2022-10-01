@@ -11,9 +11,9 @@
         "postinstall": "npm run prod"
     },
     "dependencies": {
-        "@ckeditor/ckeditor5-build-classic": "^35.0.1",
+        "@ckeditor/ckeditor5-build-classic": "^35.1.0",
         "@popperjs/core": "^2.11.6",
-        "bootstrap": "^5.2.0",
+        "bootstrap": "^5.2.1",
         "bootstrap-icons": "^1.9.1",
         "slim-select": "^1.27.1"
     },
@@ -23,8 +23,8 @@
         "postcss": "^8.4.16",
         "pusher-js": "^7.4.0",
         "resolve-url-loader": "^5.0.0",
-        "sass": "^1.54.5",
+        "sass": "^1.55.0",
         "sass-loader": "^13.0.2",
-        "laravel-echo": "^1.13.1"
+        "laravel-echo": "^1.14.0"
     }
 }

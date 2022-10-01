@@ -9,7 +9,6 @@
 email: admin@test.test
 password: secret
 ```
-
 ![Dashboard management UI](social_preview.png)
 
 📌 Generate wildcard certificate:

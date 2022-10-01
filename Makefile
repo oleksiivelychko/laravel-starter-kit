@@ -1,7 +1,7 @@
 dockerexec := docker-compose exec laravel-app
 dockerexecapp := $(dockerexec) php artisan
 
-artisan-app-generate:
+artisan-key-generate:
 	$(dockerexecapp) key:generate --ansi
 
 artisan-migrate-refresh:
@@ -24,9 +24,6 @@ composer-install:
 create-project:
 	composer create-project laravel/laravel laravel-dashboard
 
-git-push:
-	git push heroku main
-
 heroku-bash:
 	heroku run bash -a oleksiivelychkolaravelboard
 
@@ -39,6 +36,9 @@ heroku-logs:
 
 heroku-packs:
 	heroku buildpacks -a oleksiivelychkolaravelboard
+
+heroku-push:
+	git push heroku main
 
 ide-helper:
 	$(dockerexecapp) ide-helper:generate
@@ -62,5 +62,5 @@ npm-watch:
 optimize-dev:
 	$(dockerexec) sh /var/www/.docker/shell/optimize-dev.sh
 
-php-test:
+phpunit:
 	$(dockerexec) ./vendor/bin/phpunit

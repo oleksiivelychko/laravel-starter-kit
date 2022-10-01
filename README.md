@@ -21,13 +21,10 @@ openssl req -x509 -days 365 -out .docker/certs/localhost.crt -keyout .docker/cer
 
 echo 127.0.0.1 laravel-dashboard.local mail.laravel-dashboard.local >> /etc/hosts
 ```
-
 ![trust certificate](storage/screenshots/trust_certificate.png)
 
-📌 Set up debug process in PhpStorm
-
+📌 Set up debug process in PhpStorm:
 ![PHP xDebug server name](storage/screenshots/php_xdebug_server_name.png)
-
 ![PHP debug views](storage/screenshots/php_debug_laravel_views.png)
 
 The sample images were token from <a href="unsplash.com">unsplash.com</a> and <a href="icons8.com">icons8.com</a>

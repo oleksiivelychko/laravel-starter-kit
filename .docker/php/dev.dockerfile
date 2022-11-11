@@ -57,7 +57,7 @@ RUN docker-php-ext-install \
     exif \
     sockets
 
-RUN pecl install xdebug-3.1.5
+RUN pecl install xdebug-3.1.6
 RUN docker-php-ext-enable xdebug
 
 RUN pecl install -o -f redis && rm -rf /tmp/pear && docker-php-ext-enable redis

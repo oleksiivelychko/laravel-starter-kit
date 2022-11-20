@@ -18,5 +18,10 @@ mix
     .sass('resources/css/app.scss', 'css')
     .sass('resources/css/dashboard.scss', 'css')
     .sass('resources/css/auth.scss', 'css')
-    .copyDirectory('storage/app/public/images', 'public/images');
+    .copyDirectory('storage/app/public/images', 'public/images')
+    .webpackConfig({
+        stats: {
+            children: true,
+        },
+    });
 

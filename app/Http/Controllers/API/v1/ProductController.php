@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Http\JsonResponse;
+use OpenApi\Annotations as OA;
 use Throwable;
 use Symfony\Component\HttpFoundation\Response;
-
 
 class ProductController extends OpenApiController
 {

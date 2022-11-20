@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\v1;
 
 use Illuminate\Routing\Controller as BaseController;
-
+use OpenApi\Annotations as OA;
 
 class OpenApiController extends BaseController
 {

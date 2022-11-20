@@ -3,7 +3,7 @@
 namespace App\Models\OpenAPI;
 
 use DateTime;
-
+use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(

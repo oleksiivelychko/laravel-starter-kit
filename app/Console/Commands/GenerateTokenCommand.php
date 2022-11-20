@@ -5,7 +5,9 @@ namespace App\Console\Commands;
 use Exception;
 use Illuminate\Console\Command;
 
-
+/**
+ * php artisan generate:token
+ */
 class GenerateTokenCommand extends Command
 {
     private const RANDOM_BYTES_LENGTH = 16;

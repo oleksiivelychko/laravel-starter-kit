@@ -18,6 +18,7 @@ openssl req -x509 -days 365 -out .docker/certs/localhost.crt -keyout .docker/cer
 
 echo 127.0.0.1 laravel-dashboard.local mail.laravel-dashboard.local >> /etc/hosts
 ```
+Add certificate to `Keychain Access`:
 ![trust certificate](storage/screenshots/trust_certificate.png)
 
 📌 Set up debug process in PhpStorm:

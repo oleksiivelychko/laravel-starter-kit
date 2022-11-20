@@ -41,7 +41,7 @@ services:
 
     laravel-db:
         container_name: laravel_db
-        image: mariadb:10.9
+        image: mariadb:10.10
         restart: unless-stopped
         environment:
             MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
@@ -70,7 +70,8 @@ services:
 
     laravel-mailhog:
         container_name: laravel_mailhog
-        image: mailhog/mailhog
+        image: mailhog/mailhog:v1.0.1
+        platform: linux/amd64
         ports:
             - ${MAIL_PORT:-1025}:1025
             - ${MAIL_UI_PORT:-8025}:8025

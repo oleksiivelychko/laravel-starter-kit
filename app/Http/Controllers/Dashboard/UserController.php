@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\StoreUserRequest;
 use App\Models\User;
-use App\Repositories\UserRepository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -16,16 +15,8 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Arr;
 
-
 class UserController extends Controller
 {
-    private UserRepository $userService;
-
-    public function __construct(UserRepository $userService)
-    {
-        $this->userService = $userService;
-    }
-
     public function index(Request $request, User $users): Factory|View|Application
     {
         return view('dashboard.user.index', [

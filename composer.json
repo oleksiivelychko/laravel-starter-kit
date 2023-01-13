@@ -3,7 +3,7 @@
     "homepage": "https://github.com/oleksiivelychko/laravel-dashboard",
     "type": "project",
     "description": "Dashboard management application based on PHP8/Laravel8. No JetStream. No Liveware. No Tailwind.",
-    "keywords": ["framework", "laravel", "php8", "docker", "docker-compose", "dashboard"],
+    "keywords": ["laravel", "php8", "docker", "docker-compose", "dashboard"],
     "license": "MIT",
     "authors": [
         {
@@ -12,25 +12,25 @@
         }
     ],
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.2",
         "ext-gd": "*",
         "ext-intl": "*",
         "ext-pdo": "*",
         "darkaonline/l5-swagger": "^8.4.1",
         "guzzlehttp/guzzle": "^7.5.0",
-        "laravel/framework": "^9.42.2",
-        "pusher/pusher-php-server": "^7.2.1",
+        "laravel/framework": "^9.47.0",
+        "pusher/pusher-php-server": "^7.2.2",
         "vladimir-yuldashev/laravel-queue-rabbitmq": "^13.0.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7.0",
         "barryvdh/laravel-ide-helper": "^2.12.3",
-        "fakerphp/faker": "^1.20.0",
-        "laravel/tinker": "^2.7.3",
+        "fakerphp/faker": "^1.21.0",
+        "laravel/tinker": "^2.8.0",
         "mockery/mockery": "^1.5.1",
-        "nunomaduro/collision": "^6.3.1",
-        "phpunit/phpunit": "^9.5.26",
-        "spatie/laravel-ignition": "^1.6.1"
+        "nunomaduro/collision": "^6.4.0",
+        "phpunit/phpunit": "^9.5.27",
+        "spatie/laravel-ignition": "^1.6.4"
     },
     "autoload": {
         "psr-4": {

@@ -21,6 +21,9 @@ composer-install:
 	$(dockerexec) rm -f composer.lock
 	$(dockerexec) composer install
 
+composer-install-local:
+	composer install --no-scripts --ignore-platform-reqs
+
 create-project:
 	composer create-project laravel/laravel laravel-dashboard
 

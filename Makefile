@@ -22,6 +22,8 @@ composer-install:
 	$(dockerexec) composer install
 
 composer-install-local:
+	rm -rf vendor
+	rm -f composer.lock
 	composer install --no-scripts --ignore-platform-reqs
 
 create-project:

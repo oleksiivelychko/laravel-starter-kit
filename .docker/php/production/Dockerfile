@@ -1,5 +1,5 @@
 # Stage 1 - Download PHP dependencies.
-FROM composer:2.4 as vendor
+FROM composer:2.5 as vendor
 
 COPY composer.json composer.json
 COPY composer.lock composer.lock
@@ -15,7 +15,7 @@ RUN composer install \
     --quiet
 
 # Stage 2 - download NPM dependencies and build assets.
-FROM node:16-alpine as public
+FROM node:18-alpine as public
 
 WORKDIR /app
 RUN mkdir -p /app/public
@@ -30,7 +30,7 @@ RUN npm i --quiet
 RUN npm run prod > '/dev/null' 2>&1
 
 # Stage 3 - build PHP extensions/modules and run application.
-FROM php:8.1-fpm as build
+FROM php:8.2-fpm as build
 
 RUN apt-get -qq update && apt-get -qq install -y \
     curl \

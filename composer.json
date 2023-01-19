@@ -3,7 +3,7 @@
     "homepage": "https://github.com/oleksiivelychko/laravel-dashboard",
     "type": "project",
     "description": "Dashboard management application based on PHP8/Laravel8. No JetStream. No Liveware. No Tailwind.",
-    "keywords": ["laravel", "php8", "docker", "docker-compose", "dashboard"],
+    "keywords": ["laravel", "php8", "docker", "docker-compose", "dashboard", "starter-kit"],
     "license": "MIT",
     "authors": [
         {
@@ -37,7 +37,13 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "exclude-from-classmap" : [
+            "vendor/vladimir-yuldashev/laravel-queue-rabbitmq/src/Consumer.php"
+        ],
+        "files" : [
+            "composer-overrides/vyuldashev/laravel-queue-rabbitmq/Consumer.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

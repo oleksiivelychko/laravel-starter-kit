@@ -2,9 +2,9 @@ version: '3.9'
 
 services:
 
-  laravel-dashboard:
-    container_name: laravel_dashboard
-    image: oleksiivelychko/laravel-dashboard
+  laravel-starter-kit:
+    container_name: laravel_starter_kit
+    image: oleksiivelychko/laravel-starter-kit
     platform: linux/amd64
     build:
       context: .
@@ -21,7 +21,7 @@ services:
 
   laravel-db:
       container_name: laravel_db
-      image: postgres:14-alpine
+      image: postgres:15-alpine
       restart: unless-stopped
       environment:
           POSTGRES_USER: ${DB_USERNAME:-postgres}

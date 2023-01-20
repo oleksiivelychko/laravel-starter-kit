@@ -1,18 +1,23 @@
 @extends('layouts.dashboard.layout')
 
-@section('title', trans('dashboard.add-order'))
+@section('title', trans('dashboard.add-order-item'))
 
 @section('content')
     @php
         $locale = app()->getLocale();
     @endphp
 
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">{{ __('dashboard.add-order') }}</h1>
+    <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">{{ __('dashboard.add-order-item') }}</h1>
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{ route('dashboard', $locale) }}">{{ __('dashboard.title') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('dashboard.orders', $locale) }}">{{ __('dashboard.orders') }}</a></li>
-            <li class="breadcrumb-item active">{{ __('dashboard.add-order') }}</li>
+            <li class="breadcrumb-item"><a
+                    href="{{ route('dashboard.orders', $locale) }}">{{ __('dashboard.orders') }}</a></li>
+            <li class="breadcrumb-item"><a
+                    href="{{ route('order.edit', ['order' => $order, 'locale' => $locale]) }}">{{ __('dashboard.edit-order') }}</a>
+            </li>
+            <li class="breadcrumb-item active">{{ __('dashboard.add-order-item') }}</li>
         </ol>
     </div>
 
@@ -20,11 +25,12 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    @component('dashboard.order._form')
+                    @component('dashboard.order.item._form')
                         @slot('order', $order)
+                        @slot('orderItem', $orderItem)
                         @slot('currentLocale', $locale)
-                        @slot('title', trans('dashboard.create'))
-                        @slot('action', route('order.store', $locale))
+                        @slot('title', trans('dashboard.add-order-item'))
+                        @slot('action', route('order-item.store', ['order_id' => $order->id, 'locale' => $locale]))
                     @endcomponent
                 </div>
             </div>

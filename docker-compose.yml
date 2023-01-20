@@ -4,14 +4,14 @@ services:
 
     laravel-app:
         container_name: laravel_app
-        image: local/laravel-dashboard
+        image: local/laravel-starter-kit
         pull_policy: never
         build:
             context: .
             dockerfile: ./.docker/php/dev.dockerfile
         volumes:
             - .:/var/www
-            - ./.docker/php/php.local.ini:/usr/local/etc/php/php.ini
+            - ./.docker/php/php.dev.ini:/usr/local/etc/php/php.ini
             - ./.docker/coverage:/opt/phpstorm-coverage
         restart: unless-stopped
         networks:
@@ -81,7 +81,7 @@ services:
     laravel-worker:
         container_name: laravel_worker
         restart: unless-stopped
-        image: local/laravel-dashboard
+        image: local/laravel-starter-kit
         pull_policy: never
         depends_on:
             - laravel-rabbitmq

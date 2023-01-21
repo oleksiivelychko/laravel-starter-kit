@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
+use Throwable;
 
 
 class ProductController extends Controller
@@ -33,6 +34,9 @@ class ProductController extends Controller
         ]);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function store(StoreProductRequest $request): Redirector|Application|RedirectResponse
     {
         $validatedData = $request->validated();
@@ -53,6 +57,9 @@ class ProductController extends Controller
         ]);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function update(StoreProductRequest $request, string $locale, Product $product): Redirector|Application|RedirectResponse
     {
         $validatedData = $request->validated();

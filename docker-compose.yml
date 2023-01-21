@@ -4,7 +4,7 @@ services:
 
     laravel-app:
         container_name: laravel_app
-        image: local/laravel-starter-kit
+        image: local/laravelstarterkit
         pull_policy: never
         build:
             context: .
@@ -45,7 +45,7 @@ services:
         restart: unless-stopped
         environment:
             MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
-            MYSQL_DATABASE: ${DB_DATABASE:-laravel-dashboard}
+            MYSQL_DATABASE: ${DB_DATABASE:-laravel-starter-kit}
             MYSQL_USER: ${DB_USERNAME:-admin}
             MYSQL_PASSWORD: ${DB_PASSWORD:-admin}
         volumes:
@@ -81,7 +81,7 @@ services:
     laravel-worker:
         container_name: laravel_worker
         restart: unless-stopped
-        image: local/laravel-starter-kit
+        image: local/laravelstarterkit
         pull_policy: never
         depends_on:
             - laravel-rabbitmq

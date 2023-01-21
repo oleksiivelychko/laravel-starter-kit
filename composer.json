@@ -18,7 +18,7 @@
         "ext-pdo": "*",
         "darkaonline/l5-swagger": "^8.4.1",
         "guzzlehttp/guzzle": "^7.5.0",
-        "laravel/framework": "^9.47.0",
+        "laravel/framework": "^9.48.0",
         "pusher/pusher-php-server": "^7.2.2",
         "vladimir-yuldashev/laravel-queue-rabbitmq": "^13.0.1"
     },

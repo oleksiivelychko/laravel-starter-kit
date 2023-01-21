@@ -14,7 +14,7 @@
     },
     "servers": [
         {
-            "url": "https://laravel-dashboard.local",
+            "url": "https://laravel-starter-kit.local",
             "description": "HTTPS API Server"
         }
     ],

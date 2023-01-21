@@ -1,7 +1,7 @@
 export function fadeOut(el) {
     el.style.opacity = 1;
     (function fade() {
-        once( 5, function () {
+        once( 10, function () {
             if ((el.style.opacity -= .1) < 0) {
                 el.style.display = 'none';
             } else {
@@ -18,7 +18,7 @@ export function fadeIn(el, display) {
     (function fade() {
         let val = parseFloat(el.style.opacity);
         if (!((val += .1) > 1)) {
-            once( 5, function () {
+            once( 10, function () {
                 el.style.opacity = val;
                 requestAnimationFrame(fade);
             });
@@ -41,5 +41,5 @@ function once (ms, callback) {
             callback();
             window.clearInterval( time );
         }
-    }, 50 );
+    }, 10 );
 }

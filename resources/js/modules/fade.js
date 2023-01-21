@@ -1,7 +1,7 @@
 export function fadeOut(el) {
     el.style.opacity = 1;
     (function fade() {
-        once( 4, function () {
+        once( 5, function () {
             if ((el.style.opacity -= .1) < 0) {
                 el.style.display = 'none';
             } else {
@@ -18,7 +18,7 @@ export function fadeIn(el, display) {
     (function fade() {
         let val = parseFloat(el.style.opacity);
         if (!((val += .1) > 1)) {
-            once( 4, function () {
+            once( 5, function () {
                 el.style.opacity = val;
                 requestAnimationFrame(fade);
             });

@@ -23,12 +23,12 @@ class Order extends Model
     protected $table = 'orders';
 
     public const STATUSES = [
-        'NEW_ORDER'     => 0,
-        'IN_PROGRESS'   => 1,
-        'PAID'          => 2,
-        'DELIVERY'      => 3,
-        'COMPLETED'     => 4,
-        'CANCELLED'     => 5,
+        'NEW_ORDER'     => '0',
+        'IN_PROGRESS'   => '1',
+        'PAID'          => '2',
+        'DELIVERY'      => '3',
+        'COMPLETED'     => '4',
+        'CANCELLED'     => '5',
     ];
 
     protected $fillable = [

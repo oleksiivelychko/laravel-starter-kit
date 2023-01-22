@@ -3,8 +3,8 @@
 @import "./modules/dashboard/sidebar";
 @import "./modules/dashboard/navbar";
 @import "./modules/dashboard/search";
-@import "./node_modules/slim-select/dist/slimselect.min";
-@import "./node_modules/bootstrap-icons/font/bootstrap-icons";
+@import "./slim-select";
+@import "./bootstrap-icons";
 
 body {
     font-size: .875rem;

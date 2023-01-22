@@ -1,3 +1,4 @@
+# use `docker-compose -f docker-compose.production.yml exec laravel-app` to in production.
 dockerexec := docker-compose exec laravel-app
 dockerexecapp := $(dockerexec) php artisan
 
@@ -27,7 +28,7 @@ composer-install-local:
 	composer install --no-scripts --ignore-platform-reqs
 
 create-project:
-	composer create-project laravel/laravel laravel-dashboard
+	composer create-project laravel/laravel laravel-starter-kit
 
 ide-helper:
 	$(dockerexecapp) ide-helper:generate

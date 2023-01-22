@@ -58,7 +58,7 @@ class ProcessImportJob implements ShouldQueue
 
         File::delete($this->filepath);
 
-        sleep(1);
+        sleep(2);
 
         event(new ReloadImportPageEvent($this->userId));
     }

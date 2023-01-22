@@ -49,6 +49,8 @@ for (let i = 0; i < liveSearch.length; i++) {
         }
     });
 
+    slimSelect.addOption('<option data-placeholder="true"></option>');
+
     if (liveSearch[i].dataset.entityValue && liveSearch[i].dataset.entityText) {
         let data = [(
             {

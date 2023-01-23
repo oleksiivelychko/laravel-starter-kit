@@ -32,6 +32,8 @@ RUN npm run prod > '/dev/null' 2>&1
 # Stage 3 - build PHP extensions/modules and run application.
 FROM php:8.2-fpm as build
 
+ENV DB_CONNECTION pgsql
+
 RUN apt-get -qq update && apt-get -qq install -y \
     curl \
     libfreetype6-dev \
@@ -45,7 +47,6 @@ RUN apt-get -qq update && apt-get -qq install -y \
     libbz2-dev \
     libzip-dev \
     librabbitmq-dev \
-    libssh-dev \
     libpq-dev \
     nginx
 
@@ -88,11 +89,15 @@ COPY . .
 COPY --from=vendor /app/vendor/ /var/www/vendor/
 COPY --from=public /app/public/ /var/www/public/
 
-RUN chown -R "1000:1000" /var/www
-
 RUN rm -rf /var/www/html && \
     rm /var/www/bootstrap/cache/*.php && \
     mkdir -p /var/www/log
+
+RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
+
+RUN chown -R "1000:1000" /var/www
+RUN chown -R www-data:www-data /var/log/nginx
+RUN chmod -R 755 /var/log/nginx
 
 RUN php -r 'file_exists(".env") || copy(".env.example", ".env");'
 RUN chmod +x /etc/entrypoint.sh
@@ -100,8 +105,6 @@ RUN chmod +x /etc/entrypoint.sh
 RUN php artisan config:cache && \
     php artisan route:cache && \
     php artisan view:cache
-
-RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 
 USER "root:root"
 

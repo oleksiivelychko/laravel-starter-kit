@@ -2,11 +2,12 @@ FROM php:8.2-fpm
 
 LABEL maintainer="Oleksii Velychko"
 
+ARG PHP_IDE_CONFIG_SERVER_NAME
 ARG CACHE_DIR="/tmp/cache"
 
 ENV USER_ID 1000
 ENV GROUP_ID 1000
-ENV PHP_IDE_CONFIG="serverName=dockerHost"
+ENV PHP_IDE_CONFIG="serverName=${PHP_IDE_CONFIG_SERVER_NAME}"
 ENV COMPOSER_HOME=${CACHE_DIR}/composer
 ENV npm_config_cache=${CACHE_DIR}/npm
 ENV NO_UPDATE_NOTIFIER=1

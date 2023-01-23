@@ -9,6 +9,8 @@ services:
         build:
             context: .
             dockerfile: ./.docker/php/dev.dockerfile
+            args:
+                - PHP_IDE_CONFIG_SERVER_NAME=dockerHost
         volumes:
             - .:/var/www
             - ./.docker/php/php.dev.ini:/usr/local/etc/php/php.ini

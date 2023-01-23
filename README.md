@@ -8,6 +8,7 @@ email: admin@test.test
 password: secret
 ```
 ![Dashboard management UI](social_preview.png)
+![Swagger OpenAPI](storage/screenshots/swagger_openapi.png)
 
 📌 Generate wildcard certificate:
 ```

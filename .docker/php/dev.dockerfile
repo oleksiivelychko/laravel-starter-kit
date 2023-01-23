@@ -12,6 +12,7 @@ ENV COMPOSER_HOME=${CACHE_DIR}/composer
 ENV npm_config_cache=${CACHE_DIR}/npm
 ENV NO_UPDATE_NOTIFIER=1
 ENV PHP_CS_FIXER_IGNORE_ENV=1
+ENV LOG_DIR="/var/www/.docker/log"
 
 COPY .docker/php/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 

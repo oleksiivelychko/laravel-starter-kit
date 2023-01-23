@@ -2,9 +2,9 @@ version: '3.9'
 
 services:
 
-  laravel-starter-kit:
-    container_name: laravel_starter_kit
-    image: oleksiivelychko/laravel-starter-kit
+  laravel-app:
+    container_name: laravel_app
+    image: oleksiivelychko/laravelstarterkit
     platform: linux/amd64
     build:
       context: .
@@ -14,7 +14,6 @@ services:
       - ${HTTPS_PORT:-443}:443
     environment:
       DOCKER_BUILDKIT: 1
-      DB_CONNECTION: pgsql
     restart: unless-stopped
     depends_on:
       - laravel-db
@@ -26,7 +25,7 @@ services:
       environment:
           POSTGRES_USER: ${DB_USERNAME:-postgres}
           POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
-          POSTGRES_DB: ${DB_DATABASE:-laravel-dashboard}
+          POSTGRES_DB: ${DB_DATABASE:-laravel-starter-kit}
       volumes:
           - postgres:/var/lib/postgresql/data
       ports:

@@ -10,6 +10,7 @@ artisan-migrate-refresh:
 
 artisan-db-seed:
 	$(dockerexecapp) db:seed --force
+	$(info `use these credentials `admin@test.test / secret` to get access to dashboard`)
 
 artisan-storage-link:
 	$(dockerexecapp) storage:link
@@ -17,18 +18,9 @@ artisan-storage-link:
 artisan-test:
 	$(dockerexecapp) test
 
-composer-install:
-	$(dockerexec) rm -rf vendor
-	$(dockerexec) rm -f composer.lock
-	$(dockerexec) composer install
-
 composer-install-local:
-	rm -rf vendor
-	rm -f composer.lock
+	rm -rf vendor && rm -f composer.lock
 	composer install --no-scripts --ignore-platform-reqs
-
-create-project:
-	composer create-project laravel/laravel laravel-starter-kit
 
 ide-helper:
 	$(dockerexecapp) ide-helper:generate

@@ -2,11 +2,6 @@
 
 ### Dashboard management application based on PHP8/Laravel8. No JetStream. No Liveware. No Tailwind. Completely dockerized and ideal to start into local development.
 
-📌 Use test credentials to get access to dashboard:
-```
-email: admin@test.test
-password: secret
-```
 ![Dashboard management UI](social_preview.png)
 ![Swagger OpenAPI](storage/screenshots/swagger_openapi.png)
 
@@ -27,5 +22,7 @@ echo 127.0.0.1 laravel-starter-kit.local mail.laravel-starter-kit.local >> /etc/
 ![PHPStorm: Debug Server](storage/screenshots/phpstorm_debug_server.png)
 ![PHPStorm: Template Debug](storage/screenshots/phpstorm_template_debug.png)
 ![PHPStorm: Validate Debug Configuration](storage/screenshots/phpstorm_validate_debug_configuration.png)
+
+📌 Created through Composer as `composer create-project laravel/laravel laravel-starter-kit`.
 
 The sample images were taken from <a href="unsplash.com">unsplash.com</a> and <a href="icons8.com">icons8.com</a>

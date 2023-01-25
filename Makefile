@@ -22,6 +22,17 @@ composer-install-local:
 	rm -rf vendor && rm -f composer.lock
 	composer install --no-scripts --ignore-platform-reqs
 
+docker-bash:
+	docker run --rm -it --entrypoint bash local/laravelstarterkit
+
+docker-run:
+	docker run --rm -it \
+		--publish 8080:80 \
+		--platform linux/amd64 \
+		--name laravel_app \
+		--volume `pwd`:/app \
+		oleksiivelychko/laravelstarterkit
+
 ide-helper:
 	$(dockerexecapp) ide-helper:generate
 	$(dockerexecapp) ide-helper:meta

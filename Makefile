@@ -33,6 +33,9 @@ docker-run:
 		--volume `pwd`:/app \
 		oleksiivelychko/laravelstarterkit
 
+generate-certs:
+	./.docker/shell/generate.sh
+
 ide-helper:
 	$(dockerexecapp) ide-helper:generate
 	$(dockerexecapp) ide-helper:meta

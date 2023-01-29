@@ -36,8 +36,8 @@ git push -f
 
 Tagging:
 ```
-git tag v1.0.0 && git push origin v1.0.0
-git push origin :refs/tags/v1.0.0 && git tag -d v1.0.0
+tag=1.0.0 && git tag v${tag} && git push origin v${tag}
+tag=1.0.0 && git push origin :refs/tags/v${tag} && git tag -d v${tag}
 ```
 
 Rename branch locally (first) and remotely (will be removed):

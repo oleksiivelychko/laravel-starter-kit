@@ -18,18 +18,18 @@
         "ext-pdo": "*",
         "darkaonline/l5-swagger": "^8.4.1",
         "guzzlehttp/guzzle": "^7.5.0",
-        "laravel/framework": "^9.48.0",
+        "laravel/framework": "^9.51.0",
         "pusher/pusher-php-server": "^7.2.2",
-        "vladimir-yuldashev/laravel-queue-rabbitmq": "^13.0.1"
+        "vladimir-yuldashev/laravel-queue-rabbitmq": "^13.1.0"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.7.0",
-        "barryvdh/laravel-ide-helper": "^2.12.3",
+        "barryvdh/laravel-debugbar": "^3.8.0",
+        "barryvdh/laravel-ide-helper": "^2.13.0",
         "fakerphp/faker": "^1.21.0",
         "laravel/tinker": "^2.8.0",
         "mockery/mockery": "^1.5.1",
         "nunomaduro/collision": "^6.4.0",
-        "phpunit/phpunit": "^9.5.27",
+        "phpunit/phpunit": "^9.6.3",
         "spatie/laravel-ignition": "^1.6.4"
     },
     "autoload": {

@@ -18,10 +18,6 @@ artisan-storage-link:
 artisan-test:
 	$(dockerexecapp) test
 
-composer-install-local:
-	rm -rf vendor && rm -f composer.lock
-	composer install --no-scripts --ignore-platform-reqs
-
 docker-bash:
 	docker run --rm -it --entrypoint bash local/laravelstarterkit
 

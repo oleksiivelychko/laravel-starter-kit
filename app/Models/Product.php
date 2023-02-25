@@ -44,13 +44,11 @@ class Product extends Model implements Entity, UploadImages, Pagination
 
     /**
      * The attributes that should be mutated to date.
-     *
-     * @var array
      */
-    protected $dates = [
-        'created_at',
-        'updated_at',
-        'deleted_at'
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     public function getImageField(): string

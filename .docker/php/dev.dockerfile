@@ -72,8 +72,8 @@ RUN docker-php-source extract && \
     docker-php-ext-install amqp && \
     docker-php-source delete
 
-RUN cd /tmp && git clone https://github.com/openswoole/swoole-src.git && \
-    cd swoole-src && \
+RUN cd /tmp && git clone https://github.com/openswoole/ext-openswoole.git && \
+    cd ext-openswoole && \
     git checkout v22.0.0 && \
     phpize  && \
     ./configure --enable-openssl --enable-swoole-curl --enable-http2 --enable-mysqlnd && \
@@ -82,13 +82,15 @@ RUN echo 'extension=openswoole.so' > /usr/local/etc/php/conf.d/swoole.ini
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN curl -L https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v3.13.2/php-cs-fixer.phar > \
+RUN curl -L https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v3.14.4/php-cs-fixer.phar > \
     /usr/local/bin/php-cs-fixer \
     && chmod +x /usr/local/bin/php-cs-fixer
 
 RUN curl -sL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt-get install -y nodejs
 RUN npm i -g npm-check-updates
+RUN npm config set fetch-retry-mintimeout 20000
+RUN npm config set fetch-retry-maxtimeout 120000
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 

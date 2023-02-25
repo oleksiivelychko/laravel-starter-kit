@@ -1,18 +1,37 @@
 #!/bin/bash
 
-certs_dir=${PWD%/*}/certs
-
-echo "🔑 Certificates (wildcard) are going to save into ${certs_dir} directory."
-echo "💡 After that add 'localhost.crt' to 'Keychain Access' with 'Always Trust' option."
-
-openssl req -x509 -days 365 -out ${certs_dir}/localhost.crt -keyout ${certs_dir}/localhost.key \
-      -newkey rsa:2048 -nodes -sha256 \
-      -subj '/CN=laravel-starter-kit.local' -extensions EXT -config <( \
-       printf "[dn]\nCN=laravel-starter-kit.local\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:laravel-starter-kit.local,DNS:mail.laravel-starter-kit.local\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
-
-
-if [ "$1" == "add-hosts" ]; then
-    echo 127.0.0.1 laravel-starter-kit.local mail.laravel-starter-kit.local >> /etc/hosts
+domains=( "$@" )
+if [ ${#domains[@]} -eq 0 ]; then
+    echo "Domains were not provided."
+    exit 0
 fi
 
+mainDomain=${domains[0]}
+dnsNames=""
+dnsHosts=""
 
+for i in "$@";
+do
+    dnsNames+="DNS:$i,"
+    dnsHosts+="$i "
+done
+
+dnsNames=${dnsNames%?}
+dnsHosts=${dnsHosts%?}
+
+certs_dir="${CERTS_DIR:-${PWD}/certs}"
+
+echo "🔑 Certificates (wildcard) are going to save into ${certs_dir} directory (or export CERTS_DIR)."
+echo "💡 After that add 'localhost.crt' to 'Keychain Access' with 'Always Trust' option."
+
+config="[dn]\nCN=${mainDomain}\n[req]\ndistinguished_name=dn\n[EXT]\nsubjectAltName=${dnsNames}\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth"
+
+openssl req -x509 -days 365 -out "${certs_dir}/localhost.crt" -keyout "${certs_dir}/localhost.key" \
+      -newkey rsa:2048 -nodes -sha256 \
+      -subj "/CN=${mainDomain}" -extensions EXT -config <(printf "%b\n" "${config}")
+
+if grep -q "${dnsHosts}" /etc/hosts; then
+    echo "❗️Domains already exist in /etc/hosts"
+else
+    printf "❗ Domains must be added like:\necho 127.0.0.1 %b >> /etc/hosts\n" "${dnsHosts}"
+fi

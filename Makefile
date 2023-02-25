@@ -34,7 +34,7 @@ docker-run:
 		oleksiivelychko/laravelstarterkit
 
 generate-certs:
-	./.docker/shell/generate.sh
+	CERTS_DIR=${PWD%/*}/certs ./.docker/shell/generate-certs.sh
 
 ide-helper:
 	$(dockerexecapp) ide-helper:generate

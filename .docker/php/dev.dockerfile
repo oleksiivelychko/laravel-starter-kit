@@ -22,11 +22,6 @@ WORKDIR /var/www
 
 RUN apt-get update && apt-get install -y \
     curl \
-    unzip \
-    htop \
-    git \
-    procps \
-    openssl \
     libfreetype6-dev \
     libicu-dev \
     libonig-dev \
@@ -37,9 +32,7 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     libbz2-dev \
     libzip-dev \
-    librabbitmq-dev \
-    libssl-dev \
-    libcurl4-openssl-dev
+    librabbitmq-dev
 
 RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
 RUN docker-php-ext-configure intl
@@ -61,7 +54,7 @@ RUN docker-php-ext-install \
     exif \
     sockets
 
-RUN pecl install xdebug-3.2.0
+RUN pecl install xdebug-3.2.2
 RUN docker-php-ext-enable xdebug
 
 RUN pecl install -o -f redis && rm -rf /tmp/pear && docker-php-ext-enable redis
@@ -72,21 +65,13 @@ RUN docker-php-source extract && \
     docker-php-ext-install amqp && \
     docker-php-source delete
 
-RUN cd /tmp && git clone https://github.com/openswoole/ext-openswoole.git && \
-    cd ext-openswoole && \
-    git checkout v22.0.0 && \
-    phpize  && \
-    ./configure --enable-openssl --enable-swoole-curl --enable-http2 --enable-mysqlnd && \
-    make && make install
-RUN echo 'extension=openswoole.so' > /usr/local/etc/php/conf.d/swoole.ini
-
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN curl -L https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v3.14.4/php-cs-fixer.phar > \
+RUN curl -L https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v3.22.0/php-cs-fixer.phar > \
     /usr/local/bin/php-cs-fixer \
     && chmod +x /usr/local/bin/php-cs-fixer
 
-RUN curl -sL https://deb.nodesource.com/setup_18.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
 RUN apt-get install -y nodejs
 RUN npm i -g npm-check-updates
 RUN npm config set fetch-retry-mintimeout 20000

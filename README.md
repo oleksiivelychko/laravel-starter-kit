@@ -10,4 +10,6 @@
 CERTS_DIR=${PWD%/*}/certs ./generate-certs.sh laravel-starter-kit.local
 ```
 
-The sample images were taken from <a href="unsplash.com">unsplash.com</a> and <a href="icons8.com">icons8.com</a>
+💡 Use [credentials](database/seeders/UserSeeder.php) to get access to dashboard.
+
+Sample images were taken from [unsplash.com](https://unsplash.com) and [icons8.com](https://icons8.com)

@@ -2,13 +2,13 @@
 
 namespace App\Exceptions;
 
-use App\Helpers\TelegramDebug;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -17,18 +17,14 @@ class Handler extends ExceptionHandler
      *
      * @var array<class-string<\Throwable>, \Psr\Log\LogLevel::*>
      */
-    protected $levels = [
-        //
-    ];
+    protected $levels = [];
 
     /**
      * A list of the exception types that are not reported.
      *
      * @var array<int, class-string<\Throwable>>
      */
-    protected $dontReport = [
-        //
-    ];
+    protected $dontReport = [];
 
     /**
      * A list of the inputs that are never flashed for validation exceptions.
@@ -46,9 +42,15 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            if ($this->shouldReport($e) && env('APP_ENV') === 'production') {
-                TelegramDebug::sendException($e);
+        $this->reportable(function (\Throwable $e) {
+            if ($this->shouldReport($e) && 'production' === env('APP_ENV')) {
+                Log::critical(
+                    'Method: '.Request::method()."\n".
+                    'URL: '.Request::url()."\n".
+                    'File: '.$e->getFile()."\n".
+                    'Line:'.$e->getLine()."\n".
+                    'Error: '.$e->getMessage()
+                );
             }
         });
     }

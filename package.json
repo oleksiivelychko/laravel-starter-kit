@@ -10,20 +10,20 @@
         "production": "mix --production"
     },
     "dependencies": {
-        "@ckeditor/ckeditor5-build-classic": "^38.0.1",
+        "@ckeditor/ckeditor5-build-classic": "^38.1.1",
         "@popperjs/core": "^2.11.8",
         "bootstrap": "^5.3.0",
         "bootstrap-icons": "^1.10.5",
-        "slim-select": "^2.5.0"
+        "slim-select": "^2.6.0"
     },
     "devDependencies": {
         "axios": "^1.4",
         "laravel-mix": "^6.0.49",
-        "postcss": "^8.4.24",
-        "pusher-js": "^8.1.0",
+        "postcss": "^8.4.27",
+        "pusher-js": "^8.3.0",
         "resolve-url-loader": "^5.0.0",
-        "sass": "^1.63.4",
+        "sass": "^1.64.1",
         "sass-loader": "^13.3.2",
-        "laravel-echo": "^1.15.1"
+        "laravel-echo": "^1.15.2"
     }
 }

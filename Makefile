@@ -1,4 +1,3 @@
-# use `docker-compose -f docker-compose.production.yml exec laravel-app` to in production.
 dockerexec := docker-compose exec laravel-app
 dockerexecapp := $(dockerexec) php artisan
 
@@ -10,10 +9,6 @@ artisan-migrate-refresh:
 
 artisan-db-seed:
 	$(dockerexecapp) db:seed --force
-	$(info `use these credentials `admin@test.test / secret` to get access to dashboard`)
-
-artisan-storage-link:
-	$(dockerexecapp) storage:link
 
 artisan-test:
 	$(dockerexecapp) test
@@ -21,7 +16,7 @@ artisan-test:
 composer-install:
 	$(dockerexec) rm -rf vendor
 	$(dockerexec) rm -f composer.lock
-	$(dockerexec) composer install --no-scripts --ignore-platform-reqs
+	$(dockerexec) composer install
 
 docker-bash:
 	docker run --rm -it --entrypoint bash local/laravelstarterkit
@@ -33,9 +28,6 @@ docker-run:
 		--name laravel_app \
 		--volume `pwd`:/app \
 		oleksiivelychko/laravelstarterkit
-
-generate-certs:
-	CERTS_DIR=${PWD%/*}/certs ./.docker/shell/generate-certs.sh
 
 ide-helper:
 	$(dockerexecapp) ide-helper:generate
@@ -52,9 +44,6 @@ npm-install:
 
 npm-update:
 	$(dockerexec) ncu -u
-
-npm-watch:
-	$(dockerexec) npm run watch
 
 optimize-dev:
 	$(dockerexec) sh /var/www/.docker/shell/optimize-dev.sh

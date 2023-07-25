@@ -11,7 +11,6 @@ class LogVerifiedUserListener
      */
     public function __construct()
     {
-        //
     }
 
     /**

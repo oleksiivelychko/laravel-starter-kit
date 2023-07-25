@@ -13,10 +13,7 @@ class RouteServiceProvider extends ServiceProvider
 {
     /**
      * The path to the "home" route for your application.
-     *
      * This is used by Laravel authentication to redirect users after login.
-     *
-     * @var string
      */
     public const HOME = '/';
 
@@ -30,20 +27,25 @@ class RouteServiceProvider extends ServiceProvider
         $this->routes(function () {
             Route::middleware('api')
                 ->prefix('api')
-                ->group(base_path('routes/api.php'));
+                ->group(base_path('routes/api.php'))
+            ;
 
             Route::middleware('web')
-                ->group(base_path('routes/web.php'));
+                ->group(base_path('routes/web.php'))
+            ;
 
             Route::middleware('web')
-                ->group(base_path('routes/dashboard.php'));
+                ->group(base_path('routes/dashboard.php'))
+            ;
 
-            Route::middleware(['web','ajax'])
-                ->group(base_path('routes/ajax.php'));
+            Route::middleware(['web', 'ajax'])
+                ->group(base_path('routes/ajax.php'))
+            ;
 
             Route::prefix('hooks')
                 ->middleware('api')
-                ->group(base_path('routes/hooks.php'));
+                ->group(base_path('routes/hooks.php'))
+            ;
         });
 
         Route::get('/change-locale/{locale}', [LocaleController::class, 'change'])->name('change-locale');

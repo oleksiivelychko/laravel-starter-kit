@@ -3,21 +3,18 @@
 namespace App\Providers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Schema;
-
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
-        //
+        
     }
 
     /**
@@ -28,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(config('settings.schema.string_length', 191));
         JsonResource::withoutWrapping();
 
-        if (config('app.env') === 'production') {
+        if ('production' === config('app.env')) {
             URL::forceScheme('https');
         }
     }

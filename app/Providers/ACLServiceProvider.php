@@ -3,16 +3,14 @@
 namespace App\Providers;
 
 use App\Models\Permission;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Gate;
-use Exception;
-
 
 class ACLServiceProvider extends ServiceProvider
 {
     /**
-     * Example of usage: $user->can('manage-acl')
+     * Example of usage: $user->can('manage-acl').
      */
     public function boot(): void
     {
@@ -24,7 +22,7 @@ class ACLServiceProvider extends ServiceProvider
                     });
                 });
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             report($e);
         }
     }

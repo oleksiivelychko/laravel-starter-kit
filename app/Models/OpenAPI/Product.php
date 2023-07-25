@@ -2,13 +2,13 @@
 
 namespace App\Models\OpenAPI;
 
-use DateTime;
 use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
  *     title="Product",
  *     description="Product OpenAPI model inherits App\Models\Product",
+ *
  *     @OA\Xml(
  *         name="Product"
  *     )
@@ -16,15 +16,6 @@ use OpenApi\Annotations as OA;
  */
 class Product
 {
-    /**
-     * @OA\Property(
-     *     title="ID",
-     *     description="Primary Key",
-     *     format="int64"
-     * )
-     */
-    private int $id;
-
     /**
      * @OA\Property(
      *      title="Name",
@@ -63,6 +54,7 @@ class Product
     /**
      * @OA\Property(
      *      type="array",
+     *
      *      @OA\Items(type="object", ref="#/components/schemas/Category"),
      *      description="Categories"
      * )
@@ -78,13 +70,22 @@ class Product
 
     /**
      * @OA\Property(
+     *     title="ID",
+     *     description="Primary Key",
+     *     format="int64"
+     * )
+     */
+    private int $id;
+
+    /**
+     * @OA\Property(
      *     title="Created at",
      *     example="2021-04-17 19:52:53",
      *     format="datetime",
      *     type="string"
      * )
      */
-    private DateTime $created_at;
+    private \DateTime $created_at;
 
     /**
      * @OA\Property(
@@ -94,7 +95,7 @@ class Product
      *     type="string"
      * )
      */
-    private DateTime $updated_at;
+    private \DateTime $updated_at;
 
     /**
      * @OA\Property(
@@ -104,5 +105,5 @@ class Product
      *     type="string"
      * )
      */
-    private DateTime $deleted_at;
+    private \DateTime $deleted_at;
 }

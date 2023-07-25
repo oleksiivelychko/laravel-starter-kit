@@ -10,26 +10,24 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-
 /**
- * @property-read int $id
- * @property float $total_price
- * @property int|null $user_id
- * @property bool $shipping_address_as_billing_address
- * @property mixed $items
+ * @property int      $id
+ * @property float    $total_price
+ * @property null|int $user_id
+ * @property bool     $shipping_address_as_billing_address
+ * @property mixed    $items
  */
 class Order extends Model
 {
-    protected $table = 'orders';
-
     public const STATUSES = [
-        'NEW_ORDER'     => '0',
-        'IN_PROGRESS'   => '1',
-        'PAID'          => '2',
-        'DELIVERY'      => '3',
-        'COMPLETED'     => '4',
-        'CANCELLED'     => '5',
+        'NEW_ORDER' => '0',
+        'IN_PROGRESS' => '1',
+        'PAID' => '2',
+        'DELIVERY' => '3',
+        'COMPLETED' => '4',
+        'CANCELLED' => '5',
     ];
+    protected $table = 'orders';
 
     protected $fillable = [
         'user_id',
@@ -44,7 +42,7 @@ class Order extends Model
         'shipping_address_as_billing_address',
     ];
 
-    public function calculateAndSave(array $validatedData, array $cartItems=[]): bool
+    public function calculateAndSave(array $validatedData, array $cartItems = []): bool
     {
         $this->fill($validatedData);
 
@@ -86,14 +84,15 @@ class Order extends Model
         return $this->hasMany(OrderItem::class)->with('product');
     }
 
-    public function pagination(Request $request, ?string $locale=null): LengthAwarePaginator
+    public function pagination(Request $request): LengthAwarePaginator
     {
         $sortColumn = $request->query('sort', 'id');
         $sortDirection = $request->query('direction', 'asc');
 
         return $this->select(['id', 'total_price', 'status', 'created_at'])
             ->orderBy($sortColumn, $sortDirection)
-            ->paginate($this->getPaginationLimit());
+            ->paginate($this->getPaginationLimit())
+        ;
     }
 
     public function getPaginationLimit(): int

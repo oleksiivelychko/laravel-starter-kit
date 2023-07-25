@@ -2,33 +2,34 @@
 
 namespace App\Models;
 
+use App\Exceptions\InterfaceInstanceException;
 use App\Interfaces\Pagination;
 use App\Interfaces\UploadImages;
-use App\Traits\ACL;
-use App\Traits\Asset;
 use App\Notifications\ResetPassword;
 use App\Notifications\VerifyEmail;
+use App\Traits\ACL;
+use App\Traits\Asset;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Http\Request;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Hash;
-
 
 /**
  * @method select(string[] $array)
  */
 class User extends Authenticatable implements MustVerifyEmail, UploadImages, Pagination
 {
-    use HasFactory, Notifiable, ACL, Asset;
+    use HasFactory;
+    use Notifiable;
+    use ACL;
+    use Asset;
 
     /**
      * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
      */
     protected $fillable = [
         'name',
@@ -39,8 +40,6 @@ class User extends Authenticatable implements MustVerifyEmail, UploadImages, Pag
 
     /**
      * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -49,8 +48,6 @@ class User extends Authenticatable implements MustVerifyEmail, UploadImages, Pag
 
     /**
      * The attributes that should be cast.
-     *
-     * @var array<string, string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -60,7 +57,7 @@ class User extends Authenticatable implements MustVerifyEmail, UploadImages, Pag
 
     protected string $imagesFolder = 'avatars';
 
-    protected array $cropPresets = [[150,150]];
+    protected array $cropPresets = [[150, 150]];
 
     public function getImageField(): string
     {
@@ -77,12 +74,12 @@ class User extends Authenticatable implements MustVerifyEmail, UploadImages, Pag
         return $this->cropPresets;
     }
 
-    public function setPasswordAttribute(string $value)
+    public function setPasswordAttribute(string $value): void
     {
         $this->attributes['password'] = Hash::make($value);
     }
 
-    public function sendPasswordResetNotification($token)
+    public function sendPasswordResetNotification($token): void
     {
         $this->notify(new ResetPassword($token));
     }
@@ -92,13 +89,15 @@ class User extends Authenticatable implements MustVerifyEmail, UploadImages, Pag
         return $this->attributes['name'] ?: $this->attributes['email'];
     }
 
-    public function sendEmailVerificationNotification()
+    public function sendEmailVerificationNotification(): void
     {
-        $this->notify(new VerifyEmail);
+        $this->notify(new VerifyEmail());
     }
 
-
-    public function store($rolesIds=[], $permissionsIds=[], $uploadedAvatar=null): bool
+    /**
+     * @throws InterfaceInstanceException
+     */
+    public function store($rolesIds = [], $permissionsIds = [], $uploadedAvatar = null): bool
     {
         $saved = $this->save();
         if ($saved) {
@@ -117,14 +116,15 @@ class User extends Authenticatable implements MustVerifyEmail, UploadImages, Pag
         return $saved;
     }
 
-    public function pagination(Request $request, ?string $locale=null): LengthAwarePaginator
+    public function pagination(Request $request, ?string $locale = null): LengthAwarePaginator
     {
         $sortColumn = $request->query('sort', 'id');
         $sortDirection = $request->query('direction', 'asc');
 
         return $this->select(['id', 'name', 'email', 'created_at'])
             ->orderBy($sortColumn, $sortDirection)
-            ->paginate($this->getPaginationLimit());
+            ->paginate($this->getPaginationLimit())
+        ;
     }
 
     public function getPaginationLimit(): int
@@ -132,5 +132,8 @@ class User extends Authenticatable implements MustVerifyEmail, UploadImages, Pag
         return config('settings.schema.pagination_limit', 10);
     }
 
-    public function uploadImages(array $data): void {}
+    public function uploadImages(array $data): void
+    {
+        
+    }
 }

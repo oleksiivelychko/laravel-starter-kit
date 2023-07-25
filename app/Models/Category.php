@@ -6,7 +6,6 @@ use App\Interfaces\Entity;
 use App\Interfaces\Pagination;
 use App\Traits\Asset;
 use App\Traits\Translation;
-use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,23 +16,23 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Throwable;
-
 
 /**
- * @property int $id
- * @property int|null $parent_id
- * @property string $slug
- * @property string $name
+ * @property int      $id
+ * @property null|int $parent_id
+ * @property string   $slug
+ * @property string   $name
  */
 class Category extends Model implements Entity, Pagination
 {
-    use HasFactory, Translation, Asset;
+    use HasFactory;
+    use Translation;
+    use Asset;
 
     protected $table = 'categories';
 
     protected $fillable = [
-        'name', 'slug', 'parent_id'
+        'name', 'slug', 'parent_id',
     ];
 
     public function parent(): BelongsTo
@@ -46,22 +45,23 @@ class Category extends Model implements Entity, Pagination
         return $this->belongsToMany(Product::class, 'categories_products');
     }
 
-    public function pagination(Request $request, string $locale=null): LengthAwarePaginator
+    public function pagination(Request $request, string $locale = null): LengthAwarePaginator
     {
         $sortColumn = $request->query('sort', 'id');
         $sortDirection = $request->query('direction', 'asc');
 
         return $this->select([
             'categories.id',
-            "categories.name->$locale as name",
+            "categories.name->{$locale} as name",
             'categories.slug',
             'categories.parent_id',
             'categories.created_at',
-            "parents.name->$locale as parent",
+            "parents.name->{$locale} as parent",
         ])
             ->leftJoin('categories as parents', 'parents.id', '=', 'categories.parent_id')
             ->orderBy($sortColumn, $sortDirection)
-            ->paginate($this->getPaginationLimit());
+            ->paginate($this->getPaginationLimit())
+        ;
     }
 
     public function getPaginationLimit(): int
@@ -70,7 +70,7 @@ class Category extends Model implements Entity, Pagination
     }
 
     /**
-     * @throws Throwable
+     * @throws \Throwable
      */
     public function saveModel(array $data): bool
     {
@@ -78,11 +78,13 @@ class Category extends Model implements Entity, Pagination
 
         try {
             DB::beginTransaction();
+
             $this->parent_id = $data['parent_id'] ?? null;
             $this->saveTranslations($data);
             $saved = $this->save();
+
             DB::commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             Log::channel('daily')->error(__FILE__.':'.__LINE__.' - '.$e->getMessage());
         }
@@ -94,10 +96,11 @@ class Category extends Model implements Entity, Pagination
     {
         $name = [];
         $slug = '';
+
         foreach (config('settings.languages') as $language => $locale) {
-            $name[$locale] = $data['name__' . $locale] ?: '';
+            $name[$locale] = $data['name__'.$locale] ?: '';
             if (config('app.fallback_locale') === $locale) {
-                $slug = Str::slug($data['name__' . $locale] ?: '');
+                $slug = Str::slug($data['name__'.$locale] ?: '');
             }
         }
 
@@ -111,7 +114,7 @@ class Category extends Model implements Entity, Pagination
             select p.id
                 from products p
                          join categories_products cp on p.id = cp.product_id
-                where cp.category_id = $this->id
+                where cp.category_id = {$this->id}
                 group by p.id
                 having (select count(_cp.product_id)
                         from categories_products _cp where p.id=_cp.product_id
@@ -125,9 +128,10 @@ class Category extends Model implements Entity, Pagination
 
     public function deleteUnusedProducts(array $ids): void
     {
-        $productsImagesDir = (new Product)->getImagesFolder();
+        $productsImagesDir = (new Product())->getImagesFolder();
+
         array_map(function ($productId) use ($productsImagesDir) {
-            $imagesDir = public_path('uploads') . "/$productsImagesDir/$productId";
+            $imagesDir = public_path('uploads')."/{$productsImagesDir}/{$productId}";
             if (File::exists($imagesDir)) {
                 File::deleteDirectory($imagesDir);
             }

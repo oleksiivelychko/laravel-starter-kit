@@ -2,33 +2,34 @@
 
 namespace App\Models;
 
-use App\Interfaces\UploadImages;
+use App\Exceptions\InterfaceInstanceException;
+use App\Interfaces\Entity;
 use App\Interfaces\Pagination;
+use App\Interfaces\UploadImages;
+use App\Traits\Asset;
+use App\Traits\Translation;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Throwable;
-use Exception;
-use App\Interfaces\Entity;
-use App\Traits\Asset;
-use App\Traits\Translation;
-use Illuminate\Http\Request;
 
 /**
  * @property string $images
- * @property float $price
+ * @property float  $price
  * @property string $slug
  * @property string $name
  * @property string $description
- * @property array $categories_ids
+ * @property array  $categories_ids
  */
 class Product extends Model implements Entity, UploadImages, Pagination
 {
-    use HasFactory, Translation, Asset;
+    use HasFactory;
+    use Translation;
+    use Asset;
 
     protected $table = 'products';
 
@@ -40,7 +41,7 @@ class Product extends Model implements Entity, UploadImages, Pagination
 
     protected string $imagesFolder = 'products_images';
 
-    protected array $cropPresets = [[200,150],[900,400]];
+    protected array $cropPresets = [[200, 150], [900, 400]];
 
     /**
      * The attributes that should be mutated to date.
@@ -73,7 +74,7 @@ class Product extends Model implements Entity, UploadImages, Pagination
 
     public function getCategoriesIdsAttribute(): array
     {
-        return array_map(fn($categoryId): int => intval($categoryId), $this->categories()->pluck('category_id')->toArray());
+        return array_map(fn ($categoryId): int => intval($categoryId), $this->categories()->pluck('category_id')->toArray());
     }
 
     public function getImagesArrayAttribute(): array
@@ -81,14 +82,15 @@ class Product extends Model implements Entity, UploadImages, Pagination
         return $this->images ? json_decode($this->images, true) : [];
     }
 
-    public function pagination(Request $request, ?string $locale=null): LengthAwarePaginator
+    public function pagination(Request $request, ?string $locale = null): LengthAwarePaginator
     {
         $sortColumn = $request->query('sort', 'id');
         $sortDirection = $request->query('direction', 'asc');
 
-        return $this->select(['id', "name->$locale as name", 'slug', 'price', 'created_at'])
+        return $this->select(['id', "name->{$locale} as name", 'slug', 'price', 'created_at'])
             ->orderBy($sortColumn, $sortDirection)
-            ->paginate($this->getPaginationLimit());
+            ->paginate($this->getPaginationLimit())
+        ;
     }
 
     public function getPaginationLimit(): int
@@ -97,7 +99,7 @@ class Product extends Model implements Entity, UploadImages, Pagination
     }
 
     /**
-     * @throws Throwable
+     * @throws \Throwable
      */
     public function saveModel(array $data): bool
     {
@@ -105,12 +107,15 @@ class Product extends Model implements Entity, UploadImages, Pagination
 
         try {
             DB::beginTransaction();
+
             $this->price = $data['price'];
             $this->saveTranslations($data);
             $saved = $this->save();
+
             DB::commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
+
             Log::channel('daily')->error(__FILE__.':'.__LINE__.' - '.$e->getMessage());
         }
 
@@ -128,11 +133,13 @@ class Product extends Model implements Entity, UploadImages, Pagination
     {
         $name = $description = [];
         $slug = '';
+
         foreach (config('settings.languages') as $language => $locale) {
-            $name[$locale] = $data['name__' . $locale] ?: '';
-            $description[$locale] = $data['description__' . $locale] ?? '';
+            $name[$locale] = $data['name__'.$locale] ?: '';
+            $description[$locale] = $data['description__'.$locale] ?? '';
+
             if (config('app.fallback_locale') === $locale) {
-                $slug = Str::slug($data['name__' . $locale] ?: '');
+                $slug = Str::slug($data['name__'.$locale] ?: '');
             }
         }
 
@@ -154,6 +161,9 @@ class Product extends Model implements Entity, UploadImages, Pagination
         $this->categories()->detach($deleteIds);
     }
 
+    /**
+     * @throws InterfaceInstanceException
+     */
     public function uploadImages(array $data): void
     {
         $images = $this->{$this->getImageField()} ? json_decode($this->{$this->getImageField()}) : [];

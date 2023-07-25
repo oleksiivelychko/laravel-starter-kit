@@ -5,13 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-
 /**
  * @property Order $order
- * @property int $order_id
+ * @property int   $order_id
  * @property float $price
- * @property int $quantity
- * @property int $product_id
+ * @property int   $quantity
+ * @property int   $product_id
  */
 class OrderItem extends Model
 {
@@ -27,10 +26,10 @@ class OrderItem extends Model
     public function rules(): array
     {
         return [
-            'product_id'    => 'required|exists:products,id',
-            'order_id'      => 'required|exists:orders,id',
-            'price'         => 'numeric|min:0.1',
-            'quantity'      => 'numeric|min:0.1',
+            'product_id' => 'required|exists:products,id',
+            'order_id' => 'required|exists:orders,id',
+            'price' => 'numeric|min:0.1',
+            'quantity' => 'numeric|min:0.1',
         ];
     }
 

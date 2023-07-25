@@ -10,11 +10,16 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 class EmailVerificationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_email_verification_screen_can_be_rendered()
+    public function testEmailVerificationScreenCanBeRendered()
     {
         $user = User::factory()->create([
             'email_verified_at' => null,
@@ -25,7 +30,7 @@ class EmailVerificationTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_email_can_be_verified()
+    public function testEmailCanBeVerified()
     {
         $user = User::factory()->create([
             'email_verified_at' => null,
@@ -42,11 +47,13 @@ class EmailVerificationTest extends TestCase
         $response = $this->actingAs($user)->get($verificationUrl);
 
         Event::assertDispatched(Verified::class);
+
         $this->assertTrue($user->fresh()->hasVerifiedEmail());
+
         $response->assertRedirect(RouteServiceProvider::HOME.app()->getLocale().'?verified=1');
     }
 
-    public function test_email_is_not_verified_with_invalid_hash()
+    public function testEmailIsNotVerifiedWithInvalidHash()
     {
         $user = User::factory()->create([
             'email_verified_at' => null,

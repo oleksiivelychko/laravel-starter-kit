@@ -5,120 +5,94 @@ namespace Tests\Feature;
 use App\Jobs\ProcessImportJob;
 use App\Models\Category;
 use App\Models\Import;
-use App\Models\Product;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Tests\TestCase;
 
-
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 class ImportJobTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_import_categories_csv()
+    private array $importFiles = [
+        'categories.csv'    => 'text/csv',
+        'categories.json'   => 'application/json',
+    ];
+
+    public function testFakeImportCategories()
     {
-        Bus::fake();
+        foreach ($this->importFiles as $filename => $mime) {
+            $this->startFake($filename, $mime);
+        }
+    }
 
-        $name = 'categories.csv';
-        $path = storage_path('app/public/import/') . $name;
-        $file = new UploadedFile($path, $name, 'text/csv', null, true);
+    public function testImportCategories()
+    {
+        foreach ($this->importFiles as $filename => $mime) {
+            $this->start($filename, $mime);
+            $this->refreshTestDatabase();
+        }
+    }
 
+    private function prepare(string $filename, string $mime): string
+    {
+        $path = storage_path('app/public/import/').$filename;
+
+        $file = new UploadedFile($path, $filename, $mime, null, true);
         $importFilename = 'import'.time().'.'.$file->getExtension();
-        Storage::disk('uploads')->putFileAs('', $file, $importFilename);
-        $path = public_path('uploads/'.$importFilename);
 
+        Storage::disk('uploads')->putFileAs('', $file, $importFilename);
         Storage::disk('uploads')->assertExists($importFilename);
 
         Auth::shouldReceive('id')->andReturn(1);
 
-        $importModel = new Import;
-        $importModel->init('categories');
+        return $importFilename;
+    }
 
-        ProcessImportJob::dispatch($path, Category::class, $importModel, Auth::id());
+    private function startFake(string $filename, string $mime): void
+    {
+        $import = new Import();
+        $import->init('category');
+
+        $this->assertEquals(Import::STATE_INIT, $import->state);
+
+        $importFilename = $this->prepare($filename, $mime);
+
+        Bus::fake(ProcessImportJob::class);
+        ProcessImportJob::dispatch(public_path('uploads/'.$importFilename), Category::class, $import, Auth::id());
         Bus::assertDispatched(ProcessImportJob::class);
+
+        $this->assertEquals(Import::STATE_WORKS, $import->state);
 
         Storage::disk('uploads')->delete($importFilename);
         Storage::disk('uploads')->assertMissing($importFilename);
     }
 
-    public function test_import_categories_json()
+    private function start(string $filename, string $mime): void
     {
-        Bus::fake();
+        $import = new Import();
+        $import->init('category');
 
-        $name = 'categories.json';
-        $path = storage_path('app/public/import/') . $name;
-        $file = new UploadedFile($path, $name, 'application/json', null, true);
+        $this->assertEquals(Import::STATE_INIT, $import->state);
 
-        $importFilename = 'import'.time().'.'.$file->getExtension();
-        Storage::disk('uploads')->putFileAs('', $file, $importFilename);
-        $path = public_path('uploads/'.$importFilename);
+        $importFilename = $this->prepare($filename, $mime);
 
-        Storage::disk('uploads')->assertExists($importFilename);
+        $processImport = new ProcessImportJob(public_path('uploads/'.$importFilename), Category::class, $import, Auth::id());
 
-        Auth::shouldReceive('id')->andReturn(1);
+        $this->assertEquals(Import::STATE_WORKS, $import->state);
 
-        $importModel = new Import;
-        $importModel->init('categories');
+        $processImport->handle();
 
-        ProcessImportJob::dispatch($path, Category::class, $importModel, Auth::id());
-        Bus::assertDispatched(ProcessImportJob::class);
-
-        Storage::disk('uploads')->delete($importFilename);
-        Storage::disk('uploads')->assertMissing($importFilename);
-    }
-
-    public function test_import_products_csv()
-    {
-        Bus::fake();
-
-        $name = 'products.csv';
-        $path = storage_path('app/public/import/') . $name;
-        $file = new UploadedFile($path, $name, 'text/csv', null, true);
-
-        $importFilename = 'import'.time().'.'.$file->getExtension();
-        Storage::disk('uploads')->putFileAs('', $file, $importFilename);
-        $path = public_path('uploads/'.$importFilename);
-
-        Storage::disk('uploads')->assertExists($importFilename);
-
-        Auth::shouldReceive('id')->andReturn(1);
-
-        $importModel = new Import;
-        $importModel->init('products');
-
-        ProcessImportJob::dispatch($path, Product::class, $importModel, Auth::id());
-        Bus::assertDispatched(ProcessImportJob::class);
-
-        Storage::disk('uploads')->delete($importFilename);
-        Storage::disk('uploads')->assertMissing($importFilename);
-    }
-
-    public function test_import_products_json()
-    {
-        Bus::fake();
-
-        $name = 'products.json';
-        $path = storage_path('app/public/import/') . $name;
-        $file = new UploadedFile($path, $name, 'application/json', null, true);
-
-        $importFilename = 'import'.time().'.'.$file->getExtension();
-        Storage::disk('uploads')->putFileAs('', $file, $importFilename);
-        $path = public_path('uploads/'.$importFilename);
-
-        Storage::disk('uploads')->assertExists($importFilename);
-
-        Auth::shouldReceive('id')->andReturn(1);
-
-        $importModel = new Import;
-        $importModel->init('products');
-
-        ProcessImportJob::dispatch($path, Product::class, $importModel, Auth::id());
-        Bus::assertDispatched(ProcessImportJob::class);
-
-        Storage::disk('uploads')->delete($importFilename);
-        Storage::disk('uploads')->assertMissing($importFilename);
+        $this->assertEquals(Import::STATE_SUCCEED, $import->state);
+        $this->assertEquals(2, $import->received);
+        $this->assertEquals(0, $import->updated);
+        $this->assertEquals(2, $import->created);
     }
 }

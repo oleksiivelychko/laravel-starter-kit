@@ -2,12 +2,14 @@
 
 namespace Tests\Feature;
 
+use App\Events\ReloadImportPageEvent;
 use App\Jobs\ProcessImportJob;
 use App\Models\Category;
 use App\Models\Import;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Tests\TestCase;
@@ -88,7 +90,13 @@ class ImportJobTest extends TestCase
 
         $this->assertEquals(Import::STATE_WORKS, $import->state);
 
+        Auth::shouldReceive('hasResolvedGuards')->once()->andReturn(false);
+
+        Event::fake(ReloadImportPageEvent::class);
+
         $processImport->handle();
+
+        Event::assertDispatched(ReloadImportPageEvent::class);
 
         $this->assertEquals(Import::STATE_SUCCEED, $import->state);
         $this->assertEquals(2, $import->received);

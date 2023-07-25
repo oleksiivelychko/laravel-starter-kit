@@ -1,13 +1,12 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Queue Connection Name
     |--------------------------------------------------------------------------
     |
-    | Laravel's queue API supports an assortment of back-ends via a single
+    | Laravel queue API supports an assortment of back-ends via a single
     | API, giving you convenient access to each back-end using the same
     | syntax for every one. Here you may define a default connection.
     |
@@ -72,10 +71,9 @@ return [
         ],
 
         'rabbitmq' => [
-
             'driver' => 'rabbitmq',
             'queue' => env('RABBITMQ_QUEUE', 'jobs'),
-            'connection' => PhpAmqpLib\Connection\AMQPLazyConnection::class,
+            'connection' => PhpAmqpLib\Connection\AMQPConnectionFactory::class,
 
             'hosts' => [
                 [
@@ -100,11 +98,9 @@ return [
                 ],
             ],
 
-            /*
-             * Set to "horizon" if you wish to use Laravel Horizon.
-             */
+            // Set to "horizon" if you wish to use Laravel Horizon.
             'worker' => env('RABBITMQ_WORKER', 'default'),
-        ]
+        ],
     ],
 
     /*
@@ -123,5 +119,4 @@ return [
         'database' => env('DB_CONNECTION', 'mysql'),
         'table' => 'failed_jobs',
     ],
-
 ];

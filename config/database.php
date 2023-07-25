@@ -77,7 +77,6 @@ return [
             'search_path' => 'public',
             'sslmode' => 'prefer',
         ],
-
     ],
 
     /*
@@ -105,7 +104,6 @@ return [
     */
 
     'redis' => [
-
         'client' => env('REDIS_CLIENT', 'phpredis'),
 
         'options' => [
@@ -130,7 +128,5 @@ return [
             'port' => env('REDIS_PORT', '6379'),
             'database' => env('REDIS_CACHE_DB', '1'),
         ],
-
     ],
-
 ];

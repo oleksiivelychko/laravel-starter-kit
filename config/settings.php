@@ -3,16 +3,16 @@
 return [
     'schema' => [
         'string_length' => 191,
-        'pagination_limit' => 10
+        'pagination_limit' => 10,
     ],
 
     'assets' => [
-        'not-found' => 'images/not-found.jpeg'
+        'not-found' => 'images/not-found.jpeg',
     ],
 
     'languages' => [
-        'English'       => 'en',
-        'Українська'    => 'uk',
+        'English' => 'en',
+        'Українська' => 'uk',
     ],
 
     'intl' => [
@@ -22,5 +22,5 @@ return [
         'uk' => [
             'uk_UA' => 'Europe/Kiev',
         ],
-    ]
+    ],
 ];

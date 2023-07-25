@@ -121,7 +121,5 @@ return [
             'level' => env('LOG_LEVEL', 'info'),
             'days' => 7,
         ],
-
     ],
-
 ];

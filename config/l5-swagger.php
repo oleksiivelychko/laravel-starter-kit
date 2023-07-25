@@ -9,57 +9,38 @@ return [
             ],
 
             'routes' => [
-                /*
-                 * Route for accessing api documentation interface
-                */
+                // Route for accessing api documentation interface
                 'api' => 'api/documentation',
             ],
             'paths' => [
-                /*
-                 * Edit to include full URL in ui for assets
-                */
+                // Edit to include full URL in ui for assets
                 'use_absolute_path' => env('L5_SWAGGER_USE_ABSOLUTE_PATH', true),
 
-                /*
-                 * File name of the generated json documentation file
-                */
+                // File name of the generated json documentation file
                 'docs_json' => 'api-docs.json',
 
-                /*
-                 * File name of the generated YAML documentation file
-                */
+                // File name of the generated YAML documentation file
                 'docs_yaml' => 'api-docs.yaml',
 
-                /*
-                * Set this to `json` or `yaml` to determine which documentation file to use in UI
-                */
+                // Set this to `json` or `yaml` to determine which documentation file to use in UI
                 'format_to_use_for_docs' => env('L5_FORMAT_TO_USE_FOR_DOCS', 'json'),
 
-                /*
-                 * Absolute paths to directory containing the swagger annotations are stored.
-                */
+                // Absolute paths to directory containing the swagger annotations are stored.
                 'annotations' => [
                     base_path('app'),
                 ],
-
             ],
         ],
     ],
     'defaults' => [
         'routes' => [
-            /*
-             * Route for accessing parsed swagger annotations.
-            */
+            // Route for accessing parsed swagger annotations.
             'docs' => 'docs',
 
-            /*
-             * Route for Oauth2 authentication callback.
-            */
+            // Route for Oauth2 authentication callback.
             'oauth2_callback' => 'api/oauth2-callback',
 
-            /*
-             * Middleware allows to prevent unexpected access to API documentation
-            */
+            // Middleware allows to prevent unexpected access to API documentation
             'middleware' => [
                 'api' => [],
                 'asset' => [],
@@ -67,57 +48,40 @@ return [
                 'oauth2_callback' => [],
             ],
 
-            /*
-             * Route Group options
-            */
+            // Route Group options
             'group_options' => [],
         ],
 
         'paths' => [
-            /*
-             * Absolute path to location where parsed annotations will be stored
-            */
+            // Absolute path to location where parsed annotations will be stored
             'docs' => storage_path('api-docs'),
 
-            /*
-             * Absolute path to directory where to export views
-            */
+            // Absolute path to directory where to export views
             'views' => base_path('resources/views/vendor/l5-swagger'),
 
-            /*
-             * Edit to set the api's base path
-            */
-            'base' => env('L5_SWAGGER_BASE_PATH', null),
+            // Edit to set the API base path
+            'base' => env('L5_SWAGGER_BASE_PATH'),
 
-            /*
-             * Edit to set path where swagger ui assets should be stored
-            */
+            // Edit to set path where swagger ui assets should be stored
             'swagger_ui_assets_path' => env('L5_SWAGGER_UI_ASSETS_PATH', 'vendor/swagger-api/swagger-ui/dist/'),
-
-            /*
-             * Absolute path to directories that should be exclude from scanning
-             * @deprecated Please use `scanOptions.exclude`
-             * `scanOptions.exclude` overwrites this
-            */
-            'excludes' => [],
         ],
 
         'scanOptions' => [
-            /**
+            /*
              * analyser: defaults to \OpenApi\StaticAnalyser .
              *
              * @see \OpenApi\scan
              */
             'analyser' => null,
 
-            /**
+            /*
              * analysis: defaults to a new \OpenApi\Analysis .
              *
              * @see \OpenApi\scan
              */
             'analysis' => null,
 
-            /**
+            /*
              * Custom query path processors classes.
              *
              * @link https://github.com/zircote/swagger-php/tree/master/Examples/schema-query-parameter-processor
@@ -127,7 +91,7 @@ return [
                 // new \App\SwaggerProcessors\SchemaQueryParameter(),
             ],
 
-            /**
+            /*
              * pattern: string       $pattern File pattern(s) to scan (default: *.php) .
              *
              * @see \OpenApi\scan
@@ -135,32 +99,28 @@ return [
             'pattern' => null,
 
             /*
-             * Absolute path to directories that should be exclude from scanning
+             * Absolute path to directories that should be excluded from scanning
              * @note This option overwrites `paths.excludes`
              * @see \OpenApi\scan
             */
             'exclude' => [],
         ],
 
-        /*
-         * API security definitions. Will be generated into documentation file.
-        */
+        // API security definitions. Will be generated into documentation file.
         'securityDefinitions' => [
             'securitySchemes' => [
                 // Unique name of security
                 'ApiKeyAuth' => [
                     // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
-                    'type'          => 'apiKey',
+                    'type' => 'apiKey',
                     // 'A short description for security scheme',
-                    'description'   => 'Use X-API-KEY: '.env('API_TOKEN', 'YOUR_API_TOKEN').' in header of request to API access',
+                    'description' => 'Use X-API-KEY: '.env('API_TOKEN', 'YOUR_API_TOKEN').' in header of request to API access',
                     // The name of the header or query parameter to be used.
-                    'name'          => 'X-API-KEY',
+                    'name' => 'X-API-KEY',
                     // The location of the API key. Valid values are "query" or "header".
-                    'in'            => 'header',
+                    'in' => 'header',
                 ],
-                /*
-                 * Examples of Security schemes
-                */
+                // Examples of Security schemes
                 /*
                 'oauth2_security_example' => [ // Unique name of security
                     'type' => 'oauth2', // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
@@ -199,9 +159,7 @@ return [
                 */
             ],
             'security' => [
-                /*
-                 * Examples of Securities
-                */
+                // Examples of Securities
                 [
                     /*
                     'oauth2_security_example' => [
@@ -221,9 +179,7 @@ return [
         */
         'generate_always' => env('L5_SWAGGER_GENERATE_ALWAYS', false),
 
-        /*
-         * Set this to `true` to generate a copy of documentation in yaml format
-        */
+        // Set this to `true` to generate a copy of documentation in yaml format
         'generate_yaml_copy' => env('L5_SWAGGER_GENERATE_YAML_COPY', false),
 
         /*
@@ -243,7 +199,7 @@ return [
          * 'method' (sort by HTTP method).
          * Default is the order returned by the server unchanged.
         */
-        'operations_sort' => env('L5_SWAGGER_OPERATIONS_SORT', null),
+        'operations_sort' => env('L5_SWAGGER_OPERATIONS_SORT'),
 
         /*
          * Pass the validatorUrl parameter to SwaggerUi init on the JS side.
@@ -251,9 +207,7 @@ return [
         */
         'validator_url' => null,
 
-        /*
-         * Swagger UI configuration parameters
-        */
+        // Swagger UI configuration parameters
         'ui' => [
             'display' => [
                 /*
@@ -264,7 +218,7 @@ return [
                  */
                 'doc_expansion' => env('L5_SWAGGER_UI_DOC_EXPANSION', 'none'),
 
-                /**
+                /*
                  * If set, enables filtering. The top bar will show an edit box that
                  * you can use to filter the tagged operations that are shown. Can be
                  * Boolean to enable or disable, or a string, in which case filtering
@@ -272,21 +226,18 @@ return [
                  * is case-sensitive matching the filter expression anywhere inside
                  * the tag.
                  */
-                'filter' => env('L5_SWAGGER_UI_FILTERS', true), // true | false
+                'filter' => env('L5_SWAGGER_UI_FILTERS', true),
             ],
 
             'authorization' => [
-                /*
-                 * If set to true, it persists authorization data, and it would not be lost on browser close/refresh
-                 */
+                // If set to true, it persists authorization data, and it would not be lost on browser close/refresh
                 'persist_authorization' => env('L5_SWAGGER_UI_PERSIST_AUTHORIZATION', false),
             ],
         ],
-        /*
-         * Constants which can be used in annotations
-         */
+
+        // Constants which can be used in annotations
         'constants' => [
-            'L5_SWAGGER_CONST_HOST' => env('L5_SWAGGER_CONST_HOST', 'http://my-default-host.com'),
+            'L5_SWAGGER_CONST_HOST' => env('L5_SWAGGER_CONST_HOST', 'http://localhost'),
             'L5_SWAGGER_CONST_HOST_HTTPS' => env('APP_URL', 'https://localhost'),
         ],
     ],

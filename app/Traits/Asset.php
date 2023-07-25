@@ -2,12 +2,11 @@
 
 namespace App\Traits;
 
+use App\Exceptions\InterfaceInstanceException;
 use App\Helpers\ImageHelper;
 use App\Interfaces\UploadImages;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
-use Prophecy\Exception\Doubler\InterfaceNotFoundException;
-
 
 /**
  * @method getImagesFolder()
@@ -16,48 +15,45 @@ use Prophecy\Exception\Doubler\InterfaceNotFoundException;
  */
 trait Asset
 {
-    private function notFoundImage(): string
-    {
-        return config('settings.assets.not-found');
-    }
-
-    private function throwAway(): void
-    {
-        if (!$this instanceof UploadImages) {
-            throw new InterfaceNotFoundException('Class does not satisfy the interface declaration.', UploadImages::class);
-        }
-    }
-
-    public function showImage($preset=''): string
+    /**
+     * @throws InterfaceInstanceException
+     */
+    public function showImage($preset = ''): string
     {
         $this->throwAway();
 
         if ($this->{$this->getImageField()}) {
-            $originalPath = $this->getImagesFolder().'/'.$this->id.'/'.($preset ? $preset . '_' : '').$this->{$this->getImageField()};
-            if (File::exists(public_path('uploads/') . $originalPath)) {
-                return 'uploads/' . $originalPath;
+            $originalPath = $this->getImagesFolder().'/'.$this->id.'/'.($preset ? $preset.'_' : '').$this->{$this->getImageField()};
+            if (File::exists(public_path('uploads/').$originalPath)) {
+                return 'uploads/'.$originalPath;
             }
         }
 
         return $this->notFoundImage();
     }
 
-    public function showFirstImage($preset=''): string
+    /**
+     * @throws InterfaceInstanceException
+     */
+    public function showFirstImage($preset = ''): string
     {
         $this->throwAway();
 
         $image = $this->{$this->getImageField()} ? call_user_func($this->getImageField().'_array')[0] : false;
         if ($image) {
-            $originalPath = $this->getImagesFolder().'/'.$this->id.'/'.($preset ? $preset . '_' : '').$image;
-            if (File::exists(public_path('uploads/') . $originalPath)) {
-                return 'uploads/' . $originalPath;
+            $originalPath = $this->getImagesFolder().'/'.$this->id.'/'.($preset ? $preset.'_' : '').$image;
+            if (File::exists(public_path('uploads/').$originalPath)) {
+                return 'uploads/'.$originalPath;
             }
         }
 
         return $this->notFoundImage();
     }
 
-    public function uploadImage(?UploadedFile $uploadedFile, $multiple=false): bool|string
+    /**
+     * @throws InterfaceInstanceException
+     */
+    public function uploadImage(?UploadedFile $uploadedFile, $multiple = false): bool|string
     {
         $this->throwAway();
 
@@ -78,13 +74,35 @@ trait Asset
         $path = $uploadedFile->storeAs($outputDirname, $filename, 'uploads');
         if ($path) {
             ImageHelper::crop(
-                public_path('uploads') . "/{$outputDirname}/{$filename}",
+                public_path('uploads')."/{$outputDirname}/{$filename}",
                 $outputDirname,
                 $this->getCropPresets()
             );
+
             return $filename;
         }
 
         return false;
+    }
+
+    private function notFoundImage(): string
+    {
+        return config('settings.assets.not-found');
+    }
+
+    /**
+     * @throws InterfaceInstanceException
+     */
+    private function throwAway(): void
+    {
+        if (!$this instanceof UploadImages) {
+            throw new InterfaceInstanceException(
+                sprintf(
+                    'Class %s is not instance of %s.',
+                    get_class($this),
+                    UploadImages::class,
+                )
+            );
+        }
     }
 }

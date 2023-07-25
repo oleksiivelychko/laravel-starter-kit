@@ -2,19 +2,19 @@
 
 namespace App\Traits;
 
-use App\Models\Role;
 use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-
 /**
- * Access Control List
+ * Access Control List.
  *
  * @method belongsToMany(string $class, string $string)
- * @property-read $permissions_ids
- * @property-read $roles_ids
- * @property-read $roles
- * @property-read $permissions
+ *
+ * @property $permissions_ids
+ * @property $roles_ids
+ * @property $roles
+ * @property $permissions
  */
 trait ACL
 {
@@ -36,17 +36,6 @@ trait ACL
     public function hasRoles(array $roles): bool
     {
         return $this->_hasRoles($roles);
-    }
-
-    private function _hasRoles($roles): bool
-    {
-        foreach ($roles as $role) {
-            if ($this->roles->contains('slug', $role)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     public function hasPermissionThroughRole(Permission $permission): bool
@@ -77,10 +66,13 @@ trait ACL
         }
 
         $existsRolesIds = $this->roles_ids;
+
         $passedRolesIds = Role::whereIn('slug', $roles)->pluck('id')->toArray();
+
         $intersection = array_intersect($existsRolesIds, $passedRolesIds);
         $createRolesIds = array_diff($passedRolesIds, $intersection);
         $deleteRolesIds = array_diff($existsRolesIds, $intersection);
+
         $this->roles()->attach($createRolesIds);
         $this->roles()->detach($deleteRolesIds);
     }
@@ -93,9 +85,11 @@ trait ACL
 
         $existsPermissionsIds = $this->permissions_ids;
         $passedPermissionsIds = Permission::whereIn('slug', $permissions)->pluck('id')->toArray();
+
         $intersection = array_intersect($existsPermissionsIds, $passedPermissionsIds);
         $createPermissionsIds = array_diff($passedPermissionsIds, $intersection);
         $deletePermissionsIds = array_diff($existsPermissionsIds, $intersection);
+
         $this->permissions()->attach($createPermissionsIds);
         $this->permissions()->detach($deletePermissionsIds);
     }
@@ -108,5 +102,16 @@ trait ACL
     public function getPermissionsIdsAttribute(): array
     {
         return $this->permissions()->pluck('permission_id')->toArray();
+    }
+
+    private function _hasRoles($roles): bool
+    {
+        foreach ($roles as $role) {
+            if ($this->roles->contains('slug', $role)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

@@ -28,7 +28,6 @@ return [
     */
 
     'connections' => [
-
         'sync' => [
             'driver' => 'sync',
         ],
@@ -73,7 +72,6 @@ return [
         'rabbitmq' => [
             'driver' => 'rabbitmq',
             'queue' => env('RABBITMQ_QUEUE', 'jobs'),
-            'connection' => PhpAmqpLib\Connection\AMQPConnectionFactory::class,
 
             'hosts' => [
                 [
@@ -87,19 +85,11 @@ return [
 
             'options' => [
                 'ssl_options' => [
-                    'cafile' => env('RABBITMQ_SSL_CAFILE'),
                     'local_cert' => env('SSL_CRT_PATH'),
                     'local_key' => env('SSL_KEY_PATH'),
                     'verify_peer' => env('RABBITMQ_SSL_VERIFY_PEER', true),
-                    'passphrase' => env('RABBITMQ_SSL_PASSPHRASE'),
-                ],
-                'queue' => [
-                    'job' => VladimirYuldashev\LaravelQueueRabbitMQ\Queue\Jobs\RabbitMQJob::class,
                 ],
             ],
-
-            // Set to "horizon" if you wish to use Laravel Horizon.
-            'worker' => env('RABBITMQ_WORKER', 'default'),
         ],
     ],
 

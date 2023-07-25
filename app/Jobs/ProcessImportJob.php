@@ -14,28 +14,30 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-
 class ProcessImportJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     private string $filepath;
 
     private string $classname;
 
-    private Import $importModel;
+    private Import $import;
 
     private int $userId;
 
-    public function __construct(string $filepath, string $classname, Import $importModel, int $userId)
+    public function __construct(string $filepath, string $classname, Import $import, int $userID)
     {
         $this->filepath = $filepath;
         $this->classname = $classname;
-        $this->importModel = $importModel;
-        $this->userId = $userId;
+        $this->import = $import;
+        $this->userId = $userID;
 
-        $this->importModel->setAttribute('state', Import::STATE_WORKS);
-        $this->importModel->save();
+        $this->import->setAttribute('state', Import::STATE_WORKS);
+        $this->import->save();
     }
 
     /**
@@ -50,11 +52,11 @@ class ProcessImportJob implements ShouldQueue
             'json' => JsonImportFile::import($this->classname, $file),
         };
 
-        $this->importModel->setAttribute('state', $response['status']);
-        $this->importModel->setAttribute('received', $response['received']);
-        $this->importModel->setAttribute('created', $response['created']);
-        $this->importModel->setAttribute('updated', $response['updated']);
-        $this->importModel->save();
+        $this->import->setAttribute('state', $response['status']);
+        $this->import->setAttribute('received', $response['received']);
+        $this->import->setAttribute('created', $response['created']);
+        $this->import->setAttribute('updated', $response['updated']);
+        $this->import->save();
 
         File::delete($this->filepath);
 
@@ -63,10 +65,10 @@ class ProcessImportJob implements ShouldQueue
         event(new ReloadImportPageEvent($this->userId));
     }
 
-    public function fail($exception = null)
+    public function fail($exception = null): void
     {
-        $this->importModel->setAttribute('state', Import::STATE_FAILED);
-        $this->importModel->save();
+        $this->import->setAttribute('state', Import::STATE_FAILED);
+        $this->import->save();
 
         File::delete($this->filepath);
     }

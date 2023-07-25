@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'middleware' => CheckApiToken::class,
     'prefix' => 'v1',
-    'as' => 'api.'
+    'as' => 'api.',
 ], function () {
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('products', ProductController::class);

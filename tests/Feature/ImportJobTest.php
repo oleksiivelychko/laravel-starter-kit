@@ -24,8 +24,8 @@ class ImportJobTest extends TestCase
     use RefreshDatabase;
 
     private array $importFiles = [
-        'categories.csv'    => 'text/csv',
-        'categories.json'   => 'application/json',
+        'categories.csv' => 'text/csv',
+        'categories.json' => 'application/json',
     ];
 
     public function testFakeImportCategories()
@@ -68,7 +68,9 @@ class ImportJobTest extends TestCase
         $importFilename = $this->prepare($filename, $mime);
 
         Bus::fake(ProcessImportJob::class);
+
         ProcessImportJob::dispatch(public_path('uploads/'.$importFilename), Category::class, $import, Auth::id());
+
         Bus::assertDispatched(ProcessImportJob::class);
 
         $this->assertEquals(Import::STATE_WORKS, $import->state);

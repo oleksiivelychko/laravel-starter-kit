@@ -69,5 +69,5 @@ return [
         'model-delete-success' => 'Model has been deleted successfully',
         'file-not-uploaded' => 'File not uploaded',
         'class-not-found' => 'Class not found',
-    ]
+    ],
 ];

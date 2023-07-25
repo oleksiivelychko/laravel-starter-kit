@@ -71,5 +71,5 @@ return [
         'model-delete-success' => 'Модель видалена успішно',
         'file-not-uploaded' => 'Файл не завантажено',
         'class-not-found' => 'Клас не знайдено',
-    ]
+    ],
 ];

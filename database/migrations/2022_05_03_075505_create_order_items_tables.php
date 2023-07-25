@@ -1,13 +1,12 @@
 <?php
 
+use App\Models\Order;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\Order;
 
+return new class() extends Migration {
 
-return new class extends Migration
-{
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
@@ -24,8 +23,9 @@ return new class extends Migration
             $table->boolean('shipping_address_as_billing_address')->default(true);
             $table->foreign('user_id')
                 ->references('id')->on('users')
-                ->onUpdate('cascade')->onDelete('cascade');
+                ->onUpdate('cascade')->onDelete('cascade')
             ;
+
             $table->timestamps();
         });
 
@@ -36,11 +36,13 @@ return new class extends Migration
             $table->unsignedFloat('quantity')->default(0);
             $table->foreign('order_id')
                 ->references('id')->on('orders')
-                ->onUpdate('cascade')->onUpdate('cascade');
+                ->onUpdate('cascade')->onUpdate('cascade')
+            ;
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')
                 ->references('id')->on('products')
-                ->onDelete('cascade')->onUpdate('cascade');
+                ->onDelete('cascade')->onUpdate('cascade')
+            ;
             $table->timestamps();
         });
     }

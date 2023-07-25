@@ -1,13 +1,12 @@
 <?php
 
+use App\Models\Import;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\Import;
 
+return new class() extends Migration {
 
-return new class extends Migration
-{
     public function up(): void
     {
         Schema::create('imports', function (Blueprint $table) {

@@ -2,9 +2,8 @@
 
 namespace App\Notifications;
 
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Auth\Notifications\ResetPassword as Notification;
-
+use Illuminate\Notifications\Messages\MailMessage;
 
 class ResetPassword extends Notification
 {
@@ -22,16 +21,17 @@ class ResetPassword extends Notification
     public function toMail(mixed $notifiable): MailMessage
     {
         $url = url(route('password.reset', [
-            'locale'    => app()->getLocale(),
-            'token'     => $this->token,
-            'email'     => $notifiable->getEmailForPasswordReset(),
+            'locale' => app()->getLocale(),
+            'token' => $this->token,
+            'email' => $notifiable->getEmailForPasswordReset(),
         ], false));
 
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject(__('auth.reset-password'))
             ->view('emails.reset-password', [
-                'url'   => $url,
-                'count' => config('auth.passwords.'.config('auth.defaults.passwords').'.expire')
-            ]);
+                'url' => $url,
+                'count' => config('auth.passwords.'.config('auth.defaults.passwords').'.expire'),
+            ])
+        ;
     }
 }

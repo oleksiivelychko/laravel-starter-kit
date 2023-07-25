@@ -2,11 +2,10 @@
 
 namespace App\Notifications;
 
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Auth\Notifications\VerifyEmail as Notification;
-use Illuminate\Support\Facades\URL;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Carbon;
-
+use Illuminate\Support\Facades\URL;
 
 class VerifyEmail extends Notification
 {
@@ -23,9 +22,10 @@ class VerifyEmail extends Notification
      */
     public function toMail(mixed $notifiable): MailMessage
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject(__('auth.verify-email'))
-            ->view('emails.verify-email', ['url' => $this->verificationUrl($notifiable)]);
+            ->view('emails.verify-email', ['url' => $this->verificationUrl($notifiable)])
+        ;
     }
 
     protected function verificationUrl($notifiable): string
@@ -36,7 +36,7 @@ class VerifyEmail extends Notification
             [
                 'locale' => app()->getLocale(),
                 'id' => $notifiable->getKey(),
-                'hash' => sha1($notifiable->getEmailForVerification())
+                'hash' => sha1($notifiable->getEmailForVerification()),
             ]
         );
     }

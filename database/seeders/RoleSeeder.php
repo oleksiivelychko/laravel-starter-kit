@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Role;
 
-
 class RoleSeeder extends SchemaSeeder
 {
     public function __construct()
@@ -21,10 +20,11 @@ class RoleSeeder extends SchemaSeeder
         ];
 
         foreach ($roles as $role => $permissions) {
-            $model = new Role;
+            $model = new Role();
             $model->name = ucfirst($role);
             $model->slug = $role;
             $model->save();
+
             if ($permissions) {
                 $model->setPermissions($permissions);
             }

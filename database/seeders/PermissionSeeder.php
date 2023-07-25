@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Support\Str;
 use App\Models\Permission;
-
+use Illuminate\Support\Str;
 
 class PermissionSeeder extends SchemaSeeder
 {
@@ -17,7 +16,7 @@ class PermissionSeeder extends SchemaSeeder
     {
         $permissions = ['Manage goods', 'Manage ACL'];
         foreach ($permissions as $permission) {
-            $model = new Permission;
+            $model = new Permission();
             $model->name = $permission;
             $model->slug = Str::slug(lcfirst($permission));
             $model->save();

@@ -3,9 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Permission;
-use App\Models\User;
 use App\Models\Role;
-
+use App\Models\User;
 
 class UserSeeder extends SchemaSeeder
 {
@@ -16,7 +15,7 @@ class UserSeeder extends SchemaSeeder
 
     public function run(): void
     {
-        $user = new User;
+        $user = new User();
         $user->name = 'Admin';
         $user->email = 'admin@test.test';
         $user->password = 'secret';
@@ -25,7 +24,7 @@ class UserSeeder extends SchemaSeeder
         $user->assignRoles(Role::DEFAULT_ROLES['ADMIN']);
         $user->assignPermissions(Permission::ADMIN_PERMISSIONS);
 
-        $user = new User;
+        $user = new User();
         $user->name = 'Test';
         $user->email = 'test@test.test';
         $user->password = 'secret';

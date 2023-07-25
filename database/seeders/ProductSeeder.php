@@ -2,14 +2,12 @@
 
 namespace Database\Seeders;
 
-use Exception;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use App\Helpers\ImageHelper;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-
 
 class ProductSeeder extends SchemaSeeder
 {
@@ -21,13 +19,14 @@ class ProductSeeder extends SchemaSeeder
     public function __construct()
     {
         $this->description = json_encode(['en' => self::loremIpsumEN, 'uk' => self::loremIpsumUK], JSON_UNESCAPED_UNICODE);
+
         parent::__construct(Product::class);
 
         DB::table('categories_products')->truncate();
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function run(): void
     {
@@ -44,13 +43,11 @@ class ProductSeeder extends SchemaSeeder
     }
 
     /**
-     * @param Category $category
-     * @param array $name
-     * @throws Exception
+     * @throws \Exception
      */
-    private function fakeProduct(Category $category, array $name)
+    private function fakeProduct(Category $category, array $name): void
     {
-        $product = new Product;
+        $product = new Product();
         $product->price = random_int(10, 100);
         $product->name = json_encode($name, JSON_UNESCAPED_UNICODE);
         $product->slug = Str::slug($name['en']);
@@ -58,14 +55,16 @@ class ProductSeeder extends SchemaSeeder
         $saved = $product->save();
 
         $product->categories()->attach($category->id);
+
         if ($saved) {
             $images = [];
 
             $productImgDir = storage_path("app/public/seeders/{$product->getImagesFolder()}/");
             $isNew = true;
-            foreach (glob("$productImgDir$category->slug-$product->slug-*.jpeg") as $filepath) {
+
+            foreach (glob("{$productImgDir}{$category->slug}-{$product->slug}-*.jpeg") as $filepath) {
                 $filepaths = explode('/', $filepath);
-                $filename = $filepaths[count($filepaths)-1];
+                $filename = $filepaths[count($filepaths) - 1];
                 $this->moveAndCropImg($product, $filename, $isNew);
                 $images[] = $filename;
                 $isNew = false;
@@ -76,26 +75,27 @@ class ProductSeeder extends SchemaSeeder
         }
     }
 
-    private function moveAndCropImg(Product $product, string $imageName, $isNew=false): void
+    private function moveAndCropImg(Product $product, string $imageName, $isNew = false): void
     {
-        $productImgDir = public_path('uploads')."/{$product->getImagesFolder()}/$product->id/";
+        $productImgDir = public_path('uploads')."/{$product->getImagesFolder()}/{$product->id}/";
 
         if ($isNew && File::exists($productImgDir)) {
             File::deleteDirectory($productImgDir);
         }
+
         if (!File::exists($productImgDir)) {
             File::makeDirectory($productImgDir, 493, true);
         }
 
         File::copy(
-            storage_path("app/public/seeders/{$product->getImagesFolder()}/$imageName"),
+            storage_path("app/public/seeders/{$product->getImagesFolder()}/{$imageName}"),
             $productImgDir.$imageName
         );
 
         ImageHelper::crop(
             $productImgDir.$imageName,
-            "{$product->getImagesFolder()}/$product->id",
-            [[200,150],[900,400]]
+            "{$product->getImagesFolder()}/{$product->id}",
+            [[200, 150], [900, 400]]
         );
     }
 }

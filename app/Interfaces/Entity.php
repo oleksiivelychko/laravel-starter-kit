@@ -2,10 +2,9 @@
 
 namespace App\Interfaces;
 
-
 interface Entity
 {
-    function saveTranslations(array $data): void;
+    public function saveTranslations(array $data): void;
 
-    function saveModel(array $data): bool;
+    public function saveModel(array $data): bool;
 }

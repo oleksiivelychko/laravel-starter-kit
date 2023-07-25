@@ -21,6 +21,7 @@ class EmailVerificationTest extends TestCase
 
     public function testEmailVerificationScreenCanBeRendered()
     {
+        /** @var User $user */
         $user = User::factory()->create([
             'email_verified_at' => null,
         ]);
@@ -32,6 +33,7 @@ class EmailVerificationTest extends TestCase
 
     public function testEmailCanBeVerified()
     {
+        /** @var User $user */
         $user = User::factory()->create([
             'email_verified_at' => null,
         ]);
@@ -55,6 +57,7 @@ class EmailVerificationTest extends TestCase
 
     public function testEmailIsNotVerifiedWithInvalidHash()
     {
+        /** @var User $user */
         $user = User::factory()->create([
             'email_verified_at' => null,
         ]);

@@ -23,10 +23,14 @@ class PasswordResetTest extends TestCase
         $response->assertStatus(200);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testResetPasswordLinkCanBeRequested()
     {
         Notification::fake();
 
+        /** @var User $user */
         $user = User::factory()->create();
 
         $this->post('/'.app()->getLocale().'/forgot-password', ['email' => $user->email]);
@@ -34,10 +38,14 @@ class PasswordResetTest extends TestCase
         Notification::assertSentTo($user, ResetPassword::class);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testResetPasswordScreenCanBeRendered()
     {
         Notification::fake();
 
+        /** @var User $user */
         $user = User::factory()->create();
 
         $this->post('/'.app()->getLocale().'/forgot-password', ['email' => $user->email]);
@@ -51,10 +59,14 @@ class PasswordResetTest extends TestCase
         });
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testPasswordCanBeResetWithValidToken()
     {
         Notification::fake();
 
+        /** @var User $user */
         $user = User::factory()->create();
 
         $this->post('/'.app()->getLocale().'/forgot-password', ['email' => $user->email]);

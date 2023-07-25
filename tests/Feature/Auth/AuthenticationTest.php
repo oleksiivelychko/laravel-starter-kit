@@ -24,6 +24,7 @@ class AuthenticationTest extends TestCase
 
     public function testUsersCanAuthenticateUsingTheLoginScreen()
     {
+        /** @var User $user */
         $user = User::factory()->create();
 
         $response = $this->post('/'.app()->getLocale().'/login', [
@@ -38,6 +39,7 @@ class AuthenticationTest extends TestCase
 
     public function testUsersCanNotAuthenticateWithInvalidPassword()
     {
+        /** @var User $user */
         $user = User::factory()->create();
 
         $this->post('/'.app()->getLocale().'/login', [

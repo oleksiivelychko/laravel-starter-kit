@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use App\Models\Category;
 use App\Http\Requests\Dashboard\StoreCategoryRequest;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Http\Request as HttpRequest;
+use App\Models\Category;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Request;
 use OpenApi\Annotations as OA;
-use Throwable;
 
 class CategoryController extends OpenApiController
 {
@@ -20,27 +18,34 @@ class CategoryController extends OpenApiController
      *      security={{"ApiKeyAuth": {}}},
      *      summary="Get categories",
      *      description="Fetch all categories using `offset` and `limit` parameters",
+     *
      *      @OA\Parameter(
      *          name="offset",
      *          required=false,
      *          in="query",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Parameter(
      *          name="limit",
      *          required=false,
      *          in="query",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent()
      *       ),
+     *
      *      @OA\Response(
      *          response=400,
      *          description="Bad Request"
@@ -61,15 +66,18 @@ class CategoryController extends OpenApiController
      */
     public function index(): JsonResponse
     {
-        $offset = Request::input('offset', 0);
-        $limit = Request::input('limit', 100);
+        $models = Category::with('parent')
+            ->offset(Request::input('offset', 0))
+            ->limit(Request::input('limit', 100))
+            ->orderBy('id')
+            ->get()
+        ;
 
-        $models = Category::with('parent')->offset($offset)->limit($limit)->orderBy('id')->get();
         if (count($models)) {
             return response()->json($models);
-        } else {
-            return response()->json([], 404);
         }
+
+        return response()->json([], 404);
     }
 
     /**
@@ -80,12 +88,16 @@ class CategoryController extends OpenApiController
      *      security={{"ApiKeyAuth": {}}},
      *      summary="Create a new category",
      *      description="Create a new category from POST data",
+     *
      *      @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
+     *
      *              @OA\Schema(
      *                  required={"name__en","name__uk"},
+     *
      *                  @OA\Property(
      *                      property="name__en",
      *                      description="Name in English",
@@ -109,11 +121,14 @@ class CategoryController extends OpenApiController
      *               ),
      *           ),
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(ref="#/components/schemas/Category")
      *       ),
+     *
      *      @OA\Response(
      *          response=400,
      *          description="Bad Request"
@@ -132,13 +147,13 @@ class CategoryController extends OpenApiController
      *      )
      * )
      *
-     * @throws Throwable
+     * @throws \Throwable
      */
     public function store(StoreCategoryRequest $request): JsonResponse
     {
         $validatedData = $request->validated();
         if ($validatedData) {
-            $category = new Category;
+            $category = new Category();
             if ($category->saveModel($validatedData)) {
                 return response()->json($category);
             }
@@ -155,19 +170,24 @@ class CategoryController extends OpenApiController
      *      security={{"ApiKeyAuth": {}}},
      *      summary="Get category",
      *      description="Get category by ID",
+     *
      *      @OA\Parameter(
      *          name="id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(ref="#/components/schemas/Category")
      *       ),
+     *
      *      @OA\Response(
      *          response=400,
      *          description="Bad Request"
@@ -185,16 +205,15 @@ class CategoryController extends OpenApiController
      *          description="Resource Not Found"
      *      )
      * )
-     *
      */
     public function show(int $id): JsonResponse
     {
         $model = Category::with('parent')->find($id);
         if ($model) {
             return response()->json($model);
-        } else {
-            return response()->json([], 404);
         }
+
+        return response()->json([], 404);
     }
 
     /**
@@ -205,20 +224,26 @@ class CategoryController extends OpenApiController
      *      security={{"ApiKeyAuth": {}}},
      *      summary="Update the exists category",
      *      description="Update the exists category from POST data",
+     *
      *      @OA\Parameter(
      *          name="id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\MediaType(
      *              mediaType="application/x-www-form-urlencoded",
+     *
      *              @OA\Schema(
      *                  required={"name__en","name__uk"},
+     *
      *                  @OA\Property(
      *                      property="name__en",
      *                      description="Name in English",
@@ -242,11 +267,14 @@ class CategoryController extends OpenApiController
      *               ),
      *           ),
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(ref="#/components/schemas/Category")
      *       ),
+     *
      *      @OA\Response(
      *          response=400,
      *          description="Bad Request"
@@ -265,7 +293,7 @@ class CategoryController extends OpenApiController
      *      )
      * )
      *
-     * @throws Throwable
+     * @throws \Throwable
      */
     public function update(StoreCategoryRequest $request, Category $category): JsonResponse
     {
@@ -287,19 +315,24 @@ class CategoryController extends OpenApiController
      *      security={{"ApiKeyAuth": {}}},
      *      summary="Delete the exists category",
      *      description="Delete the exists category by ID",
+     *
      *      @OA\Parameter(
      *          name="id",
      *          required=true,
      *          in="path",
+     *
      *          @OA\Schema(
      *              type="integer"
      *          )
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(ref="#/components/schemas/Product")
      *       ),
+     *
      *      @OA\Response(
      *          response=400,
      *          description="Bad Request"
@@ -317,15 +350,15 @@ class CategoryController extends OpenApiController
      *          description="Resource Not Found"
      *      )
      * )
-     *
      */
-    public function destroy(HttpRequest $request, Category $category): JsonResponse
+    public function destroy(Category $category): JsonResponse
     {
-        $ids = $category->selectUniqueProductIds();
-        if ($category->delete()) {
-            $category->deleteUnusedProducts($ids);
+        $IDs = $category->selectUniqueProductIds();
 
-            return response()->json(['Category has been successfully deleted']);
+        if ($category->delete()) {
+            $category->deleteUnusedProducts($IDs);
+
+            return response()->json(['Category has been successfully deleted.']);
         }
 
         return response()->json([], 422);

@@ -17,6 +17,7 @@ class OpenApiController extends BaseController
      *      @OA\Contact(
      *          email="oleksiivelychko@icloud.com"
      *      ),
+     *
      *      @OA\License(
      *          name="Apache 2.0",
      *          url="https://www.apache.org/licenses/LICENSE-2.0.html"
@@ -34,10 +35,8 @@ class OpenApiController extends BaseController
      *      name="X-API-KEY",
      *      type="apiKey",
      * )
-     *
      */
     public function __construct()
     {
-
     }
 }

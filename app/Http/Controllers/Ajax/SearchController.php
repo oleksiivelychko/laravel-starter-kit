@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\DB;
 final class SearchController extends Controller
 {
     /**
-     * Table name => Route name
+     * DB table name => route name.
      */
     private const SEARCH_ENTITIES = [
-        'categories'    => 'category.edit',
-        'products'      => 'product.edit',
+        'categories' => 'category.edit',
+        'products' => 'product.edit',
     ];
 
     public function search(Request $request, string $locale): JsonResource
@@ -25,13 +25,14 @@ final class SearchController extends Controller
         }
 
         $queryBuilder = null;
-        foreach (self::SEARCH_ENTITIES as $table=>$route) {
-            $raw = "lower(json_unquote(json_extract(`name`, '$.\"$locale\"'))) like ?";
+        foreach (self::SEARCH_ENTITIES as $table => $route) {
+            $raw = "lower(json_unquote(json_extract(`name`, '$.\"{$locale}\"'))) like ?";
             $query = DB::table($table)
-                ->select(['id', "name->$locale as text", DB::raw("'$route' as route_name")])
-                ->whereRaw($raw, ["%$querySearch%"])
-                ->orWhereRaw($raw, ["%$querySearch"])
-                ->orWhereRaw($raw, ["$querySearch%"]);
+                ->select(['id', "name->{$locale} as text", DB::raw("'{$route}' as route_name")])
+                ->whereRaw($raw, ["%{$querySearch}%"])
+                ->orWhereRaw($raw, ["%{$querySearch}"])
+                ->orWhereRaw($raw, ["{$querySearch}%"])
+            ;
 
             $queryBuilder = $queryBuilder ? $queryBuilder->union($query) : $query;
         }

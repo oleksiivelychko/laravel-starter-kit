@@ -9,9 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules;
-use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
-
 
 class RegisteredUserController extends Controller
 {
@@ -25,10 +23,8 @@ class RegisteredUserController extends Controller
 
     /**
      * Handle an incoming registration request.
-     *
-     * @throws ValidationException
      */
-    public function store(Request $request, ?string $locale=null): RedirectResponse
+    public function store(Request $request, ?string $locale = null): RedirectResponse
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],

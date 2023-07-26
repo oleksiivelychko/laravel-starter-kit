@@ -8,23 +8,22 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Routing\Redirector;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Session;
-
 
 class RoleController extends Controller
 {
     public function index(Request $request, Role $roles): Factory|View|Application
     {
         return view('dashboard.role.index', [
-            'roles' => $roles->pagination($request)
+            'roles' => $roles->pagination($request),
         ]);
     }
 
     public function create(): Factory|View|Application
     {
-        return view('dashboard.role.create')->with('role', new Role);
+        return view('dashboard.role.create')->with('role', new Role());
     }
 
     public function store(Request $request): Redirector|Application|RedirectResponse
@@ -35,21 +34,22 @@ class RoleController extends Controller
         ]);
 
         if ($validatedData) {
-            $role = new Role;
+            $role = new Role();
             $role->fill($validatedData);
             if ($role->save()) {
                 $request->session()->put('status', trans('dashboard.messages.model-create-success'));
+
                 return redirect(route('role.edit', ['role' => $role, 'locale' => app()->getLocale()]));
             }
         }
     }
 
-    public function edit(string $locale, Role $role): Factory|View|Application
+    public function edit(Role $role): Factory|View|Application
     {
         return view('dashboard.role.edit')->with('role', $role);
     }
 
-    public function update(Request $request, string $locale, Role $role): Redirector|Application|RedirectResponse
+    public function update(Request $request, Role $role, string $locale): Redirector|Application|RedirectResponse
     {
         $validatedData = $request->validate([
             'name' => 'required|max:'.config('settings.schema.string_length'),
@@ -66,7 +66,7 @@ class RoleController extends Controller
         return redirect(route('role.edit', ['role' => $role, 'locale' => $locale]));
     }
 
-    public function destroy(string $locale, Role $role): Redirector|Application|RedirectResponse
+    public function destroy(Role $role, string $locale): Redirector|Application|RedirectResponse
     {
         if ($role->delete()) {
             Session::put('status', trans('dashboard.messages.model-delete-success'));

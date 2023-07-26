@@ -14,53 +14,52 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
-use Throwable;
-
 
 class ProductController extends Controller
 {
     public function index(Request $request, Product $products, string $locale): Factory|View|Application
     {
         return view('dashboard.product.index', [
-            'products' => $products->pagination($request, $locale)
+            'products' => $products->pagination($request, $locale),
         ]);
     }
 
     public function create(): Factory|View|Application
     {
         return view('dashboard.product.create', [
-            'product' => new Product,
-            'categories' => Category::select(['id','name'])->get()
+            'product' => new Product(),
+            'categories' => Category::select(['id', 'name'])->get(),
         ]);
     }
 
     /**
-     * @throws Throwable
+     * @throws \Throwable
      */
     public function store(StoreProductRequest $request): Redirector|Application|RedirectResponse
     {
         $validatedData = $request->validated();
         if ($validatedData) {
-            $product = new Product;
+            $product = new Product();
             if ($product->saveModel($validatedData)) {
                 $request->session()->put('status', trans('dashboard.messages.model-create-success'));
+
                 return redirect(route('product.edit', ['product' => $product, 'locale' => app()->getLocale()]));
             }
         }
     }
 
-    public function edit(string $locale, Product $product): Factory|View|Application
+    public function edit(Product $product): Factory|View|Application
     {
         return view('dashboard.product.edit', [
             'product' => $product,
-            'categories' => Category::select(['id','name'])->get()
+            'categories' => Category::select(['id', 'name'])->get(),
         ]);
     }
 
     /**
-     * @throws Throwable
+     * @throws \Throwable
      */
-    public function update(StoreProductRequest $request, string $locale, Product $product): Redirector|Application|RedirectResponse
+    public function update(StoreProductRequest $request, Product $product, string $locale): Redirector|Application|RedirectResponse
     {
         $validatedData = $request->validated();
         if ($validatedData) {
@@ -72,12 +71,12 @@ class ProductController extends Controller
         return redirect(route('product.edit', ['product' => $product, 'locale' => $locale]));
     }
 
-    public function destroy(string $locale, Product $product): Redirector|Application|RedirectResponse
+    public function destroy(Product $product, string $locale): Redirector|Application|RedirectResponse
     {
         if ($product->delete()) {
-            $dir = public_path('uploads') . "/{$product->getImagesFolder()}/{$product->id}";
-            if (File::exists($dir)) {
-                File::deleteDirectory($dir);
+            $uploadDir = public_path('uploads')."/{$product->getImagesFolder()}/{$product->id}";
+            if (File::exists($uploadDir)) {
+                File::deleteDirectory($uploadDir);
             }
 
             Session::put('status', trans('dashboard.messages.model-delete-success'));
@@ -86,29 +85,32 @@ class ProductController extends Controller
         return redirect(route('dashboard.products', ['locale' => $locale]));
     }
 
-    public function deleteImage(string $locale, int $product_id, string $image): RedirectResponse
+    public function deleteImage(int $product_id, string $image): RedirectResponse
     {
         $product = Product::find($product_id);
         if ($product) {
             $images = $product->images_array;
-            $deleteImage = array_search($image, $images);
+            $searchImage = array_search($image, $images);
 
-            if ($deleteImage !== false) {
-                $path = public_path('uploads') . "/{$product->getImagesFolder()}/$product_id/$image";
+            if (false !== $searchImage) {
+                $path = public_path('uploads')."/{$product->getImagesFolder()}/{$product_id}/{$image}";
                 if (File::exists($path)) {
                     File::delete($path);
                 }
+
                 Session::put('status', trans('dashboard.messages.model-update-success'));
 
                 foreach ($product->getCropPresets() as $preset) {
                     $preset = $preset[0].'x'.$preset[1];
-                    $path = public_path('uploads') . "/{$product->getImagesFolder()}/$product_id/".$preset.'_'.$image;
+                    $path = public_path('uploads')."/{$product->getImagesFolder()}/{$product_id}/".$preset.'_'.$image;
+
                     if (File::exists($path)) {
                         File::delete($path);
                     }
                 }
 
-                unset($images[$deleteImage]);
+                unset($images[$searchImage]);
+
                 $product->images = $images;
                 $product->save();
             }

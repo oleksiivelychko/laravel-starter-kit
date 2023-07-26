@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\StoreOrderRequest;
 use App\Models\Order;
 use Illuminate\Contracts\Foundation\Application;
@@ -10,28 +11,26 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
-use App\Http\Controllers\Controller;
-
 
 class OrderController extends Controller
 {
     public function index(Request $request, Order $orders): View|Factory|Application
     {
         return view('dashboard.order.index', [
-            'orders' => $orders->pagination($request)
+            'orders' => $orders->pagination($request),
         ]);
     }
 
     public function create(): Factory|View|Application
     {
-        return view('dashboard.order.create')->with('order', new Order);
+        return view('dashboard.order.create')->with('order', new Order());
     }
 
     public function store(StoreOrderRequest $request): Redirector|Application|RedirectResponse
     {
         $validatedData = $request->validated();
         if ($validatedData) {
-            $order = new Order;
+            $order = new Order();
             if ($order->calculateAndSave($validatedData)) {
                 $request->session()->put('status', trans('dashboard.messages.model-create-success'));
                 return redirect(route('order.edit', ['order' => $order, 'locale' => app()->getLocale()]));
@@ -39,12 +38,12 @@ class OrderController extends Controller
         }
     }
 
-    public function edit(string $locale, Order $order): View|Factory|Application
+    public function edit(Order $order): View|Factory|Application
     {
         return view('dashboard.order.edit')->with('order', $order);
     }
 
-    public function update(StoreOrderRequest $request, string $locale, Order $order): Redirector|Application|RedirectResponse
+    public function update(StoreOrderRequest $request, Order $order, string $locale): Redirector|Application|RedirectResponse
     {
         $validatedData = $request->validated();
         if ($validatedData) {

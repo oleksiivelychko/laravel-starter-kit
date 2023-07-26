@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\API\v1\CategoryController;
 use App\Http\Controllers\API\v1\ProductController;
-use App\Http\Middleware\CheckAPIToken;
+use App\Http\Middleware\CheckTokenAPI;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group([
-    'middleware' => CheckApiToken::class,
+    'middleware' => CheckTokenAPI::class,
     'prefix' => 'v1',
     'as' => 'api.',
 ], function () {

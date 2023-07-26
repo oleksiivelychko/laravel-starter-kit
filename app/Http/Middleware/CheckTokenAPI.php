@@ -2,16 +2,14 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use Illuminate\Http\Request;
 
-
-class CheckAPIToken
+class CheckTokenAPI
 {
-    const EMPTY_TOKEN = 'Empty token';
-    const INVALID_TOKEN = 'Invalid token';
+    public const EMPTY_TOKEN = 'Empty token';
+    public const INVALID_TOKEN = 'Invalid token';
 
-    public function handle(Request $request, Closure $next): mixed
+    public function handle(Request $request, \Closure $next): mixed
     {
         $token = env('API_TOKEN');
         if (!$token) {

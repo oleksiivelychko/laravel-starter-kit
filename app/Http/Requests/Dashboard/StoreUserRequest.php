@@ -6,7 +6,6 @@ use App\Models\Permission;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-
 class StoreUserRequest extends FormRequest
 {
     public const PERMISSION_ACl = 'manage-acl';
@@ -30,18 +29,18 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'name'      => 'required|min:2|max:'.config('settings.schema.string_length'),
-            'email'     => 'required|email',
-            'avatar'    => 'image|max:1000|mimes:jpg,jpeg,png',
+            'name' => 'required|min:2|max:'.config('settings.schema.string_length'),
+            'email' => 'required|email',
+            'avatar' => 'image|max:1000|mimes:jpg,jpeg,png',
         ];
 
         $passwordRules = [
             'string',
             'min:6',              // must be at least 6 characters in length
-            //'regex:/[a-z]/',      // must contain at least one lowercase letter
-            //'regex:/[A-Z]/',      // must contain at least one uppercase letter
-            //'regex:/[0-9]/',      // must contain at least one digit
-            //'regex:/[@$!%*#?&]/', // must contain a special character
+            // 'regex:/[a-z]/',      // must contain at least one lowercase letter
+            // 'regex:/[A-Z]/',      // must contain at least one uppercase letter
+            // 'regex:/[0-9]/',      // must contain at least one digit
+            // 'regex:/[@$!%*#?&]/', // must contain a special character
         ];
 
         if (!$this->request->get('id')) {

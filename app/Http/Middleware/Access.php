@@ -2,10 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-
 
 class Access
 {
@@ -13,7 +11,7 @@ class Access
      * Use as [middlewareName:@roleName#permissionName1#permissionName2...]
      * e.g. access:@role-slug#permission-slug#permission-slug...
      */
-    public function handle(Request $request, Closure $next, ...$rolesAndPermissions): mixed
+    public function handle(Request $request, \Closure $next, ...$rolesAndPermissions): mixed
     {
         if (auth()->guest()) {
             abort(403, 'Unauthenticated action.');

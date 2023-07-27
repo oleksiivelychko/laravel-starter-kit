@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
-class ACLServiceProvider extends ServiceProvider
+class AccessServiceProvider extends ServiceProvider
 {
     /**
      * Example of usage: $user->can('manage-acl').

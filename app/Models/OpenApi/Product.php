@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models\OpenAPI;
+namespace App\Models\OpenApi;
 
 use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
  *     title="Product",
- *     description="Product OpenAPI model inherits App\Models\Product",
+ *     description="Product OpenApi model inherits App\Models\Product",
  *
  *     @OA\Xml(
  *         name="Product"

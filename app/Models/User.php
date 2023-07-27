@@ -7,7 +7,7 @@ use App\Interfaces\Pagination;
 use App\Interfaces\UploadImages;
 use App\Notifications\ResetPassword;
 use App\Notifications\VerifyEmail;
-use App\Traits\ACL;
+use App\Traits\AccessControl;
 use App\Traits\Asset;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -25,7 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail, UploadImages, Pag
 {
     use HasFactory;
     use Notifiable;
-    use ACL;
+    use AccessControl;
     use Asset;
 
     /**
@@ -134,6 +134,6 @@ class User extends Authenticatable implements MustVerifyEmail, UploadImages, Pag
 
     public function uploadImages(array $data): void
     {
-        
+
     }
 }

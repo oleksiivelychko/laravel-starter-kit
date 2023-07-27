@@ -7,8 +7,6 @@ use App\Models\Role;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * Access Control List.
- *
  * @method belongsToMany(string $class, string $string)
  *
  * @property $permissions_ids
@@ -16,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property $roles
  * @property $permissions
  */
-trait ACL
+trait AccessControl
 {
     public function roles(): BelongsToMany
     {

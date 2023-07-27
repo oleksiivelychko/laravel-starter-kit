@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 
-class CheckTokenAPI
+class CheckApiToken
 {
     public const EMPTY_TOKEN = 'Empty token';
     public const INVALID_TOKEN = 'Invalid token';

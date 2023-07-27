@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\API;
+namespace Tests\Feature\Api;
 
 use App\Helpers\LocaleHelper;
 use App\Models\Category;
@@ -10,12 +10,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-/**
- * @internal
- *
- * @coversNothing
- */
-class ProductCRUDTest extends TestCase
+class ProductCrudTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -119,7 +114,7 @@ class ProductCRUDTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertExactJson(['Product has been successfully deleted'])
+            ->assertExactJson(['Product has been successfully deleted.'])
         ;
     }
 

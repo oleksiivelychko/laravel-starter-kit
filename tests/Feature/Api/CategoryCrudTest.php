@@ -1,18 +1,13 @@
 <?php
 
-namespace Tests\Feature\API;
+namespace Tests\Feature\Api;
 
 use App\Helpers\LocaleHelper;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-/**
- * @internal
- *
- * @coversNothing
- */
-class CategoryCRUDTest extends TestCase
+class CategoryCrudTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -73,7 +68,7 @@ class CategoryCRUDTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertExactJson(['Category has been successfully deleted'])
+            ->assertExactJson(['Category has been successfully deleted.'])
         ;
     }
 

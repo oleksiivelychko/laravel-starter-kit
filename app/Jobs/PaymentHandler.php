@@ -10,7 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
-class ProcessPaymentHook implements ShouldQueue
+class PaymentHandler implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;

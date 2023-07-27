@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\ProcessImportHandler;
+use App\Jobs\ImportHandler;
 use App\Models\Import;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -69,7 +69,7 @@ class ImportController extends Controller
         $import = new Import();
         $import->init($request->get('entity'));
 
-        ProcessImportHandler::dispatch($path, $classname, $import, Auth::id());
+        ImportHandler::dispatch($path, $classname, $import, Auth::id());
 
         return redirect()->back();
     }

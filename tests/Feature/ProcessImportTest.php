@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Events\ReloadImportPageEvent;
-use App\Jobs\ProcessImportHandler;
+use App\Jobs\ImportHandler;
 use App\Models\Category;
 use App\Models\Import;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -62,11 +62,11 @@ class ProcessImportTest extends TestCase
 
         $importFilename = $this->prepare($filename, $mime);
 
-        Bus::fake(ProcessImportHandler::class);
+        Bus::fake(ImportHandler::class);
 
-        ProcessImportHandler::dispatch(public_path('uploads/'.$importFilename), Category::class, $import, Auth::id());
+        ImportHandler::dispatch(public_path('uploads/'.$importFilename), Category::class, $import, Auth::id());
 
-        Bus::assertDispatched(ProcessImportHandler::class);
+        Bus::assertDispatched(ImportHandler::class);
 
         $this->assertEquals(Import::STATE_WORKS, $import->state);
 
@@ -83,7 +83,7 @@ class ProcessImportTest extends TestCase
 
         $importFilename = $this->prepare($filename, $mime);
 
-        $processImport = new ProcessImportHandler(public_path('uploads/'.$importFilename), Category::class, $import, Auth::id());
+        $processImport = new ImportHandler(public_path('uploads/'.$importFilename), Category::class, $import, Auth::id());
 
         $this->assertEquals(Import::STATE_WORKS, $import->state);
 

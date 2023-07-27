@@ -14,7 +14,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class ProcessImportHandler implements ShouldQueue
+class ImportHandler implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;

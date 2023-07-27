@@ -2,28 +2,15 @@
 
 namespace App\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Contracts\Validation\ValidationRule;
 
-class CreditCard implements Rule
+class CreditCard implements ValidationRule
 {
-    /**
-     * Determine if the validation rule passes.
-     */
-    public function passes($attribute, $value): bool
+    public function validate(string $attribute, mixed $value, \Closure $fail): void
     {
         if ($this->isValidLuhn($value)) {
-            return true;
+            $fail('The credit card [:attribute] has not passed Luhn validation.');
         }
-
-        return false;
-    }
-
-    /**
-     * Get the validation error message.
-     */
-    public function message(): string
-    {
-        return 'The credit card has not passed Luhn validation.';
     }
 
     /**

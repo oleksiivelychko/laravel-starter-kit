@@ -8,11 +8,6 @@ use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-/**
- * @internal
- *
- * @coversNothing
- */
 class LiveSearchTest extends TestCase
 {
     use RefreshDatabase;

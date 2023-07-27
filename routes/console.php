@@ -18,5 +18,5 @@ Artisan::command('test-mail', function () {
     Mail::send('components/application-version', [], function ($message) {
         $message->to('test@test.test')->subject('test mail');
     });
-    $this->comment('check now https://mail.laravel-dashboard.local');
+    $this->comment('check mailbox at https://mail.laravel-dashboard.local');
 })->purpose('Test sending an email to MailHog server');

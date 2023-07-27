@@ -1,9 +1,6 @@
 dockerexec := docker-compose exec laravel-app
 dockerexecapp := $(dockerexec) php artisan
 
-artisan-key-generate:
-	$(dockerexecapp) key:generate --ansi
-
 artisan-migrate-refresh:
 	$(dockerexecapp) migrate:refresh --force
 

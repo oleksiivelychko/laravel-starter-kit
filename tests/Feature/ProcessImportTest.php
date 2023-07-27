@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Events\ReloadImportPageEvent;
-use App\Jobs\ProcessImportJob;
+use App\Jobs\ProcessImportHandler;
 use App\Models\Category;
 use App\Models\Import;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,12 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Tests\TestCase;
 
-/**
- * @internal
- *
- * @coversNothing
- */
-class ImportJobTest extends TestCase
+class ProcessImportTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -67,11 +62,11 @@ class ImportJobTest extends TestCase
 
         $importFilename = $this->prepare($filename, $mime);
 
-        Bus::fake(ProcessImportJob::class);
+        Bus::fake(ProcessImportHandler::class);
 
-        ProcessImportJob::dispatch(public_path('uploads/'.$importFilename), Category::class, $import, Auth::id());
+        ProcessImportHandler::dispatch(public_path('uploads/'.$importFilename), Category::class, $import, Auth::id());
 
-        Bus::assertDispatched(ProcessImportJob::class);
+        Bus::assertDispatched(ProcessImportHandler::class);
 
         $this->assertEquals(Import::STATE_WORKS, $import->state);
 
@@ -88,7 +83,7 @@ class ImportJobTest extends TestCase
 
         $importFilename = $this->prepare($filename, $mime);
 
-        $processImport = new ProcessImportJob(public_path('uploads/'.$importFilename), Category::class, $import, Auth::id());
+        $processImport = new ProcessImportHandler(public_path('uploads/'.$importFilename), Category::class, $import, Auth::id());
 
         $this->assertEquals(Import::STATE_WORKS, $import->state);
 

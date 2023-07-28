@@ -2,9 +2,9 @@
 
 namespace App\Traits;
 
+use App\Contracts\UploadImages;
 use App\Exceptions\InterfaceInstanceException;
 use App\Helpers\ImageHelper;
-use App\Interfaces\UploadImages;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
 
@@ -18,7 +18,7 @@ trait Asset
     /**
      * @throws InterfaceInstanceException
      */
-    public function showImage($preset = ''): string
+    public function showImage(string $preset = ''): string
     {
         $this->throwAway();
 
@@ -35,7 +35,7 @@ trait Asset
     /**
      * @throws InterfaceInstanceException
      */
-    public function showFirstImage($preset = ''): string
+    public function showFirstImage(string $preset = ''): string
     {
         $this->throwAway();
 
@@ -51,9 +51,10 @@ trait Asset
     }
 
     /**
+     *
      * @throws InterfaceInstanceException
      */
-    public function uploadImage(?UploadedFile $uploadedFile, $multiple = false): bool|string
+    public function uploadImage(?UploadedFile $uploadedFile, bool $multiple = false): bool|string
     {
         $this->throwAway();
 

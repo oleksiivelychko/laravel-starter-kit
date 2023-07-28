@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Interfaces\Entity;
-use App\Interfaces\Pagination;
+use App\Contracts\Entity;
+use App\Contracts\Pagination;
 use App\Traits\Asset;
 use App\Traits\Translation;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;

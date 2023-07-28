@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Interfaces;
+namespace App\Contracts;
 
 use Illuminate\Http\UploadedFile;
 
@@ -12,7 +12,7 @@ interface UploadImages
 
     public function getCropPresets(): array;
 
-    public function uploadImage(?UploadedFile $uploadedFile, $multiple = false): bool|string;
+    public function uploadImage(?UploadedFile $uploadedFile, bool $multiple = false): bool|string;
 
     public function uploadImages(array $data): void;
 }

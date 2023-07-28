@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Interfaces\Pagination;
+use App\Contracts\Pagination;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Request;

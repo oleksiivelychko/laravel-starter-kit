@@ -3,7 +3,7 @@
 namespace App\Helpers\Factories;
 
 use App\Helpers\JsonImport;
-use App\Interfaces\ImportFile;
+use App\Contracts\ImportFile;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 

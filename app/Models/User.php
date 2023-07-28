@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Contracts\Pagination;
+use App\Contracts\UploadImages;
 use App\Exceptions\InterfaceInstanceException;
-use App\Interfaces\Pagination;
-use App\Interfaces\UploadImages;
 use App\Notifications\ResetPassword;
 use App\Notifications\VerifyEmail;
 use App\Traits\AccessControl;
@@ -97,7 +97,7 @@ class User extends Authenticatable implements MustVerifyEmail, UploadImages, Pag
     /**
      * @throws InterfaceInstanceException
      */
-    public function store($rolesIds = [], $permissionsIds = [], $uploadedAvatar = null): bool
+    public function store(array $rolesIds = [], array $permissionsIds = [], $uploadedAvatar = null): bool
     {
         $saved = $this->save();
         if ($saved) {
@@ -134,6 +134,5 @@ class User extends Authenticatable implements MustVerifyEmail, UploadImages, Pag
 
     public function uploadImages(array $data): void
     {
-
     }
 }

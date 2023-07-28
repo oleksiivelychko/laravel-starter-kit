@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Contracts\Entity;
+use App\Contracts\Pagination;
+use App\Contracts\UploadImages;
 use App\Exceptions\InterfaceInstanceException;
-use App\Interfaces\Entity;
-use App\Interfaces\Pagination;
-use App\Interfaces\UploadImages;
 use App\Traits\Asset;
 use App\Traits\Translation;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -24,6 +24,7 @@ use Illuminate\Support\Str;
  * @property string $name
  * @property string $description
  * @property array  $categories_ids
+ * @method select(string[] $array)
  */
 class Product extends Model implements Entity, UploadImages, Pagination
 {

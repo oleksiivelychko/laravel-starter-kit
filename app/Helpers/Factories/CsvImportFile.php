@@ -2,7 +2,7 @@
 
 namespace App\Helpers\Factories;
 
-use App\Interfaces\ImportFile;
+use App\Contracts\ImportFile;
 use App\Models\Import as ImportModel;
 use Exception;
 use Symfony\Component\HttpFoundation\File\UploadedFile;

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Helpers\ShoppingCart;
+use App\Helpers\Domain\ShoppingCart;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
  * @property null|int $user_id
  * @property bool     $shipping_address_as_billing_address
  * @property mixed    $items
+ * @method select(string[] $array)
  */
 class Order extends Model
 {
@@ -67,8 +68,7 @@ class Order extends Model
                 $orderItem->save();
             }
 
-            $cartInstance = ShoppingCart::getCartInstance();
-            $cartInstance?->delete();
+            ShoppingCart::getInstance()?->delete();
         }
 
         return $saved;

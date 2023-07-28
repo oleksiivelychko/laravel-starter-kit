@@ -1,21 +1,20 @@
 <?php
 
-namespace App\Helpers;
+namespace App\Helpers\Domain;
 
 use App\Models\Cart;
 use App\Models\CartItem;
-use Exception;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
 
 class ShoppingCart
 {
-    const COOKIE_NAME = 'shopping_cart';
-    const COOKIE_TIME = 10080; // 1 week
+    public const COOKIE_NAME = 'shopping_cart';
+    public const COOKIE_TIME = 10080; // 1 week
 
     private static ?Cart $instance = null;
 
-    public static function getCartInstance(): ?Cart
+    public static function getInstance(): ?Cart
     {
         return self::$instance;
     }
@@ -23,7 +22,7 @@ class ShoppingCart
     /**
      * Create or load instance of shopping cart by passed cookie hash value.
      */
-    public static function load()
+    public static function load(): void
     {
         $cartHash = Cookie::get('shopping_cart');
         if ($cartHash) {
@@ -37,7 +36,7 @@ class ShoppingCart
             }
         } else {
             $cart = new Cart();
-            $cart->hash = sha1(microtime() . Str::random());
+            $cart->hash = sha1(microtime().Str::random());
             $cart->save();
             Cookie::queue(self::COOKIE_NAME, $cart->hash, self::COOKIE_TIME);
         }
@@ -59,7 +58,7 @@ class ShoppingCart
             $cartItem->cart_id = self::$instance->id;
             $saved = $cartItem->save();
         } else {
-            $cartItem->quantity += 1;
+            ++$cartItem->quantity;
             $saved = $cartItem->update();
         }
 
@@ -71,7 +70,7 @@ class ShoppingCart
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public static function removeFromCart(int $cartItemId): array
     {
@@ -80,15 +79,16 @@ class ShoppingCart
             if (!self::$instance) {
                 self::load();
             }
+
             return [
-                'deleted'   => true,
-                'items'     => self::getItems()
+                'deleted' => true,
+                'items' => self::getItems(),
             ];
         }
 
         return [
-            'deleted'   => false,
-            'items'     => []
+            'deleted' => false,
+            'items' => [],
         ];
     }
 

@@ -69,15 +69,15 @@ class ProductController extends OpenApiController
      */
     public function index(): ProductCollection|JsonResponse
     {
-        $models = Product::with('categories')
+        $products = Product::with('categories')
             ->offset(Request::input('offset', 0))
             ->limit(Request::input('limit', 100))
             ->orderBy('id')
             ->get()
         ;
 
-        if (count($models)) {
-            return new ProductCollection($models);
+        if (count($products)) {
+            return new ProductCollection($products);
         }
 
         return response()->json([], Response::HTTP_NOT_FOUND);
@@ -236,9 +236,9 @@ class ProductController extends OpenApiController
      */
     public function show(int $id): JsonResponse
     {
-        $model = Product::with('categories')->find($id);
-        if ($model) {
-            return response()->json($model);
+        $product = Product::with('categories')->find($id);
+        if ($product) {
+            return response()->json($product);
         }
 
         return response()->json([], 404);
@@ -399,9 +399,9 @@ class ProductController extends OpenApiController
     public function destroy(Product $product): JsonResponse
     {
         if ($product->delete()) {
-            $dir = public_path('uploads')."/{$product->getImagesFolder()}/{$product->id}";
-            if (File::exists($dir)) {
-                File::deleteDirectory($dir);
+            $imagesDir = public_path('uploads')."/{$product->getImagesFolder()}/{$product->id}";
+            if (File::exists($imagesDir)) {
+                File::deleteDirectory($imagesDir);
             }
 
             return response()->json(['Product has been successfully deleted.']);

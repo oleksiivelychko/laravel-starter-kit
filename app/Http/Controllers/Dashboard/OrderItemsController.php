@@ -26,8 +26,8 @@ class OrderItemsController extends Controller
 
     public function store(Request $request): Redirector|Application|RedirectResponse
     {
-        $orderID = $request->get('order_id');
-        $request->request->add(['order_id' => $orderID]);
+        $orderId = $request->get('order_id');
+        $request->request->add(['order_id' => $orderId]);
 
         $orderItem = new OrderItem();
         $validatedData = $request->validate($orderItem->rules());
@@ -36,7 +36,7 @@ class OrderItemsController extends Controller
             if ($orderItem->calculateAndSave($validatedData)) {
                 $request->session()->put('status', trans('dashboard.messages.model-create-success'));
 
-                return redirect(route('order.edit', ['order' => $orderID, 'locale' => app()->getLocale()]));
+                return redirect(route('order.edit', ['order' => $orderId, 'locale' => app()->getLocale()]));
             }
         }
     }
@@ -51,8 +51,8 @@ class OrderItemsController extends Controller
 
     public function update(Request $request, OrderItem $orderItem, string $locale): Redirector|Application|RedirectResponse
     {
-        $orderID = $request->get('order_id');
-        $request->request->add(['order_id' => $orderID]);
+        $orderId = $request->get('order_id');
+        $request->request->add(['order_id' => $orderId]);
 
         $validatedData = $request->validate($orderItem->rules());
         if ($validatedData) {
@@ -61,7 +61,7 @@ class OrderItemsController extends Controller
             }
         }
 
-        return redirect(route('order.edit', ['order' => $orderID, 'locale' => $locale]));
+        return redirect(route('order.edit', ['order' => $orderId, 'locale' => $locale]));
     }
 
     public function destroy(OrderItem $orderItem, string $locale): Redirector|Application|RedirectResponse

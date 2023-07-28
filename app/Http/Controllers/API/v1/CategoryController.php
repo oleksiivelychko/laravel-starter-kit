@@ -66,15 +66,15 @@ class CategoryController extends OpenApiController
      */
     public function index(): JsonResponse
     {
-        $models = Category::with('parent')
+        $categories = Category::with('parent')
             ->offset(Request::input('offset', 0))
             ->limit(Request::input('limit', 100))
             ->orderBy('id')
             ->get()
         ;
 
-        if (count($models)) {
-            return response()->json($models);
+        if (count($categories)) {
+            return response()->json($categories);
         }
 
         return response()->json([], 404);
@@ -208,9 +208,9 @@ class CategoryController extends OpenApiController
      */
     public function show(int $id): JsonResponse
     {
-        $model = Category::with('parent')->find($id);
-        if ($model) {
-            return response()->json($model);
+        $category = Category::with('parent')->find($id);
+        if ($category) {
+            return response()->json($category);
         }
 
         return response()->json([], 404);
@@ -353,10 +353,10 @@ class CategoryController extends OpenApiController
      */
     public function destroy(Category $category): JsonResponse
     {
-        $IDs = $category->selectUniqueProductIds();
+        $productIds = $category->selectUniqueProductIds();
 
         if ($category->delete()) {
-            $category->deleteUnusedProducts($IDs);
+            $category->deleteUnusedProducts($productIds);
 
             return response()->json(['Category has been successfully deleted.']);
         }

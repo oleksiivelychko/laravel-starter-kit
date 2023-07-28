@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\API\v1\CategoryController;
-use App\Http\Controllers\API\v1\ProductController;
+use App\Http\Controllers\Api\v1\CategoryController;
+use App\Http\Controllers\Api\v1\ProductController;
 use App\Http\Middleware\CheckApiToken;
 use Illuminate\Support\Facades\Route;
 

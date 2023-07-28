@@ -1,23 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\API\v1;
+namespace App\Http\Controllers\Api\v1;
 
-use App\Http\Requests\Dashboard\StoreCategoryRequest;
-use App\Models\Category;
+use App\Http\Requests\Dashboard\StoreProductRequest;
+use App\Http\Resources\ProductCollection;
+use App\Models\Product;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Request;
 use OpenApi\Annotations as OA;
+use Symfony\Component\HttpFoundation\Response;
 
-class CategoryController extends OpenApiController
+class ProductController extends OpenApiController
 {
     /**
      * @OA\Get (
-     *      path="/api/v1/categories",
-     *      operationId="getCategoriesList",
-     *      tags={"Categories"},
+     *      path="/api/v1/products",
+     *      operationId="getProductsList",
+     *      tags={"Products"},
      *      security={{"ApiKeyAuth": {}}},
-     *      summary="Get categories",
-     *      description="Fetch all categories using `offset` and `limit` parameters",
+     *      summary="Get products",
+     *      description="Fetch all products using `offset` and `limit` parameters",
      *
      *      @OA\Parameter(
      *          name="offset",
@@ -64,39 +67,40 @@ class CategoryController extends OpenApiController
      *      )
      * )
      */
-    public function index(): JsonResponse
+    public function index(): ProductCollection|JsonResponse
     {
-        $categories = Category::with('parent')
+        $products = Product::with('categories')
             ->offset(Request::input('offset', 0))
             ->limit(Request::input('limit', 100))
             ->orderBy('id')
             ->get()
         ;
 
-        if (count($categories)) {
-            return response()->json($categories);
+        if (count($products)) {
+            return new ProductCollection($products);
         }
 
-        return response()->json([], 404);
+        return response()->json([], Response::HTTP_NOT_FOUND);
     }
 
     /**
      * @OA\Post (
-     *      path="/api/v1/categories",
-     *      operationId="storeCategory",
-     *      tags={"Categories"},
+     *      path="/api/v1/products",
+     *      operationId="storeProduct",
+     *      tags={"Products"},
      *      security={{"ApiKeyAuth": {}}},
-     *      summary="Create a new category",
-     *      description="Create a new category from POST data",
+     *      summary="Create a new product",
+     *      description="Create a new product from POST data",
      *
      *      @OA\RequestBody(
      *          required=true,
      *
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
+     *              encoding={"categories[]":{"explode":"true"}},
      *
      *              @OA\Schema(
-     *                  required={"name__en","name__uk"},
+     *                  required={"name__en","name__uk","price","categories[]"},
      *
      *                  @OA\Property(
      *                      property="name__en",
@@ -109,14 +113,38 @@ class CategoryController extends OpenApiController
      *                      type="string"
      *                   ),
      *                  @OA\Property(
+     *                      property="description__en",
+     *                      description="Description in English",
+     *                      type="string"
+     *                   ),
+     *                  @OA\Property(
+     *                      property="description__uk",
+     *                      description="Description in Ukranian",
+     *                      type="string"
+     *                   ),
+     *                  @OA\Property(
      *                      property="slug",
      *                      description="Slug",
      *                      type="string"
      *                   ),
      *                  @OA\Property(
-     *                      property="parent_id",
-     *                      description="Parent ID of Category",
-     *                      type="integer"
+     *                      property="price",
+     *                      type="number",
+     *                      format="float"
+     *                   ),
+     *                  @OA\Property(
+     *                      property="categories[]",
+     *                      type="array",
+     *                      collectionFormat="multi",
+     *
+     *                      @OA\Items(type="integer")
+     *                   ),
+     *
+     *                  @OA\Property(
+     *                      property="images[]",
+     *                      type="array",
+     *
+     *                      @OA\Items(type="file", format="binary")
      *                   ),
      *               ),
      *           ),
@@ -126,7 +154,7 @@ class CategoryController extends OpenApiController
      *          response=200,
      *          description="Successful operation",
      *
-     *          @OA\JsonContent(ref="#/components/schemas/Category")
+     *          @OA\JsonContent(ref="#/components/schemas/Product")
      *       ),
      *
      *      @OA\Response(
@@ -149,13 +177,13 @@ class CategoryController extends OpenApiController
      *
      * @throws \Throwable
      */
-    public function store(StoreCategoryRequest $request): JsonResponse
+    public function store(StoreProductRequest $request): JsonResponse
     {
         $validatedData = $request->validated();
         if ($validatedData) {
-            $category = new Category();
-            if ($category->saveModel($validatedData)) {
-                return response()->json($category);
+            $product = new Product();
+            if ($product->saveModel($validatedData)) {
+                return response()->json($product);
             }
         }
 
@@ -164,157 +192,12 @@ class CategoryController extends OpenApiController
 
     /**
      * @OA\Get  (
-     *      path="/api/v1/categories/{id}",
-     *      operationId="getCategory",
-     *      tags={"Categories"},
+     *      path="/api/v1/products/{id}",
+     *      operationId="getProduct",
+     *      tags={"Products"},
      *      security={{"ApiKeyAuth": {}}},
-     *      summary="Get category",
-     *      description="Get category by ID",
-     *
-     *      @OA\Parameter(
-     *          name="id",
-     *          required=true,
-     *          in="path",
-     *
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
-     *
-     *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation",
-     *
-     *          @OA\JsonContent(ref="#/components/schemas/Category")
-     *       ),
-     *
-     *      @OA\Response(
-     *          response=400,
-     *          description="Bad Request"
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Resource Not Found"
-     *      )
-     * )
-     */
-    public function show(int $id): JsonResponse
-    {
-        $category = Category::with('parent')->find($id);
-        if ($category) {
-            return response()->json($category);
-        }
-
-        return response()->json([], 404);
-    }
-
-    /**
-     * @OA\Put (
-     *      path="/api/v1/categories/{id}",
-     *      operationId="updateCategory",
-     *      tags={"Categories"},
-     *      security={{"ApiKeyAuth": {}}},
-     *      summary="Update the exists category",
-     *      description="Update the exists category from POST data",
-     *
-     *      @OA\Parameter(
-     *          name="id",
-     *          required=true,
-     *          in="path",
-     *
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
-     *
-     *      @OA\RequestBody(
-     *          required=true,
-     *
-     *          @OA\MediaType(
-     *              mediaType="application/x-www-form-urlencoded",
-     *
-     *              @OA\Schema(
-     *                  required={"name__en","name__uk"},
-     *
-     *                  @OA\Property(
-     *                      property="name__en",
-     *                      description="Name in English",
-     *                      type="string"
-     *                   ),
-     *                  @OA\Property(
-     *                      property="name__uk",
-     *                      description="Name in Ukranian",
-     *                      type="string"
-     *                   ),
-     *                  @OA\Property(
-     *                      property="slug",
-     *                      description="Slug",
-     *                      type="string"
-     *                   ),
-     *                   @OA\Property(
-     *                      property="parent_id",
-     *                      description="Parent ID of Category",
-     *                      type="integer"
-     *                   ),
-     *               ),
-     *           ),
-     *      ),
-     *
-     *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation",
-     *
-     *          @OA\JsonContent(ref="#/components/schemas/Category")
-     *       ),
-     *
-     *      @OA\Response(
-     *          response=400,
-     *          description="Bad Request"
-     *      ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Resource Not Found"
-     *      )
-     * )
-     *
-     * @throws \Throwable
-     */
-    public function update(StoreCategoryRequest $request, Category $category): JsonResponse
-    {
-        $validatedData = $request->validated();
-        if ($validatedData) {
-            if ($category->saveModel($validatedData)) {
-                return response()->json($category);
-            }
-        }
-
-        return response()->json([], 422);
-    }
-
-    /**
-     * @OA\Delete (
-     *      path="/api/v1/categories/{id}",
-     *      operationId="deleteCategory",
-     *      tags={"Categories"},
-     *      security={{"ApiKeyAuth": {}}},
-     *      summary="Delete the exists category",
-     *      description="Delete the exists category by ID",
+     *      summary="Get product",
+     *      description="Get product by ID",
      *
      *      @OA\Parameter(
      *          name="id",
@@ -351,14 +234,177 @@ class CategoryController extends OpenApiController
      *      )
      * )
      */
-    public function destroy(Category $category): JsonResponse
+    public function show(int $id): JsonResponse
     {
-        $productIds = $category->selectUniqueProductIds();
+        $product = Product::with('categories')->find($id);
+        if ($product) {
+            return response()->json($product);
+        }
 
-        if ($category->delete()) {
-            $category->deleteUnusedProducts($productIds);
+        return response()->json([], 404);
+    }
 
-            return response()->json(['Category has been successfully deleted.']);
+    /**
+     * @OA\Put (
+     *      path="/api/v1/products/{id}",
+     *      operationId="updateProduct",
+     *      tags={"Products"},
+     *      security={{"ApiKeyAuth": {}}},
+     *      summary="Update the exists product",
+     *      description="Update the exists product from POST data",
+     *
+     *      @OA\Parameter(
+     *          name="id",
+     *          required=true,
+     *          in="path",
+     *
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *
+     *      @OA\RequestBody(
+     *          required=true,
+     *
+     *          @OA\MediaType(
+     *              mediaType="application/x-www-form-urlencoded",
+     *              encoding={"categories[]":{"explode":"true"}},
+     *
+     *              @OA\Schema(
+     *                  required={"name__en","name__uk","price","categories[]"},
+     *
+     *                  @OA\Property(
+     *                      property="name__en",
+     *                      description="Name in English",
+     *                      type="string"
+     *                   ),
+     *                  @OA\Property(
+     *                      property="name__uk",
+     *                      description="Name in Ukranian",
+     *                      type="string"
+     *                   ),
+     *                  @OA\Property(
+     *                      property="description__en",
+     *                      description="Description in English",
+     *                      type="string"
+     *                   ),
+     *                  @OA\Property(
+     *                      property="description__uk",
+     *                      description="Description in Ukranian",
+     *                      type="string"
+     *                   ),
+     *                  @OA\Property(
+     *                      property="slug",
+     *                      description="Slug",
+     *                      type="string"
+     *                   ),
+     *                  @OA\Property(
+     *                      property="price",
+     *                      type="number",
+     *                      format="float"
+     *                   ),
+     *                  @OA\Property(
+     *                      property="categories[]",
+     *                      type="array",
+     *
+     *                      @OA\Items(type="integer")
+     *                   ),
+     *               ),
+     *           ),
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *
+     *          @OA\JsonContent(ref="#/components/schemas/Product")
+     *       ),
+     *
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
+     *
+     * @throws \Throwable
+     */
+    public function update(StoreProductRequest $request, Product $product): JsonResponse
+    {
+        $validatedData = $request->validated();
+        if ($validatedData) {
+            if ($product->saveModel($validatedData)) {
+                return response()->json($product);
+            }
+        }
+
+        return response()->json([], 422);
+    }
+
+    /**
+     * @OA\Delete (
+     *      path="/api/v1/products/{id}",
+     *      operationId="deleteProduct",
+     *      tags={"Products"},
+     *      security={{"ApiKeyAuth": {}}},
+     *      summary="Delete the exists product",
+     *      description="Delete the exists product by ID",
+     *
+     *      @OA\Parameter(
+     *          name="id",
+     *          required=true,
+     *          in="path",
+     *
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *
+     *          @OA\JsonContent(ref="#/components/schemas/Product")
+     *       ),
+     *
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     * )
+     */
+    public function destroy(Product $product): JsonResponse
+    {
+        if ($product->delete()) {
+            $imagesDir = public_path('uploads')."/{$product->getImagesFolder()}/{$product->id}";
+            if (File::exists($imagesDir)) {
+                File::deleteDirectory($imagesDir);
+            }
+
+            return response()->json(['Product has been successfully deleted.']);
         }
 
         return response()->json([], 422);

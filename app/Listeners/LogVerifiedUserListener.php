@@ -8,7 +8,6 @@ class LogVerifiedUserListener
 {
     public function __construct()
     {
-        
     }
 
     public function handle($event): void

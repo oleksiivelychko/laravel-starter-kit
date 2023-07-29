@@ -14,14 +14,9 @@ class ProductJson extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $locale = app()->getLocale();
-
         /** @var Product $this */
-        $image = ImageHelper::showImage(
-            $this->images_array[0] ?? null,
-            $this->getImagesFolder().'/'.$this->id,
-            '200x150'
-        );
+
+        $locale = app()->getLocale();
 
         return [
             'id' => $this->id,
@@ -29,7 +24,11 @@ class ProductJson extends JsonResource
             'name' => $this->translate('name', $locale),
             'description' => $this->translate('description', $locale),
             'price' => $this->price,
-            'image' => asset($image['path']),
+            'image' => asset(ImageHelper::showImage(
+                $this->images_array[0] ?? null,
+                $this->getImagesFolder().'/'.$this->id,
+                '200x150'
+            )['path']),
             'created_at' => $this->created_at->format('d.m.Y H:i:s'),
         ];
     }

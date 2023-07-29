@@ -2,7 +2,7 @@
 /vendor
 /database/database.sqlite
 /.idea
-/.docker/certs/localhost.*
+/storage/certs/localhost.*
 /.docker/log/*log
 /.docker/mysql/db
 /.docker/rabbitmq/data

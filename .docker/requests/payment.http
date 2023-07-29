@@ -1,8 +1,0 @@
-### Change payment status
-POST {{host}}/hooks/payment
-Content-Type: application/json
-
-{
-    "order_id": 3,
-    "status": "IN_PROGRESS"
-}

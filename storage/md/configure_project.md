@@ -9,3 +9,8 @@ CERTS_DIR=${PWD}/storage/certs ./generate-certs.sh laravel-starter-kit.local mai
 ```
 php artisan key:generate --ansi
 ```
+
+📌 Make a request to invoke payment hook:
+```
+curl -X POST -H "Content-Type: application/json" -d '{"order_id":1,"status":"IN_PROGRESS"}' https://laravel-starter-kit.local/hooks/payment
+```

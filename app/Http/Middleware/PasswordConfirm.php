@@ -6,7 +6,7 @@ use Illuminate\Auth\Middleware\RequirePassword;
 
 class PasswordConfirm extends RequirePassword
 {
-    public function handle($request, \Closure $next, $redirectToRoute = null, $passwordTimeoutSeconds = null): mixed
+    public function handle($request, \Closure $next, $redirectToRoute = null, $passwordTimeoutSeconds = null)
     {
         if ($this->shouldConfirmPassword($request, $passwordTimeoutSeconds)) {
             if ($request->expectsJson()) {

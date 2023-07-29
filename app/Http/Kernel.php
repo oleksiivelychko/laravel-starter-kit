@@ -5,6 +5,7 @@ namespace App\Http;
 use App\Http\Middleware\Access;
 use App\Http\Middleware\AllowOnlyAjaxRequests;
 use App\Http\Middleware\IsVerifiedEmail;
+use App\Http\Middleware\PasswordConfirm;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -58,11 +59,11 @@ class Kernel extends HttpKernel
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => IsVerifiedEmail::class,
         'access' => Access::class,
         'locale' => SetLocale::class,
+        'password.confirm' => PasswordConfirm::class,
     ];
 }

@@ -134,5 +134,6 @@ class User extends Authenticatable implements MustVerifyEmail, UploadImages, Pag
 
     public function uploadImages(array $data): void
     {
+
     }
 }

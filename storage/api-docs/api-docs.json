@@ -672,14 +672,8 @@
         "schemas": {
             "Category": {
                 "title": "Category",
-                "description": "Category OpenAPI model inherits App\\Models\\Category",
+                "description": "Category OpenApi model inherits App\\Models\\Category",
                 "properties": {
-                    "id": {
-                        "title": "ID",
-                        "description": "Primary Key",
-                        "type": "integer",
-                        "format": "int64"
-                    },
                     "name": {
                         "title": "Name",
                         "description": "Required, JSON",
@@ -690,6 +684,17 @@
                         "title": "Slug",
                         "type": "string",
                         "example": "test-category"
+                    },
+                    "parent_id": {
+                        "description": "Reference to parent category ID",
+                        "type": "object",
+                        "format": "\\App\\Models\\OpenApi\\Category"
+                    },
+                    "id": {
+                        "title": "ID",
+                        "description": "Primary Key",
+                        "type": "integer",
+                        "format": "int64"
                     },
                     "created_at": {
                         "title": "Created at",
@@ -702,11 +707,6 @@
                         "type": "string",
                         "format": "datetime",
                         "example": "2021-04-17 19:52:53"
-                    },
-                    "parent_id": {
-                        "description": "Reference to parent category ID",
-                        "type": "object",
-                        "format": "\\App\\Models\\OpenApi\\Category"
                     }
                 },
                 "type": "object",
@@ -716,14 +716,8 @@
             },
             "Product": {
                 "title": "Product",
-                "description": "Product OpenAPI model inherits App\\Models\\Product",
+                "description": "Product OpenApi model inherits App\\Models\\Product",
                 "properties": {
-                    "id": {
-                        "title": "ID",
-                        "description": "Primary Key",
-                        "type": "integer",
-                        "format": "int64"
-                    },
                     "name": {
                         "title": "Name",
                         "description": "Required, JSON",
@@ -757,6 +751,12 @@
                     "image": {
                         "title": "Image",
                         "type": "string"
+                    },
+                    "id": {
+                        "title": "ID",
+                        "description": "Primary Key",
+                        "type": "integer",
+                        "format": "int64"
                     },
                     "created_at": {
                         "title": "Created at",

@@ -14,7 +14,7 @@ services:
         volumes:
             - .:/var/www
             - ./.docker/php/php.dev.ini:/usr/local/etc/php/php.ini
-            - ./.docker/coverage:/opt/phpstorm-coverage
+            - ./storage/coverage:/opt/phpstorm-coverage
         restart: on-failure
         networks:
             - laravel-network

@@ -1,4 +1,4 @@
-FROM rabbitmq:3-management
+FROM rabbitmq:3.9-management
 
 ARG RABBITMQ_USER
 ARG RABBITMQ_PASSWORD

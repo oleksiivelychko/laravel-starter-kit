@@ -38,12 +38,12 @@ class OrderController extends Controller
         }
     }
 
-    public function edit(Order $order): View|Factory|Application
+    public function edit(string $locale, Order $order): View|Factory|Application
     {
         return view('dashboard.order.edit')->with('order', $order);
     }
 
-    public function update(StoreOrderRequest $request, Order $order, string $locale): Redirector|Application|RedirectResponse
+    public function update(StoreOrderRequest $request, string $locale, Order $order): Redirector|Application|RedirectResponse
     {
         $validatedData = $request->validated();
         if ($validatedData) {

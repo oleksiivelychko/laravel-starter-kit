@@ -53,7 +53,7 @@ class UserController extends Controller
         }
     }
 
-    public function edit(User $user): Factory|View|Application
+    public function edit(string $locale, User $user): Factory|View|Application
     {
         return view('dashboard.user.edit')->with('user', $user);
     }
@@ -61,7 +61,7 @@ class UserController extends Controller
     /**
      * @throws InterfaceInstanceException
      */
-    public function update(StoreUserRequest $request, User $user, string $locale): Redirector|Application|RedirectResponse
+    public function update(StoreUserRequest $request, string $locale, User $user): Redirector|Application|RedirectResponse
     {
         $validatedData = $request->validated();
         if ($validatedData) {

@@ -44,12 +44,12 @@ class RoleController extends Controller
         }
     }
 
-    public function edit(Role $role): Factory|View|Application
+    public function edit(string $locale, Role $role): Factory|View|Application
     {
         return view('dashboard.role.edit')->with('role', $role);
     }
 
-    public function update(Request $request, Role $role, string $locale): Redirector|Application|RedirectResponse
+    public function update(Request $request, string $locale, Role $role): Redirector|Application|RedirectResponse
     {
         $validatedData = $request->validate([
             'name' => 'required|max:'.config('settings.schema.string_length'),

@@ -48,7 +48,7 @@ class ProductController extends Controller
         }
     }
 
-    public function edit(Product $product): Factory|View|Application
+    public function edit(string $locale, Product $product): Factory|View|Application
     {
         return view('dashboard.product.edit', [
             'product' => $product,
@@ -59,7 +59,7 @@ class ProductController extends Controller
     /**
      * @throws \Throwable
      */
-    public function update(StoreProductRequest $request, Product $product, string $locale): Redirector|Application|RedirectResponse
+    public function update(StoreProductRequest $request, string $locale, Product $product): Redirector|Application|RedirectResponse
     {
         $validatedData = $request->validated();
         if ($validatedData) {
@@ -85,15 +85,15 @@ class ProductController extends Controller
         return redirect(route('dashboard.products', ['locale' => $locale]));
     }
 
-    public function deleteImage(int $product_id, string $image): RedirectResponse
+    public function deleteImage(string $locale, int $productId, string $image): RedirectResponse
     {
-        $product = Product::find($product_id);
+        $product = Product::find($productId);
         if ($product) {
             $images = $product->images_array;
             $searchImage = array_search($image, $images);
 
             if (false !== $searchImage) {
-                $path = public_path('uploads')."/{$product->getImagesFolder()}/{$product_id}/{$image}";
+                $path = public_path('uploads')."/{$product->getImagesFolder()}/{$productId}/{$image}";
                 if (File::exists($path)) {
                     File::delete($path);
                 }
@@ -102,7 +102,7 @@ class ProductController extends Controller
 
                 foreach ($product->getCropPresets() as $preset) {
                     $preset = $preset[0].'x'.$preset[1];
-                    $path = public_path('uploads')."/{$product->getImagesFolder()}/{$product_id}/".$preset.'_'.$image;
+                    $path = public_path('uploads')."/{$product->getImagesFolder()}/{$productId}/".$preset.'_'.$image;
 
                     if (File::exists($path)) {
                         File::delete($path);

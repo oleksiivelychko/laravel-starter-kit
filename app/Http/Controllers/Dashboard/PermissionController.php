@@ -43,12 +43,12 @@ class PermissionController extends Controller
         }
     }
 
-    public function edit(Permission $permission): Factory|View|Application
+    public function edit(string $locale, Permission $permission): Factory|View|Application
     {
         return view('dashboard.permission.edit')->with('permission', $permission);
     }
 
-    public function update(Request $request, Permission $permission, string $locale): Redirector|Application|RedirectResponse
+    public function update(Request $request, string $locale, Permission $permission): Redirector|Application|RedirectResponse
     {
         $validatedData = $request->validate([
             'name' => 'required|max:'.config('settings.schema.string_length'),

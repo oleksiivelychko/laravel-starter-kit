@@ -41,7 +41,7 @@ class OrderItemsController extends Controller
         }
     }
 
-    public function edit(OrderItem $orderItem): Factory|View|Application
+    public function edit(string $locale, OrderItem $orderItem): Factory|View|Application
     {
         return view('dashboard.order.item.edit')
             ->with('orderItem', $orderItem)
@@ -49,7 +49,7 @@ class OrderItemsController extends Controller
         ;
     }
 
-    public function update(Request $request, OrderItem $orderItem, string $locale): Redirector|Application|RedirectResponse
+    public function update(Request $request, string $locale, OrderItem $orderItem): Redirector|Application|RedirectResponse
     {
         $orderId = $request->get('order_id');
         $request->request->add(['order_id' => $orderId]);

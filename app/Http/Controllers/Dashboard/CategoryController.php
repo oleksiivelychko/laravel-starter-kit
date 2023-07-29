@@ -43,7 +43,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function edit(Category $category): Factory|View|Application
+    public function edit(string $locale, Category $category): Factory|View|Application
     {
         return view('dashboard.category.edit')->with('category', $category);
     }

@@ -2,11 +2,10 @@
 
 namespace App\Console\Commands;
 
-use Exception;
 use Illuminate\Console\Command;
 
 /**
- * php artisan generate:token
+ * php artisan generate:token.
  */
 class GenerateTokenCommand extends Command
 {
@@ -28,8 +27,6 @@ class GenerateTokenCommand extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -38,9 +35,10 @@ class GenerateTokenCommand extends Command
 
     /**
      * Execute the console command.
-     * @throws Exception
+     *
+     * @throws \Exception
      */
-    public function handle()
+    public function handle(): void
     {
         $token = bin2hex(random_bytes(self::RANDOM_BYTES_LENGTH));
         echo 'Token has been successfully generated: '.$token.PHP_EOL;

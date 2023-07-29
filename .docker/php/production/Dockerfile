@@ -15,7 +15,7 @@ RUN composer install \
     --quiet
 
 # Stage 2 - download NPM dependencies and build assets.
-FROM node:18-alpine as public
+FROM node:20-alpine as public
 
 WORKDIR /app
 RUN mkdir -p /app/public

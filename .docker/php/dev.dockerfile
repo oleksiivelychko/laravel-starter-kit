@@ -67,10 +67,6 @@ RUN docker-php-source extract && \
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN curl -L https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v3.22.0/php-cs-fixer.phar > \
-    /usr/local/bin/php-cs-fixer \
-    && chmod +x /usr/local/bin/php-cs-fixer
-
 RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
 RUN apt-get install -y nodejs
 RUN npm i -g npm-check-updates

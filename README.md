@@ -9,4 +9,6 @@
 
 📌 [Configure project](.docker/md/configure_project.md)
 
+📌 [Git commands](.docker/md/git)
+
 Sample images were taken from [unsplash.com](https://unsplash.com) and [icons8.com](https://icons8.com)

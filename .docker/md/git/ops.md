@@ -1,8 +1,12 @@
-### Common Git operations.
+### Git operations.
 
 Change repository URL:
 ```
 git remote set-url origin https://github.com/user/repository.git
+```
+
+Add origin (**origin** is a shorthand name for the remote repository that a project was originally cloned from):
+```
 git remote add origin git@github.com/user/repository.git
 ```
 
@@ -23,7 +27,7 @@ git reset HEAD~1
 git push -f
 ```
 
-Prettify git log output:
+Prettify log output:
 ```
 git log --pretty=oneline --abbrev-commit
 ```
@@ -38,11 +42,4 @@ Tagging:
 ```
 tag=1.0.0 && git tag v${tag} && git push origin v${tag}
 tag=1.0.0 && git push origin :refs/tags/v${tag} && git tag -d v${tag}
-```
-
-Rename branch locally (first) and remotely (will be removed):
-```
-git branch -m old_branch new_branch 
-git push origin :old_branch    
-git push --set-upstream origin new_branch
 ```

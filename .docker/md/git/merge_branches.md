@@ -2,10 +2,6 @@
 
 ```
 git fetch origin
-```
-💡 **origin** is a shorthand name for the remote repository that a project was originally cloned from.
-
-```
 git checkout develop-branch
 git pull
 ```

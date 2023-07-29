@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
 
-  laravel-app:
+  app:
     container_name: laravel_app
     image: oleksiivelychko/laravelstarterkit
     platform: linux/amd64
@@ -16,9 +16,9 @@ services:
       DOCKER_BUILDKIT: 1
     restart: unless-stopped
     depends_on:
-      - laravel-db
+      - db
 
-  laravel-db:
+  db:
       container_name: laravel_db
       image: postgres:15.2-alpine
       restart: unless-stopped

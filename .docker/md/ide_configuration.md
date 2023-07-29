@@ -17,8 +17,3 @@
 
 📌 Add PHP CS Fixer code inspector:
 ![PHP Coding Standards Fixer](screenshots/phpstorm_phpcsfixer.png)
-
-💡 Use local instead of remote to avoid timeouts:
-```
-brew install php-cs-fixer
-```

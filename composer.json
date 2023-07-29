@@ -1,6 +1,6 @@
 {
-    "name": "oleksiivelychko/laravel-dashboard",
-    "homepage": "https://github.com/oleksiivelychko/laravel-dashboard",
+    "name": "oleksiivelychko/laravel-starter-kit",
+    "homepage": "https://github.com/oleksiivelychko/laravel-starter-kit",
     "type": "project",
     "description": "Dashboard management application based on PHP8/Laravel10. No JetStream. No Liveware. No Tailwind. Completely dockerized and fits great for local development.",
     "keywords": ["laravel", "php8", "docker", "docker-compose", "dashboard", "starter-kit"],
@@ -18,7 +18,7 @@
         "ext-pdo": "*",
         "darkaonline/l5-swagger": "^8.5.1",
         "guzzlehttp/guzzle": "^7.7.0",
-        "laravel/framework": "^10.15.0",
+        "laravel/framework": "^10.16.1",
         "pusher/pusher-php-server": "^7.2.3",
         "vladimir-yuldashev/laravel-queue-rabbitmq": "^13.3.3"
     },

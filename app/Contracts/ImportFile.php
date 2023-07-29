@@ -6,5 +6,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 interface ImportFile
 {
-    public static function import(string $classname, UploadedFile $file): array;
+    public function importCsv(string $classname, UploadedFile $file): array;
+
+    public function importJson(string $classname, UploadedFile $file): array;
 }

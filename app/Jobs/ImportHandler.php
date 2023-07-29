@@ -3,9 +3,8 @@
 namespace App\Jobs;
 
 use App\Events\ReloadImportPageEvent;
-use App\Helpers\Factories\CsvImportFile;
-use App\Helpers\Factories\JsonImportFile;
 use App\Models\Import;
+use App\Services\ImportService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -21,6 +20,8 @@ class ImportHandler implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
+    private ImportService $importFileService;
+
     private string $filepath;
 
     private string $classname;
@@ -29,12 +30,12 @@ class ImportHandler implements ShouldQueue
 
     private int $userId;
 
-    public function __construct(string $filepath, string $classname, Import $import, int $userID)
+    public function __construct(string $filepath, string $classname, Import $import, int $userId)
     {
         $this->filepath = $filepath;
         $this->classname = $classname;
         $this->import = $import;
-        $this->userId = $userID;
+        $this->userId = $userId;
 
         $this->import->setAttribute('state', Import::STATE_WORKS);
         $this->import->save();
@@ -43,14 +44,10 @@ class ImportHandler implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle(): void
+    public function handle(ImportService $importService): void
     {
         $file = new UploadedFile($this->filepath, basename($this->filepath));
-
-        $response = match ($file->getExtension()) {
-            'csv' => CsvImportFile::import($this->classname, $file),
-            'json' => JsonImportFile::import($this->classname, $file),
-        };
+        $response = $importService->import($file, $this->classname);
 
         $this->import->setAttribute('state', $response['status']);
         $this->import->setAttribute('received', $response['received']);

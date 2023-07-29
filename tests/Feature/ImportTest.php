@@ -6,6 +6,7 @@ use App\Events\ReloadImportPageEvent;
 use App\Jobs\ImportHandler;
 use App\Models\Category;
 use App\Models\Import;
+use App\Services\ImportService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Tests\TestCase;
 
-class ProcessImportTest extends TestCase
+class ImportTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -91,7 +92,7 @@ class ProcessImportTest extends TestCase
 
         Event::fake(ReloadImportPageEvent::class);
 
-        $processImport->handle();
+        $processImport->handle(new ImportService());
 
         Event::assertDispatched(ReloadImportPageEvent::class);
 

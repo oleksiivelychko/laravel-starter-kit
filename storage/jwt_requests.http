@@ -1,0 +1,41 @@
+### Register user
+POST https://laravel-starter-kit.local/jwt/register/
+Content-Type: application/json
+
+{
+    "name": "test",
+    "email": "test@test.test",
+    "password": "secret",
+    "password_confirmation": "secret"
+}
+
+### Login user
+POST https://laravel-starter-kit.local/jwt/login/
+Content-Type: application/json
+
+{
+    "email": "test@test.test",
+    "password": "secret"
+}
+
+> {%
+    client.global.set("accessToken", response.body.accessToken);
+    client.global.set("tokenType", response.body.tokenType);
+%}
+
+### Get user
+GET https://laravel-starter-kit.local/jwt/me/
+Authorization: {{tokenType}} {{accessToken}}
+
+### Refresh token
+GET https://laravel-starter-kit.local/jwt/refresh/
+Authorization: {{tokenType}} {{accessToken}}
+
+> {%
+    client.global.set("accessToken", response.body.accessToken);
+    client.global.set("tokenType", response.body.tokenType);
+%}
+
+### Logout user
+POST https://laravel-starter-kit.local/jwt/logout/
+Authorization: {{tokenType}} {{accessToken}}

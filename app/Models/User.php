@@ -17,11 +17,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
  * @method select(string[] $array)
  */
-class User extends Authenticatable implements MustVerifyEmail, UploadImages, Pagination
+class User extends Authenticatable implements MustVerifyEmail, UploadImages, Pagination, JWTSubject
 {
     use HasFactory;
     use Notifiable;
@@ -95,6 +96,8 @@ class User extends Authenticatable implements MustVerifyEmail, UploadImages, Pag
     }
 
     /**
+     * @param null|mixed $uploadedAvatar
+     *
      * @throws InterfaceInstanceException
      */
     public function store(array $rolesIds = [], array $permissionsIds = [], $uploadedAvatar = null): bool
@@ -134,6 +137,21 @@ class User extends Authenticatable implements MustVerifyEmail, UploadImages, Pag
 
     public function uploadImages(array $data): void
     {
+    }
 
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     */
+    public function getJWTIdentifier(): mixed
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     */
+    public function getJWTCustomClaims(): array
+    {
+        return [];
     }
 }

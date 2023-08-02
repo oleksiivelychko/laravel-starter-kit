@@ -14,3 +14,8 @@ php artisan key:generate --ansi
 ```
 curl -X POST -H "Content-Type: application/json" -d '{"order_id":1,"status":"IN_PROGRESS"}' https://laravel-starter-kit.local/hooks/payment
 ```
+
+📌 Generate JWT secret key:
+```
+php artisan jwt:secret
+```

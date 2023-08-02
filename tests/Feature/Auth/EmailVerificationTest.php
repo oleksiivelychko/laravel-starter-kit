@@ -10,11 +10,6 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
-/**
- * @internal
- *
- * @coversNothing
- */
 class EmailVerificationTest extends TestCase
 {
     use RefreshDatabase;

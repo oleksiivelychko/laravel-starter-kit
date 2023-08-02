@@ -7,11 +7,6 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-/**
- * @internal
- *
- * @coversNothing
- */
 class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
